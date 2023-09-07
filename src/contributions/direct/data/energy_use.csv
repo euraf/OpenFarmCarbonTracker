@@ -1,0 +1,10 @@
+﻿Use,Annual consumption,Input,Unit,Energy ratio,Energy ratio unit,EF kg eqCO2/Unit),GHG emissions teqCO2
+Diesel,0,Diesel,Litres,,,2.9842302,0
+"Petrol/Gasoline, regular",0,"Petrol/Gasoline, regular",Litres,,,2.9673288,0
+"Propane gas / butane gas (bottle, tank)",0,"Propane gas / butane gas (bottle, tank)",kg,,,3.658514,0
+Natural gas,0,Natural gas,m3,,,2.555487792,0
+Coal,0,Coal,kg,,,2.801624,0
+Firewood,0,Firewood,tonnes,3500,kWh/tonnes,0.153237543,0
+Wood chips,0,Wood chips,tonnes,3500,kWh/tonnes,0.153237543,0
+Biofuels,0,Biofuels,Litres,9.58,kWh/litre,0.153237543,0
+Biogas,0,Biogas,m3 CH4,11,kWh/m3,0.153237543,0
