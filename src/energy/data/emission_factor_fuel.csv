@@ -1,0 +1,7 @@
+﻿Energies,Unit,MJ /unit (primary energy),MJ/unit (combustion only),LPC MJ / kg,kg CO2/GJ,g CH4/GJ,g N2O/GJ,Density,density unit,Upstream kgeqCO2/kg
+Fuel (heating),Litres,45.6,35.28,42,75,2.5,1.5,0.84,kg/Litre,0.387
+Diesel,Litres,45.6,35.28,42,74.7,2.5,2.5,0.84,kg/Litre,0.381
+"Petrol/Gasoline, regular",Litres,48,33.44,44,72.3,2.5,2.5,0.76,kg/Litre,0.688
+"Propane gas / butane gas (bottle, tank)",kg,57.5,46,46,64,2.5,1.75,1,,0.688
+Natural gas,m3,48.8,38.69,49.6,57,2.5,1.75,0.78,kg/m3,0.420
+Coal,kg,,26,26,95,5,3,1,,0.305

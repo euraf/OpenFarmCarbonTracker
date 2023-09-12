@@ -1,0 +1,7 @@
+﻿Land-use changes,"Change in soils carbon stock (t C/ha/year, moy sur 20 ans)","GHG emissions for LUC : Results from DLUC calculation tool (teCO2/ha/year, 20 yrs average)"
+Conversion of forest to cropland,1.36,5.0
+Conversion of forest to grassland,0.00,0.0
+Conversion of grassland to cropland,1.36,5.0
+Conversion of cropland to grassland,-1.36,-5.0
+Conversion of cropland to forest,-1.36,-5.0
+Conversion of grassland to forest,0.00,0.0
