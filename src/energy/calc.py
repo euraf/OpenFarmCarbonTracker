@@ -10,8 +10,8 @@ energy_use.loc[energy_use['Use'] == 'Coal', 'Annual consumption'] = 1000
 energy_use.loc[energy_use['Use'] == 'Biogas', 'Annual consumption'] = 1000
 
 energy_use["GHG emissions teqCO2"] = energy_use["EF kg eqCO2/Unit)"] * energy_use["Annual consumption"] / 1000
-print(energy_use)
+# print(energy_use.to_string(), flush=True, end='')
 
 total_teqCO2 = energy_use["GHG emissions teqCO2"].sum()
-print(total_teqCO2)
+print(total_teqCO2, flush=True, end='')
 
