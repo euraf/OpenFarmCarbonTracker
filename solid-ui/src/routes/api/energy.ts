@@ -8,18 +8,18 @@ export const apiResponseOptions: ResponseInit = {
 export async function GET() {
   
   const { spawn } = await import('child_process');
-  const temperatures: any[] = []; // Store readings
+  const contribution: any[] = []; // Store readings
   
   
-  const sensor = spawn('python3', ['../src/energy/calc.py']);
+  const energyCalc = spawn('python3', ['../src/energy/calc.py']);
 
   
   await new Promise((resolve, reject) => {
-    sensor.stdout.on('data', function(data) {
+    energyCalc.stdout.on('data', function(data) {
       // convert Buffer object to Float
-      temperatures.push(parseFloat(data));
+      contribution.push(parseFloat(data));
       
-      console.log(temperatures);
+      console.log(contribution);
       resolve(true);
     });
   });
