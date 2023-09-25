@@ -15,11 +15,10 @@ export async function GET() {
 
   
   await new Promise((resolve, reject) => {
-    console.log("test");
     sensor.stdout.on('data', function(data) {
       // convert Buffer object to Float
       temperatures.push(parseFloat(data));
-      console.log("tes2t");
+      
       console.log(temperatures);
       resolve(true);
     });
