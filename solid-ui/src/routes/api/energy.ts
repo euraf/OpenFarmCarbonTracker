@@ -32,8 +32,8 @@ export async function GET() {
   //   console.log(temperatures);
   // });
 
-console.log(temperatures)
-  return new Response(JSON.stringify(temperatures), apiResponseOptions);
+console.log(contribution)
+  return new Response(JSON.stringify(contribution), apiResponseOptions);
 
   // ...
 }
