@@ -15,10 +15,6 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "@solidjs/meta": "^0.28.6",
-    "@solidjs/router": "^0.8.3",
-    "solid-js": "^1.7.11",
-    "solid-start": "^0.3.5",
     "@ag-grid-community/client-side-row-model": "~30.2.0",
     "@ag-grid-community/core": "~30.2.0",
     "@ag-grid-community/solid": "~30.2.0",
@@ -33,7 +29,12 @@
     "@ag-grid-enterprise/range-selection": "~30.2.0",
     "@ag-grid-enterprise/row-grouping": "~30.2.0",
     "@ag-grid-enterprise/set-filter": "~30.2.0",
-    "@ag-grid-enterprise/status-bar": "~30.2.0"
+    "@ag-grid-enterprise/status-bar": "~30.2.0",
+    "@solidjs/meta": "^0.28.6",
+    "@solidjs/router": "^0.8.3",
+    "ag-grid-community": "^30.2.0",
+    "solid-js": "^1.7.11",
+    "solid-start": "^0.3.5"
   },
   "engines": {
     "node": ">=18"

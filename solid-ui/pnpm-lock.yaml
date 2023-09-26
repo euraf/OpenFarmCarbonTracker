@@ -56,6 +56,9 @@ dependencies:
   '@solidjs/router':
     specifier: ^0.8.3
     version: 0.8.3(solid-js@1.7.12)
+  ag-grid-community:
+    specifier: ^30.2.0
+    version: 30.2.0
   solid-js:
     specifier: ^1.7.11
     version: 1.7.12
@@ -1885,6 +1888,10 @@ packages:
 
   /ag-charts-community@8.2.0:
     resolution: {integrity: sha512-qWguvGWP0F8Bomox5PSB8TR50yzWFazEJt+wG0wrk3PXV625OeUed+ncQEPyNlRrSidfq2oBI1uPQ9UaNrjUwQ==}
+    dev: false
+
+  /ag-grid-community@30.2.0:
+    resolution: {integrity: sha512-Gd6GXmtzEQSCDloBdRxxCDqnjTBRAOf/zzlaxxyyVBJgc+cePuNgGdplRUhT/rwIiDwvyuoynvxelVE/iYdXsA==}
     dev: false
 
   /ansi-regex@5.0.1:
