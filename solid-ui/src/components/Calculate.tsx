@@ -1,8 +1,7 @@
 import { createSignal } from "solid-js";
-import "./Counter.css";
 import server$, { createServerAction$ } from "solid-start/server";
 
-export default function Counter() {
+export default function Calculate() {
 
 
 
