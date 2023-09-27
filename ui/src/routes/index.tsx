@@ -10,21 +10,7 @@ import { Typography } from "@suid/material"
 
 export default function Home() {
 
-  // use signal, as row data will change
-  const [rowData, setRowData] = createSignal<undefined>();
-
-  // if columns will change, best use a signal, however if column definitions
-  // are static, we don't need to use a signal
-  const columnDefs = [
-      {field: 'name'},
-      {field: 'age'}
-  ];
-
-  // event listener
-  const selectionChangedCallback = (e:any) => {
-    console.log('selection has changed', e);
-};
-
+  
   return (
     <main>
       
