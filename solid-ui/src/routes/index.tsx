@@ -1,12 +1,12 @@
 import { Title } from "solid-start";
-import Calculate from "~/components/Calculate";
-import AgGridSolid from '@ag-grid-community/solid';
+import PredictEnergy from "~/components/PredictEnergy";
 
 import 'ag-grid-community/styles/ag-grid.css'; // grid core CSS
 import "ag-grid-community/styles/ag-theme-alpine.css"; // optional theme
 import { createSignal } from "solid-js";
 
 import MyEditor from '~/components/editor/App'
+import { Typography } from "@suid/material"
 
 export default function Home() {
 
@@ -27,16 +27,17 @@ export default function Home() {
 
   return (
     <main>
-      <Title>OpenFarmCarbonTracker</Title>
-      <h2>OpenFarmCarbonTracker</h2>
+      
+      
+      {/* <Typography variant="h4" gutterBottom={true} >OpenFarmCarbonPredictor</Typography> */}
 
-      <h3>Energy usage</h3>
+      <Typography variant="h5" gutterBottom={true} >Energy usage</Typography>
       
       <MyEditor />
       <br />
-      <Calculate />
+      <PredictEnergy />
       
-      <h3>Carbon Stock</h3>
+      <Typography variant="h5" gutterBottom={true} >Carbon Stock</Typography>
       {/* <div style={{height: '500px'}} class="ag-theme-alpine">
 
             <AgGridSolid
