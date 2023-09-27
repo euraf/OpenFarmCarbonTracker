@@ -5,7 +5,7 @@ export async function GET({  }) {
   const contribution: any[] = []; // Store readings
   
   
-  const energyCalc = spawn('python3', ['../src/energy/calc.py']);
+  const energyCalc = spawn('python', ['../src/energy/calc.py']);
   
   await new Promise((resolve, reject) => {
     energyCalc.stdout.on('data', function(data) {
