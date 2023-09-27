@@ -21,7 +21,7 @@ export default function PredictEnergy() {
   const callPython = async (message: string) => {
     console.log("call python script");
 
-    let response = await fetch("/api/energy", {
+    let response = await fetch("/api/energy.json", {
       method: "GET",
       ...apiFetchOptions,
     });
