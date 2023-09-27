@@ -7,7 +7,7 @@ import netlify from "@astrojs/netlify/functions";
 export default defineConfig({
   integrations: [react()],
   adapter: nodejs({
-    mode: 'middleware' // or 'standalone'
+    mode: 'standalone'
   }),
   output: "server",
   // adapter: netlify()
