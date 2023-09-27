@@ -1,0 +1,1 @@
+for x in ./node_modules/@suid/**/**/*.jsx; do mv "$x" "${x%.jsx}.js"; done
