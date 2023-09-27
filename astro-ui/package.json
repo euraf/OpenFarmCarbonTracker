@@ -15,6 +15,7 @@
     "@ag-grid-community/react": "^30.2.0",
     "@ag-grid-community/solid": "^30.2.0",
     "@ag-grid-community/styles": "^30.2.0",
+    "@astrojs/netlify": "^3.0.2",
     "@astrojs/react": "^3.0.2",
     "@astrojs/solid-js": "^3.0.1",
     "@emotion/react": "^11.11.1",
