@@ -26,7 +26,6 @@ server: {
   hmr: {
     protocol: 'wss',
   },
-  strictPort: true,
   open: true,
   headers: {
     'Cross-Origin-Opener-Policy': 'same-origin',
