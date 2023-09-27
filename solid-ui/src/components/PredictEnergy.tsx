@@ -1,11 +1,13 @@
 import { createSignal } from "solid-js";
 import server$, { createServerAction$ } from "solid-start/server";
+// import { Button } from "@kobalte/core";
+import { Button, Typography } from "@suid/material"
 
-export default function Calculate() {
+export default function PredictEnergy() {
 
 
 
-  const [temperatures, setTemperatures] = createSignal(0);
+  const [contributions, setContributions] = createSignal(0);
 
    const apiFetchOptions: () => RequestInit = () => {
     return {
@@ -31,21 +33,27 @@ export default function Calculate() {
     const data = await response.json();
     console.log(data)
 
-    setTemperatures(data)
+    setContributions(data)
 
 
   };
 
-
   const [count, setCount] = createSignal(0);
   return (
-    <button onClick={async () => {
+    <>
+    <Button variant="contained" onClick={async () => {
       let data = await callPython('my message')
       console.log("on clieint:", data)
 
     }}>
-      Calculate energy: {temperatures()? temperatures(): "no data"}
-    </button>
+      {"Predict"}
+    </Button >
+    <br /><br />
+    <Typography variant="body1" gutterBottom={true} >{contributions()? `Energy usage: ${parseFloat(contributions().toString()).toFixed(2)} tCO2e/year`: ""}</Typography>
+
+    
+      
+      </>
   );
   
 }
