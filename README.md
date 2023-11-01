@@ -1,4 +1,4 @@
-# Open Farm Carbon Tracker (PFCT)
+# Open Farm Carbon Tracker (OFCT)
 
 <h2>Overview</h2>
 
