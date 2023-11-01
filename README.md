@@ -1,4 +1,4 @@
-# Open Farm Carbon Tracker
+# Open Farm Carbon Tracker (PFCT)
 
 <h2>Overview</h2>
 
@@ -12,11 +12,10 @@ The Open Farm Carbon Tracker is a community project and we welcome contributions
 There are several ways that you can contribute to the OFCT without coding. These are: 
 
 <ul>
+<li>Contributing with data sources and references for parameters</li>
 <li>Report bugs and issues <a href="https://github.com/euraf/OpenFarmCarbonTracker/issues">here</a></li>
 <li>Translating the OFCT app to local language.</li>
 </ul>
-
-<h3>Contributing with sources and references for parameters</h3>
 
 <strong>Contributing sources for parameters</strong>
 
@@ -24,6 +23,16 @@ The Open Farm Carbon Tracker seeks to adhere to the highest standards of transpa
 <ul>
   <li>be supported by litterature, ideally peer reviewed litterature</li>
   <li>have a DOI, to ensure permanence in the source availability</li>
+</ul>
+
+<h3>Contributing to development</h3>
+
+<strong>Methodologies and model development</strong>
+
+The long term strategy of the Open Farm Carbon Tracker is to improve modelling from Tier 1 towards Tier 2 and 3. We welcome any contributions that can:
+<ul>
+  <li>evaluate, scrutinize and improve already implemented methodologies</li>
+  <li>increase methodologies from Tier 1 to Tier 2 and 3</li>
 </ul>
 
 <strong>Parsing country LPIS data for data automation pipelines</strong>
@@ -41,16 +50,6 @@ The following countries have high priority:
   <li>Spain (ES)</li>
   <li>France (FR)</li>
   <li>Netherlands (NL)</li>
-</ul>
-
-<h3>Contributing to development</h3>
-
-<strong>Methodologies and model development</strong>
-
-The long term strategy of the Open Farm Carbon Tracker is to improve modelling from Tier 1 towards Tier 2 and 3. We welcome any contributions that can:
-<ul>
-  <li>evaluate, scrutinize and improve already implemented methodologies</li>
-  <li>increase methodologies from Tier 1 to Tier 2 and 3</li>
 </ul>
 
 <strong>Usability and performance</strong>
