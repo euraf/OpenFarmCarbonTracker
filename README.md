@@ -14,7 +14,7 @@ There are several ways that you can contribute to the OFCT without coding. These
 <ul>
 <li>Contributing with data sources and references for parameters</li>
 <li>Report bugs and issues <a href="https://github.com/euraf/OpenFarmCarbonTracker/issues">here</a></li>
-<li>Translating the OFCT app to local language.</li>
+<li>Translating the OFCT app to a new language.</li>
 </ul>
 
 <strong>Contributing sources for parameters</strong>
@@ -55,7 +55,7 @@ The following countries have high priority:
 
 The OFCT consist of both a farm scale global warming potential model and an app that can run the model. 
 
-<h2>Deplying and integrating the OFCT</h2>
+<h2>Deploying and integrating the OFCT</h2>
 
 <strong>Run your own instance of the OFCT model and app</strong>
 
