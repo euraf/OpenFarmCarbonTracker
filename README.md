@@ -41,20 +41,19 @@ With the OFCT it's possible to leverage national LPIS data to quickly populate i
 
 <ul>
   <li>Denmark (DK)</li>
-  <li>Finland (FI)</li>
 </ul>
 
 The following countries have high priority: 
 
 <ul>
-  <li>Spain (ES)</li>
+  <li>Czech Republic (CZ)</li>
   <li>France (FR)</li>
   <li>Netherlands (NL)</li>
 </ul>
 
 <strong>Usability and performance</strong>
 
-The OFCT consist of both a model and a UI aspect for running the model. 
+The OFCT consist of both a farm scale global warming potential model and an app that can run the model. 
 
 <h2>Deplying and integrating the OFCT</h2>
 
