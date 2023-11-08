@@ -1,7 +1,7 @@
 import { A, useParams } from "solid-start";
 import { store, setStore } from "../../store/store";
 import type { Field } from "../../store/store";
-import { Card } from "@suid/material";
+
 import { LPIS_DK } from "~/data/LPIS_DK_2023";
 import { MyChart } from "~/components/chart";
 
@@ -16,7 +16,7 @@ export default function FieldView() {
     <main>
       <A href="/">⬅ Back</A>
 
-      <Card style="padding: 10px; margin: 10px 0;">Field name: 
+      <div style="padding: 10px; margin: 10px 0; background-color: white;">Field name: 
         <input
           type="text"
           onChange={(e) => {
@@ -30,10 +30,10 @@ export default function FieldView() {
           }}
           value={field?.name}
         />
-      </Card>
+      </div>
 
 
-      <Card style="padding: 10px; margin: 10px 0;">
+      <div style="padding: 10px; margin: 10px 0; background-color: white;">Field name: 
 
         <div style={'display: flex; overflow: scroll;'}>
         {[...Array(50)].map((x, idx) => (
@@ -43,12 +43,12 @@ export default function FieldView() {
         <br />
       <p>TIMELINE</p>
 
-      </Card>
+      </div>
 
 
 
       
-      <Card style="padding: 10px; margin: 10px 0;">
+      <div style="padding: 10px; margin: 10px 0; background-color: white;">Field name: 
         <select>
           
         <option value={"simple_tier1"}>Simple (Tier 1)</option>
@@ -115,14 +115,14 @@ export default function FieldView() {
         ) : (
           <></>
         )}
-      </Card>
+      </div>
 
 
-      <Card style="padding: 10px; margin: 10px 0;">
+      <div style="padding: 10px; margin: 10px 0; background-color: white;">Field name: 
       <p>EMISSION GRAPH</p>
       <MyChart />
 
-      </Card>
+      </div>
 
 
 

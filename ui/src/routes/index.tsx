@@ -10,18 +10,15 @@ import {
   createSignal,
 } from "solid-js";
 
-import { Card, Typography } from "@suid/material";
 import { LPIS_DK } from "~/data/LPIS_DK_2023";
 import { createStore } from "solid-js/store";
 import { v4 as uuidv4 } from "uuid";
 import { Field, country, setCountry, setStore, store } from "~/store/store";
 import { MyChart } from "~/components/chart";
 
-
-
 function FieldView(props: { field: Field; idx: number }) {
   return (
-    <Card style="padding: 10px; margin: 10px 0;">
+    <div style="padding: 10px; margin: 10px 0; background-color: white;">
       <button
         onClick={() => {
           setStore("fields", (fields) =>
@@ -35,11 +32,9 @@ function FieldView(props: { field: Field; idx: number }) {
         <button>View</button>
       </A>{" "}
       {props.field.name}
-    </Card>
+    </div>
   );
 }
-
-
 
 const totalCO2e = createMemo(() => {
   let total = 0;
@@ -70,9 +65,7 @@ export default function Home() {
 
   return (
     <main>
-      <Typography variant="h5" gutterBottom={true}>
-        Country
-      </Typography>
+      <h5>Country</h5>
       <select
         value={country()}
         onChange={(e) => {
@@ -82,9 +75,7 @@ export default function Home() {
         <option value={"DK"}>Denmark</option>
       </select>
       <br /> <br />
-      <Typography variant="h5" gutterBottom={true}>
-        Fields
-      </Typography>
+      <h5>Fields</h5>
       <input
         type="text"
         placeholder="Name"
@@ -105,22 +96,17 @@ export default function Home() {
         Add field
       </button>
       <br /> <br />
-      
       {store.fields.map((elem, idx) => (
         <FieldView field={elem} idx={idx} />
       ))}
       <br />
       <hr />
       <br />
-
-      <Card style="padding: 10px; margin: 10px 0;">
-      <p>EMISSION GRAPH</p>
-      kg CO2-e / y: {totalCO2e()}
-      <MyChart />
-
-      </Card>
-
-      
+      <div style="padding: 10px; margin: 10px 0;background-color:white;">
+        <p>EMISSION GRAPH</p>
+        kg CO2-e / y: {totalCO2e()}
+        <MyChart />
+      </div>
     </main>
   );
 }

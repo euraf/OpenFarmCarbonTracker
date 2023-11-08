@@ -14,10 +14,6 @@ import {
 } from "solid-start";
 import "./styling/reset.css";
 import "./styling/root.css";
-import "./styling/button.css";
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@suid/material"
-
-
 
 export default function Root() {
   return (
@@ -27,29 +23,14 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-      <Title>OpenFarmCarbonCalculator</Title>
-      {/* <Box sx={{ flexGrow: 1 }}> */}
+        <Title>OpenFarmCarbonCalculator</Title>
+        {/* <Box sx={{ flexGrow: 1 }}> */}
 
-    <AppBar position="static">
-      <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            {/* <MenuIcon /> */}
-          {/* </IconButton> */} 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            OpenFarmCarbonCalculator
-          </Typography>
-          {/* <Button color="inherit">Login</Button> */}
-        </Toolbar>
-        </AppBar>
+        <div class="appbar" >
+          <h1>OpenFarmCarbonCalculator</h1>
+          <div>GitHub</div>
+        </div>
         {/* </Box> */}
-
-
 
         <Suspense>
           <ErrorBoundary>

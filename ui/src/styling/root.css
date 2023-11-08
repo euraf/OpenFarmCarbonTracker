@@ -9,6 +9,23 @@ a {
   margin-right: 1rem;
 }
 
+.appbar {
+  color: white;
+  background-color: rgb(57, 116, 204);
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  padding: 20px;
+
+  > h1 {
+    color: white;
+    font-size: 40px;
+    margin: 0;
+  }
+}
+
 main {
   /* text-align: center; */
   padding: 1em;
@@ -17,7 +34,6 @@ main {
 
 h1 {
   color: #335d92;
-  text-transform: uppercase;
   font-size: 4rem;
   font-weight: 100;
   line-height: 1.1;

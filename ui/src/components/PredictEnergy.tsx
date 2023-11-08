@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import server$, { createServerAction$ } from "solid-start/server";
 // import { Button } from "@kobalte/core";
-import { Button, Typography } from "@suid/material"
+
 
 export default function PredictEnergy() {
 
@@ -41,15 +41,15 @@ export default function PredictEnergy() {
   const [count, setCount] = createSignal(0);
   return (
     <>
-    <Button variant="contained" onClick={async () => {
+    <button onClick={async () => {
       let data = await callPython('my message')
       console.log("on clieint:", data)
 
     }}>
       {"Predict"}
-    </Button >
+    </button>
     <br /><br />
-    <Typography variant="body1" gutterBottom={true} >{contributions()? `Energy usage: ${parseFloat(contributions().toString()).toFixed(2)} tCO2e/year`: ""}</Typography>
+    <p>{contributions()? `Energy usage: ${parseFloat(contributions().toString()).toFixed(2)} tCO2e/year`: ""}</p>
 
     
       
