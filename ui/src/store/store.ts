@@ -8,7 +8,7 @@ export type Field = {
   area?: number;
 };
 
-const lsCountry = localStorage.getItem("country") ?? "";
+const lsCountry = localStorage.getItem("country") ?? "Denmark";
 export const [country, setCountry] = createSignal<string>(lsCountry);
 
 
