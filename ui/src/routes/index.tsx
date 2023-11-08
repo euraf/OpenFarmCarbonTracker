@@ -1,8 +1,8 @@
 import { A, Title } from "solid-start";
 import PredictEnergy from "~/components/PredictEnergy";
 
-import "ag-grid-community/styles/ag-grid.css"; // grid core CSS
-import "ag-grid-community/styles/ag-theme-alpine.css"; // optional theme
+// import "ag-grid-community/styles/ag-grid.css"; // grid core CSS
+// import "ag-grid-community/styles/ag-theme-alpine.css"; // optional theme
 import {
   createComputed,
   createEffect,
@@ -105,6 +105,7 @@ export default function Home() {
         Add field
       </button>
       <br /> <br />
+      
       {store.fields.map((elem, idx) => (
         <FieldView field={elem} idx={idx} />
       ))}

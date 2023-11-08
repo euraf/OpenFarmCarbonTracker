@@ -22,7 +22,7 @@ export default function FieldView() {
           onChange={(e) => {
             setStore("fields", (fields) =>
               fields.map((field) =>
-                field.uuid === field.uuid
+                field.uuid === params.fieldId
                   ? { ...field, name: e.target.value }
                   : field
               )
@@ -60,7 +60,7 @@ export default function FieldView() {
           onChange={(e) => {
             setStore("fields", (fields) =>
               fields.map((field) =>
-                field.uuid === field.uuid
+                field.uuid === params.fieldId
                   ? { ...field, LPIS_ID: parseInt(e.target.value) }
                   : field
               )
@@ -77,7 +77,7 @@ export default function FieldView() {
           onChange={(e) => {
             setStore("fields", (fields) =>
               fields.map((field) =>
-                field.uuid === field.uuid
+                field.uuid === params.fieldId
                   ? { ...field, area: parseFloat(e.target.value) }
                   : field
               )
