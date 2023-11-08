@@ -27,7 +27,7 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-      <Title>OpenFarmCarbonPredictor</Title>
+      <Title>OpenFarmCarbonCalculator</Title>
       {/* <Box sx={{ flexGrow: 1 }}> */}
 
     <AppBar position="static">
@@ -42,7 +42,7 @@ export default function Root() {
             {/* <MenuIcon /> */}
           {/* </IconButton> */} 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            OpenFarmCarbonPredictor
+            OpenFarmCarbonCalculator
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
