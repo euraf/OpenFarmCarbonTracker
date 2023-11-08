@@ -2,7 +2,7 @@
 
 <h2>Overview</h2>
 
-The Open Farm Carbon Tracker is an open source tool for diagnostics of farm scale greenhouse gas emissions. The tool is currently in development. 
+The Open Farm Carbon Tracker is an open source tool for diagnostics of farm scale greenhouse gas emissions. The tool is currently in development and can be tested here: https://openfarmcarbontracker.onrender.com/
 
 <h2>Contributing</h2>
 
