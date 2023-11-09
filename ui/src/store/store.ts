@@ -1,18 +1,29 @@
 import { createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
+export type SimpleTier1LPISSegment = {
+  LPIS_ID: number;
+  years: number;
+}
+
+export type FixedSplitRotation = {
+  splitTreePercent: number,
+  cropSegments: SimpleTier1LPISSegment[],
+  treeSegments: SimpleTier1LPISSegment[]
+}
+
+export type Rotation = FixedSplitRotation;
+
 export type Field = {
   uuid: string;
   name: string;
-  LPIS_ID?: number;
   area?: number;
+  rotations?: Rotation[];
+  repeatLastRotation: boolean;
 };
 
 const lsCountry = localStorage.getItem("country") ?? "DK";
 export const [country, setCountry] = createSignal<string>(lsCountry);
-
-
-
 
 createEffect(() => {
 

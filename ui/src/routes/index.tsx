@@ -88,7 +88,7 @@ export default function Home() {
           console.log(store.fields);
           setStore("fields", (prevFields) => [
             ...prevFields,
-            { uuid: uuidv4(), name: newFieldName(), LPIS_ID: 1, area: 1 },
+            { uuid: uuidv4(), name: newFieldName(), area: 1, rotations:[], repeatLastRotation: false },
           ]);
           setNewFieldName("");
         }}
