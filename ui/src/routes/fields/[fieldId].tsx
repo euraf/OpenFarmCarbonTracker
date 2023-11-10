@@ -89,6 +89,30 @@ export default function FieldView() {
               </button>{" "}
               Delete rotation
               <br />
+              Split (Tree area) <input onChange={(e)=>{
+                  setStore("fields", (fields) =>
+                    fields.map((field) =>
+                      field.uuid === currentField()?.uuid
+                        ? {
+                            ...field,
+                            rotations: field.rotations?.map((rotation, index) =>
+                              index === rotationIdx
+                                ? { ...rotation, splitTreePercent: parseFloat(e.target.value) }
+                                : rotation
+                            ),
+                          }
+                        : field
+                    )
+                  );
+
+              }} type="number" min="0" max="100"
+
+               value={rotation.splitTreePercent ?? 20}
+               
+               
+               />%
+              <br />
+              <br />
               <div style="display: flex; gap: 20px;  justify-content: flex-start; align-items: center; min-height: 40px;">
                 <span style="min-width: 120px;">Crop segments:</span>
                 {rotation.cropSegments.map((segment: SimpleTier1LPISSegment, cropSegmentIdx:number) => {
