@@ -92,7 +92,7 @@ export default function FieldView() {
               <div style="display: flex; gap: 20px;  justify-content: flex-start; align-items: center; min-height: 40px;">
                 <span style="min-width: 120px;">Crop segments:</span>
                 {rotation.cropSegments.map((segment: SimpleTier1LPISSegment, cropSegmentIdx:number) => {
-                    return <div style={`display: flex; gap: 10px; background-color: white; padding: 10px;  `} >
+                    return <div style={`display: flex; gap: 10px; align-items: center; background-color: white; padding: 10px;  `} >
                       
 
                       <button onClick={() => {
@@ -159,7 +159,7 @@ export default function FieldView() {
               <div style="display: flex; gap: 20px; justify-content: flex-start; align-items: center;  min-height: 40px;">
                 <span style="min-width: 120px; ">Tree segments:</span>
                 {rotation.treeSegments.map((segment: SimpleTier1LPISSegment, treeSegmentIdx:number) => {
-                    return <div style={`display: flex; gap: 10px; background-color: white; padding: 10px;  `} >
+                    return <div style={`display: flex; gap: 10px; align-items: center; background-color: white; padding: 10px;  `} >
                       
 
                       <button onClick={() => {
