@@ -4,18 +4,27 @@ import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
 import { LPIS_DK } from "~/data/LPIS_DK_2023";
 import { MyChart } from "~/components/chart";
-import { createSignal } from "solid-js";
-import { reconcile } from "solid-js/store";
+import { createEffect, createSignal } from "solid-js";
 
 export default function FieldView() {
   const params = useParams<{ fieldId: string }>();
 
-  let currentField: Field | undefined = store.fields.find(
-    (field) => field.uuid === params.fieldId
-  );
+  // let currentField: Field | undefined = store.fields.find(
+  //   (field) => field.uuid === params.fieldId
+  // );
+
+  let [currentField, setCurrentField] = createSignal<Field | undefined>();
+  createEffect(() => {
+    setCurrentField(
+      store.fields.find((field) => field.uuid === params.fieldId)
+    );
+  });
 
   const [activeSegment, setActiveSegment] =
     createSignal<SimpleTier1LPISSegment | null>(null);
+
+
+  
 
   return (
     <main>
@@ -34,7 +43,7 @@ export default function FieldView() {
               )
             );
           }}
-          value={currentField?.name}
+          value={currentField()?.name}
         />
         <br /> <br />
         <label for="area">Area (ha):</label>
@@ -51,27 +60,180 @@ export default function FieldView() {
           name="area"
           type="number"
           min={0}
-          value={currentField?.area ?? 1}
+          value={currentField()?.area ?? 1}
         />{" "}
       </div>
 
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
         <h2 style="font-weight: bold; margin-bottom: 10px;">Rotations:</h2>
-        Rotation count: {currentField?.rotations?.length}
-        <div style={"display: flex; overflow: scroll;"}>
-          {currentField?.rotations?.map((rotation, idx) => (
-            <div>
-              {/* Rotation {idx}, {typeof rotation} */}
+        <div style={"display: flex; gap: 20px; overflow: scroll;"}>
+          {currentField()?.rotations?.map((rotation, rotationIdx) => (
+            <div style="padding: 10px; border: 1px solid #555;  background-color: rgb(218, 230, 239);">
+              <button
+                onClick={(e) => {
+                  setStore("fields", (fields) =>
+                    fields.map((field) =>
+                      field.uuid === params.fieldId
+                        ? {
+                            ...field,
+                            rotations: field.rotations?.filter(
+                              (_, rotIdx) => rotIdx !== rotationIdx
+                            ),
+                          }
+                        : field
+                    )
+                  );
+                }}
+              >
+                X
+              </button>{" "}
+              Delete rotation
+              <br />
+              <div style="display: flex; gap: 20px;  justify-content: flex-start; align-items: center; min-height: 40px;">
+                <span style="min-width: 120px;">Crop segments:</span>
+                {rotation.cropSegments.map((segment: SimpleTier1LPISSegment, cropSegmentIdx:number) => {
+                    return <div style={`display: flex; gap: 10px; background-color: white; padding: 10px;  `} >
+                      
+
+                      <button onClick={() => {
+                        setStore("fields", (fields) =>
+                          fields.map((field) =>
+                            field.uuid === currentField()?.uuid
+                              ? {
+                                  ...field,
+                                  rotations: field.rotations?.map(
+                                    (rotation, rotIdx) =>
+                                      rotIdx === rotationIdx
+                                        ? {
+                                            ...rotation,
+                                            cropSegments: rotation.cropSegments.filter(
+                                              (_, idx) => idx !== cropSegmentIdx
+                                            ),
+                                          }
+                                        : rotation
+                                  ),
+                                }
+                              : field
+                          )
+                        );
+                      }}>Delete</button>
+                      
+                      <div style="cursor: pointer;" onClick={()=>{
+                          setActiveSegment(segment)
+                        }}>
+                      {segment.LPIS_ID ? `${LPIS_DK.find(([id]) => id === segment.LPIS_ID)?.[1]}`:null} {segment.years ? `(${segment.years}y)`:null}
+                      </div>
+
+                      </div>
+                  })}
+
+                <button
+                  onClick={() => {
+                    setStore("fields", (fields) =>
+                      fields.map((field) =>
+                        field.uuid === currentField()?.uuid
+                          ? {
+                              ...field,
+                              rotations: field.rotations?.map(
+                                (rotation, rotIdx) =>
+                                  rotIdx === rotationIdx
+                                    ? {
+                                        ...rotation,
+                                        cropSegments: [
+                                          ...rotation.cropSegments,
+                                          {  years: 1 },
+                                        ],
+                                      }
+                                    : rotation
+                              ),
+                            }
+                          : field
+                      )
+                    );
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <br />
+              <div style="display: flex; gap: 20px; justify-content: flex-start; align-items: center;  min-height: 40px;">
+                <span style="min-width: 120px; ">Tree segments:</span>
+                {rotation.treeSegments.map((segment: SimpleTier1LPISSegment, treeSegmentIdx:number) => {
+                    return <div style={`display: flex; gap: 10px; background-color: white; padding: 10px;  `} >
+                      
+
+                      <button onClick={() => {
+                        setStore("fields", (fields) =>
+                          fields.map((field) =>
+                            field.uuid === currentField()?.uuid
+                              ? {
+                                  ...field,
+                                  rotations: field.rotations?.map(
+                                    (rotation, rotIdx) =>
+                                      rotIdx === rotationIdx
+                                        ? {
+                                            ...rotation,
+                                            treeSegments: rotation.treeSegments.filter(
+                                              (_, idx) => idx !== treeSegmentIdx
+                                            ),
+                                          }
+                                        : rotation
+                                  ),
+                                }
+                              : field
+                          )
+                        );
+                      }}>Delete</button>
+                      
+                      
+                      <div style="cursor: pointer;" onClick={()=>{
+                          setActiveSegment(segment)
+                        }}>
+
+                       {segment.LPIS_ID ? `${LPIS_DK.find(([id]) => id === segment.LPIS_ID)?.[1]}`:null} {segment.years ? `(${segment.years}y)`:null}
+                      </div>
+
+                      </div>
+                  })}
+
+                <button
+                  onClick={() => {
+                    setStore("fields", (fields) =>
+                      fields.map((field) =>
+                        field.uuid === currentField()?.uuid
+                          ? {
+                              ...field,
+                              rotations: field.rotations?.map(
+                                (rotation, rotIdx) =>
+                                rotIdx === rotationIdx
+                                    ? {
+                                        ...rotation,
+                                        treeSegments: [
+                                          ...rotation.treeSegments,
+                                          {  years: 1 },
+                                        ],
+                                      }
+                                    : rotation
+                              ),
+                            }
+                          : field
+                      )
+                    );
+                  }}
+                >
+                  +
+                </button>
+              </div>
             </div>
           ))}
           <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <button
               onClick={() => {
-                currentField?.rotations;
+                currentField()?.rotations;
 
-                setStore("fields", (fields) =>
-                  [...fields.map((field) => {
-                    if (field.uuid === currentField?.uuid) {
+                setStore("fields", (fields) => [
+                  ...fields.map((field) => {
+                    if (field.uuid === currentField()?.uuid) {
                       if (!field.rotations) {
                         field.rotations = [];
                       }
@@ -88,9 +250,8 @@ export default function FieldView() {
                     }
                     console.log(field);
                     return field;
-                  })]
-                );
-              
+                  }),
+                ]);
               }}
               style="width: fit-content;"
             >

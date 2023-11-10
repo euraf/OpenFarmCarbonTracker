@@ -2,8 +2,8 @@ import { createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 export type SimpleTier1LPISSegment = {
-  LPIS_ID: number;
-  years: number;
+  LPIS_ID?: number;
+  years?: number;
 }
 
 export type FixedSplitRotation = {
