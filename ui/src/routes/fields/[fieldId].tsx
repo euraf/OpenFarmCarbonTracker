@@ -21,7 +21,7 @@ export default function FieldView() {
   });
 
   const [activeSegment, setActiveSegment] =
-    createSignal<SimpleTier1LPISSegment | null>(null);
+    createSignal<{segmentData: SimpleTier1LPISSegment , cropOrTree: 'tree'|'crop', rotationIdx:number, segmentIdx: number } | null>(null);
 
 
   
@@ -119,7 +119,7 @@ export default function FieldView() {
                       }}>Delete</button>
                       
                       <div style="cursor: pointer;" onClick={()=>{
-                          setActiveSegment(segment)
+                          setActiveSegment({segmentData: segment, cropOrTree: 'crop', rotationIdx: rotationIdx, segmentIdx: cropSegmentIdx})
                         }}>
                       {segment.LPIS_ID ? `${LPIS_DK.find(([id]) => id === segment.LPIS_ID)?.[1]}`:null} {segment.years ? `(${segment.years}y)`:null}
                       </div>
@@ -187,7 +187,7 @@ export default function FieldView() {
                       
                       
                       <div style="cursor: pointer;" onClick={()=>{
-                          setActiveSegment(segment)
+                          setActiveSegment({segmentData: segment, cropOrTree: 'tree', rotationIdx: rotationIdx, segmentIdx: treeSegmentIdx})
                         }}>
 
                        {segment.LPIS_ID ? `${LPIS_DK.find(([id]) => id === segment.LPIS_ID)?.[1]}`:null} {segment.years ? `(${segment.years}y)`:null}
@@ -282,24 +282,75 @@ export default function FieldView() {
         <br />
         <br />
         <select
-          value={activeSegment()?.LPIS_ID}
+          value={activeSegment()?.segmentData.LPIS_ID}
           onChange={(e) => {
+
             setStore("fields", (fields) =>
               fields.map((field) =>
                 field.uuid === params.fieldId
-                  ? { ...field, LPIS_ID: parseInt(e.target.value) }
+                  ? {
+                      ...field,
+                      rotations: field.rotations?.map((rotation, index) =>
+                        index === activeSegment()?.rotationIdx
+                          ? {
+                              ...rotation,
+                              [activeSegment()?.cropOrTree == 'crop'? 'cropSegments' : 'treeSegments']: rotation[activeSegment()?.cropOrTree == 'crop'? 'cropSegments' : 'treeSegments'].map((segment, index) =>
+                                index === activeSegment()?.segmentIdx
+                                  ? { ...segment, LPIS_ID: parseInt(e.target.value) }
+                                  : segment
+                              ),
+                            }
+                          : rotation
+                      ),
+                    }
                   : field
               )
             );
+            
           }}
         >
           {LPIS_DK.map((species) => {
             return <option value={species[0]}>{species[1]}</option>;
           })}
+          
         </select>
         <br />
+
+        <label for="years">Years</label>
+        <input
+          name="years"
+          type="number"
+          value={activeSegment()?.segmentData.years}
+          min={1}
+          onChange={(e) => {
+
+            setStore("fields", (fields) =>
+              fields.map((field) =>
+                field.uuid === params.fieldId
+                  ? {
+                      ...field,
+                      rotations: field.rotations?.map((rotation, index) =>
+                        index === activeSegment()?.rotationIdx
+                          ? {
+                              ...rotation,
+                              [activeSegment()?.cropOrTree == 'crop'? 'cropSegments' : 'treeSegments']: rotation[activeSegment()?.cropOrTree == 'crop'? 'cropSegments' : 'treeSegments'].map((segment, index) =>
+                                index === activeSegment()?.segmentIdx
+                                  ? { ...segment, years: parseInt(e.target.value) }
+                                  : segment
+                              ),
+                            }
+                          : rotation
+                      ),
+                    }
+                  : field
+              )
+            );
+            
+          }}
+        />
+
         <br />
-        {activeSegment()?.LPIS_ID ? (
+        {activeSegment()?.segmentData.LPIS_ID ? (
           <>
             <label for="carbon-fixating">Carbon fixating</label>
             <input
@@ -307,7 +358,7 @@ export default function FieldView() {
               name=""
               type="checkbox"
               checked={
-                LPIS_DK.find((el) => el[0] === activeSegment()?.LPIS_ID)![2] ===
+                LPIS_DK.find((el) => el[0] === activeSegment()?.segmentData.LPIS_ID)![2] ===
                 "JA"
               }
             />
@@ -318,7 +369,7 @@ export default function FieldView() {
               name="legume"
               type="checkbox"
               checked={
-                LPIS_DK.find((el) => el[0] === activeSegment()?.LPIS_ID)![3] ===
+                LPIS_DK.find((el) => el[0] === activeSegment()?.segmentData.LPIS_ID)![3] ===
                 "JA"
               }
             />
