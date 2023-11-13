@@ -105,7 +105,7 @@ export default function Home() {
       <div style="padding: 10px; margin: 10px 0;background-color:white;">
         <p>EMISSION GRAPH</p>
         kg CO2-e / y: {totalCO2e()}
-        <MyChart />
+        <MyChart data={[1,2,3,4,5]} />
       </div>
     </main>
   );

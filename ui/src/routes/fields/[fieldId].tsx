@@ -65,7 +65,7 @@ export default function FieldView() {
       </div>
 
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
-        <h2 style="font-weight: bold; margin-bottom: 10px;">Rotations:</h2>
+        <h2 style="font-weight: bold; margin-bottom: 10px;">Land Use and Land Use Changes:</h2>
         <div style={"display: flex; gap: 20px; overflow: scroll;"}>
           {currentField()?.rotations?.map((rotation, rotationIdx) => (
             <div style="padding: 10px; border: 1px solid #555;  background-color: rgb(218, 230, 239);">
@@ -87,7 +87,8 @@ export default function FieldView() {
               >
                 X
               </button>{" "}
-              Delete rotation
+              Delete land use
+              <br />
               <br />
               Split (Tree area) <input onChange={(e)=>{
                   setStore("fields", (fields) =>
@@ -281,7 +282,7 @@ export default function FieldView() {
             >
               Add
               <br />
-              rotation
+              land use
             </button>
           </div>
 
@@ -297,6 +298,7 @@ export default function FieldView() {
         <br />
       </div>
 
+    { activeSegment() ?
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
         Model:
         <select>
@@ -404,10 +406,12 @@ export default function FieldView() {
         )}
       </div>
 
+      :null}
+
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
         Field name:
         <p>EMISSION GRAPH</p>
-        <MyChart />
+        <MyChart data={[1,2,4,5]} />
       </div>
     </main>
   );
