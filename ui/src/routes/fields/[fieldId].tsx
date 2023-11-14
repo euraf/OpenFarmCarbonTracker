@@ -345,7 +345,6 @@ export default function FieldView() {
                       ];
                       return { ...field };
                     }
-                    console.log(field);
                     return field;
                   }),
                 ]);

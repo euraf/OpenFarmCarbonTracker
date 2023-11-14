@@ -40,7 +40,6 @@ function FieldView(props: { field: Field; idx: number }) {
 const totalCO2e = createMemo(() => {
   let total = 0;
 
-  console.log(store);
   for (let i = 0; i < store.fields?.length; i++) {
     if (store.fields[i].LPIS_ID && store.fields[i].area) {
       let LPIS = LPIS_DK.find((el) => el[0] === store.fields[i].LPIS_ID)!;
@@ -57,8 +56,7 @@ const totalCO2e = createMemo(() => {
       }
     }
   }
-  console.log(total);
-
+  
   return total;
 });
 export default function Home() {
@@ -86,7 +84,6 @@ export default function Home() {
       />
       <button
         onClick={() => {
-          console.log(store.fields);
           setStore("fields", (prevFields) => [
             ...prevFields,
             { uuid: uuidv4(), name: newFieldName(), area: 1, rotations:[], repeatLastRotation: false },

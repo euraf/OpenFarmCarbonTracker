@@ -43,19 +43,7 @@ export const MySolidEditor = (props: ICellEditorParams) => {
   );
 };
 
-const fetchData = async () => {
-  console.log("Try fetch");
 
-  let response = await fetch(
-    `https://www.ag-grid.com/example-assets/olympic-winners.json`
-  );
-
-  console.log("response", response);
-  let data = await response.json();
-  console.log("data", data);
-
-  return data;
-};
 const MyEditor: Component = () => {
 //   const [rowData] = createResource<any[]>(fetchData);
 
