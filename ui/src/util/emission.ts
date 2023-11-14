@@ -57,7 +57,7 @@ export function calculateFieldEmission(field: Field): {
     accumulatedEmission.push(totalEmission);
   });
   console.log("Accumulated Emission", accumulatedEmission);
-
+  
   return { accumulated: accumulatedEmission, contribution: emission };
 }
 
@@ -68,9 +68,17 @@ export function calculateFarmEmission(fields: Field[]): {
   let emissions = fields.map((field) => {
     return calculateFieldEmission(field);
   });
-
+  
+  if (emissions.length === 0){
+    return {
+      accumulated: [],
+      contribution: []
+    }
+  }
+  
   let maxLengthAccumulated = Math.max(...emissions.map(e => e.accumulated.length));
   let maxLengthContribution = Math.max(...emissions.map(e => e.contribution.length));
+  console.log("NOTHERE", maxLengthAccumulated, maxLengthContribution)
   let totalEmissions = {
     accumulated: Array(maxLengthAccumulated).fill(0),
     contribution: Array(maxLengthContribution).fill(0),

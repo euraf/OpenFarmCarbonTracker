@@ -103,10 +103,12 @@ export default function Home() {
       <br />
       <hr />
       <br />
+      
       <div style="padding: 10px; margin: 10px 0;background-color:white;">
         <h2 style="font-weight: bold; margin-bottom: 10px;">Farm Emission</h2>
         <MyChart data={calculateFarmEmission(store.fields)} />
       </div>
+      
     </main>
   );
 }
