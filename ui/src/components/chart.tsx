@@ -2,7 +2,7 @@ import { onMount } from "solid-js";
 import { Chart, Title, Tooltip, Legend, Colors } from "chart.js";
 import { Line } from "solid-chartjs";
 
-export const MyChart = (props: { data: number[] }) => {
+export const MyChart = (props: { data: {accumulated: number[], contribution: number[]} }) => {
   /**
    * You must register optional elements before using the chart,
    * otherwise you will have the most primitive UI
@@ -12,11 +12,15 @@ export const MyChart = (props: { data: number[] }) => {
   });
 
   const chartData = {
-    labels: props.data.map((el, i) => `${i + 1}. year`),
+    labels: props.data.accumulated.map((el, i) => `${i + 1}. year`),
     datasets: [
       {
-        label: "Emission",
-        data: props.data,
+        label: "Accumulated Emission",
+        data: props.data.accumulated,
+      },
+      {
+        label: "Yearly Contribution",
+        data: props.data.contribution,
       },
     ],
   };
