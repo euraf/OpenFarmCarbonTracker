@@ -28,6 +28,14 @@ export const MyChart = (props: { data: {accumulated: number[], contribution: num
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'kg CO2e'
+        }
+      }
+    }
   };
 
   return (

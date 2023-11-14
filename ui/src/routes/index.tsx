@@ -104,8 +104,7 @@ export default function Home() {
       <hr />
       <br />
       <div style="padding: 10px; margin: 10px 0;background-color:white;">
-        <p>EMISSION GRAPH</p>
-        kg CO2-e / y: {totalCO2e()}
+        <h2 style="font-weight: bold; margin-bottom: 10px;">Farm Emission</h2>
         <MyChart data={calculateFarmEmission(store.fields)} />
       </div>
     </main>
