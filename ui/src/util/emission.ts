@@ -25,7 +25,8 @@ export function calculateFieldEmission(field: Field): {
     let cropYearIdx = currentYearIdx;
     rotation.cropSegments.forEach((segment) => {
       for (let y = cropYearIdx; y < cropYearIdx + (segment.years ?? 0); y++) {
-        emission[y] += 2200 * (1 - rotation.splitTreePercent / 100);
+        emission[y] +=
+          2200 * (1 - rotation.splitTreePercent / 100) * (field.area ?? 1);
       }
 
       cropYearIdx += segment.years ?? 0;
@@ -36,9 +37,11 @@ export function calculateFieldEmission(field: Field): {
       for (let y = treeYearIdx; y < treeYearIdx + (segment.years ?? 0); y++) {
         // First year, there is a cost to implementing trees
         if (y == treeYearIdx) {
-          emission[y] += (10000 * rotation.splitTreePercent) / 100;
+          emission[y] +=
+            ((10000 * rotation.splitTreePercent) / 100) * (field.area ?? 1);
         } else {
-          emission[y] -= (15000 * rotation.splitTreePercent) / 100;
+          emission[y] -=
+            ((15000 * rotation.splitTreePercent) / 100) * (field.area ?? 1);
         }
       }
 
