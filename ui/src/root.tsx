@@ -28,7 +28,7 @@ export default function Root() {
 
         <div class="appbar" >
           <h1>OpenFarmCarbonCalculator</h1>
-          <div><a href="https://github.com/euraf/OpenFarmCarbonTracker"><img width="40" src="/github-mark/github-mark-white.png" /></a></div>
+          <div><a href="https://github.com/euraf/OpenFarmCarbonTracker"><img width="25" src="/github-mark/github-mark-white.png" /></a></div>
         </div>
         {/* </Box> */}
 
