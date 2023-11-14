@@ -23,11 +23,11 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-        <Title>OpenFarmCarbonCalculator</Title>
+        <Title>Open Farm Carbon Tracker</Title>
         {/* <Box sx={{ flexGrow: 1 }}> */}
 
         <div class="appbar" >
-          <h1>OpenFarmCarbonCalculator</h1>
+          <h1>Open Farm Carbon Tracker</h1>
           <div><a href="https://github.com/euraf/OpenFarmCarbonTracker"><img width="25" src="/github-mark/github-mark-white.png" /></a></div>
         </div>
         {/* </Box> */}
