@@ -2,6 +2,13 @@
 
 type YES_NO_NAN = "JA" | "NEJ" | "-";
 
+// COLUMNS:
+// Afgrødekode
+// Navn
+// Kulstoflagrende afgrøde
+// Bælgafgrøde
+// Tæller med i omdriften
+
 export const LPIS_DK: [number, string, YES_NO_NAN, YES_NO_NAN, YES_NO_NAN][] = [
 [1,"Vårbyg","-","-","JA"],
 [2,"Vårhvede","-","-","JA"],
