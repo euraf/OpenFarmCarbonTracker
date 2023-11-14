@@ -19,6 +19,7 @@ export const MyChart = (props: { data: {accumulated: number[], contribution: num
         data: props.data.accumulated,
       },
       {
+        
         label: "Yearly Contribution",
         data: props.data.contribution,
       },

@@ -15,6 +15,7 @@ import { createStore } from "solid-js/store";
 import { v4 as uuidv4 } from "uuid";
 import { Field, country, setCountry, setStore, store } from "~/store/store";
 import { MyChart } from "~/components/chart";
+import { calculateFarmEmission } from "~/util/emission";
 
 function FieldView(props: { field: Field; idx: number }) {
   return (
@@ -105,7 +106,7 @@ export default function Home() {
       <div style="padding: 10px; margin: 10px 0;background-color:white;">
         <p>EMISSION GRAPH</p>
         kg CO2-e / y: {totalCO2e()}
-        <MyChart data={[1,2,3,4,5]} />
+        <MyChart data={calculateFarmEmission(store.fields)} />
       </div>
     </main>
   );
