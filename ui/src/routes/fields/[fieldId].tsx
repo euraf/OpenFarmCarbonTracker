@@ -15,10 +15,11 @@ export default function FieldView() {
   // );
 
   let [currentField, setCurrentField] = createSignal<Field | undefined>();
+
   createEffect(() => {
-    setCurrentField(
-      store.fields.find((field) => field.uuid === params.fieldId)
-    );
+    setCurrentField({
+      ...store.fields.find((field) => field.uuid === params.fieldId)!,
+    });
   });
 
   const [activeSegment, setActiveSegment] = createSignal<{
@@ -496,9 +497,8 @@ export default function FieldView() {
 
         {currentField() ? (
           <>
-            <MyChart
-              data={calculateFieldEmission(currentField()!)}
-            />
+          
+            <MyChart data={calculateFieldEmission(currentField()!)} />
           </>
         ) : null}
       </div>
