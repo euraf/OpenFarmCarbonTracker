@@ -14,10 +14,10 @@ Read our <a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/CONTR
 
 <h2>Deploying and integrating the OFCT</h2>
 
-<strong>Run your own instance of the OFCT model and app</strong>
+<strong>Run your own instance of the OFCT model and app (COMING SOON) </strong> 
 
-<strong>Call external OFCT instance from your app</strong>
+<strong>Call external OFCT instance from your app (COMING SOON) </strong>
 
 <h2>Acknowledgments</h2>
 
-The Open Farm Carbon Tracker is being developed as part of the DIGITAF project, which was funded by the EU. 
+The Open Farm Carbon Tracker is being developed as part of the <a href="https://digitaf.eu/">DigitAF</a> project, which was funded by the EU. 
