@@ -57,10 +57,10 @@ The following countries have high priority:
 
 <strong>Adding LPIS crop reference files</strong>
 
-The OFCT use LPIS crop reference files to pre-fill most current crop references for specific countries. 
+The OFCT use LPIS crop reference codes to pre-fill most current crop references for specific countries. 
 
-The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with crop reference for different years. To add a new LPIS crop reference file for a specific country or region, create the file in the directory <a href="https://github.com/euraf/OpenFarmCarbonTracker/tree/main/ui/src/data">/ui/source/data</a> and use the naming convention <code>LPIS_[COUNTRY]_[YEAR].ts</code>. 
+The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with crop references for specific years. To add a new LPIS crop reference file for a specific country or region, create the file in the directory <a href="https://github.com/euraf/OpenFarmCarbonTracker/tree/main/ui/src/data">/ui/source/data</a> and use the naming convention <code>LPIS_[COUNTRY]_[YEAR].ts</code>. 
 
-Example of crop reference file:
+Example of crop reference code file:
 For an example of how a crop reference file can look we have an example for Denmark here:
 <a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/ui/src/data/LPIS_DK_2023.ts">ui/source/data/LPIS_DK_2023.ts</a>
