@@ -40,7 +40,7 @@ The aim with the OFCT is to leverage several open datasets to quickly populate i
   <li>LPIS data for land-use and crop data.</li>
 </ul>
 
-<strong>Parsing LPIS</strong>
+<strong>LPIS data</strong>
 
 Each country has their own LPIS data format which is updated once or several times a year. LPIS data integeration is currently being developed for the following countries:
 
@@ -57,11 +57,12 @@ The following countries have high priority:
   <li>Finland (FI)</li>
 </ul>
 
-<strong>Adding crop reference files</strong>
-The OFCT use LPIS crop reference tables to pre-fill most current crop references for specific countries. 
+<strong>Adding LPIS crop reference files</strong>
+
+The OFCT use LPIS crop reference files to pre-fill most current crop references for specific countries. 
 
 The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with different years such as <code>LPIS_[COUNTRY]_[YEAR].ts</code>.
 
-<strong>Usability and performance</strong>
-
-The OFCT consist of both a farm scale global warming potential model and an app that can run the model. 
+Example of crop reference file:
+For an example of how a crop reference file can look we have an example for Denmark here:
+<a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/ui/src/data/LPIS_DK_2023.ts">ui/source/data/LPIS_DK_2023.ts</a>
