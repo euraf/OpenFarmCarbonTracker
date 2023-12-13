@@ -10,7 +10,7 @@ The tool is currently in development and can be tested here: https://openfarmcar
 
 The Open Farm Carbon Tracker is a community project and we welcome contributions from anyone! 
 
-Read our <a href="/electricitymaps/electricitymaps-contrib/blob/master/CONTRIBUTING.md">contribution guidelines</a> to get started.
+Read our <a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/CONTRIBUTING.md">contribution guidelines</a> to get started.
 
 <h2>Deploying and integrating the OFCT</h2>
 
