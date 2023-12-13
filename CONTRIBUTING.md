@@ -1,5 +1,8 @@
 The Open Farm Carbon Tracker is a community project and we welcome contributions from anyone! 
 
+Useful links:
+<a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/README.md">README</a>
+
 <h1>Getting started</h1>
 
 <h2>Non-code contributions</h2>
