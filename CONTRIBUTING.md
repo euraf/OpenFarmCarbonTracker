@@ -58,7 +58,9 @@ The following countries have high priority:
 </ul>
 
 <strong>Adding crop reference files</strong>
-<code>/ui/source/data</code>
+The OFCT use LPIS crop reference tables to pre-fill most current crop references for specific countries. 
+
+The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with different years such as <code>LPIS_[COUNTRY]_[YEAR].ts</code>.
 
 <strong>Usability and performance</strong>
 
