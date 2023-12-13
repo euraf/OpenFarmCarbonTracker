@@ -24,7 +24,7 @@ The Open Farm Carbon Tracker seeks to adhere to the highest standards of transpa
 
 <h2>Contributing to development</h2>
 
-<strong>Methodologies and model development</strong>
+<h3>Methodologies and model development</h3>
 
 The long term strategy of the Open Farm Carbon Tracker is to improve modelling from Tier 1 towards Tier 2 and 3. We welcome any contributions that can:
 <ul>
@@ -32,9 +32,17 @@ The long term strategy of the Open Farm Carbon Tracker is to improve modelling f
   <li>increase methodologies from Tier 1 to Tier 2 and 3</li>
 </ul>
 
-<strong>Parsing country LPIS data for data automation pipelines</strong>
+<h3>Parsing open datasets for automated data integration</h3>
 
-With the OFCT it's possible to leverage national LPIS data to quickly populate input data for establishing a baseline scenario for a farm. Each country has their own LPIS data format that is update one or several times a year. LPIS data integeration is currently being developed for the following countries:
+The aim with the OFCT is to leverage several open datasets to quickly populate input data for establishing a baseline scenario for a farm. 
+
+<ul>
+  <li>LPIS data for land-use and crop data.</li>
+</ul>
+
+<strong>Parsing LPIS</strong>
+
+Each country has their own LPIS data format which is updated once or several times a year. LPIS data integeration is currently being developed for the following countries:
 
 <ul>
   <li>Denmark (DK)</li>
@@ -48,6 +56,9 @@ The following countries have high priority:
   <li>Netherlands (NL)</li>
   <li>Finland (FI)</li>
 </ul>
+
+<strong>Adding crop reference files</strong>
+<code>/ui/source/data</code>
 
 <strong>Usability and performance</strong>
 
