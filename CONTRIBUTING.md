@@ -3,9 +3,7 @@ The Open Farm Carbon Tracker is a community project and we welcome contributions
 Useful links:
 <a href="https://github.com/euraf/OpenFarmCarbonTracker/blob/main/README.md">README</a>
 
-<h1>Getting started</h1>
-
-<h2>Non-code contributions</h2>
+<h1>Non-code contributions</h1>
 There are several ways that you can contribute to the OFCT without coding. These are: 
 
 <ul>
@@ -22,9 +20,9 @@ The Open Farm Carbon Tracker seeks to adhere to the highest standards of transpa
   <li>have a DOI, to ensure permanence in the source availability</li>
 </ul>
 
-<h2>Contributing to development</h2>
+<h1>Contributing to development</h1>
 
-<h3>Methodologies and model development</h3>
+<h2>Methodologies and model development</h2>
 
 The long term strategy of the Open Farm Carbon Tracker is to improve modelling from Tier 1 towards Tier 2 and 3. We welcome any contributions that can:
 <ul>
@@ -32,7 +30,7 @@ The long term strategy of the Open Farm Carbon Tracker is to improve modelling f
   <li>increase methodologies from Tier 1 to Tier 2 and 3</li>
 </ul>
 
-<h3>Parsing open datasets for automated data integration</h3>
+<h2>Parsing open datasets for automated data integration</h2>
 
 The aim with the OFCT is to leverage several open datasets to quickly populate input data for establishing a baseline scenario for a farm. 
 
@@ -40,9 +38,9 @@ The aim with the OFCT is to leverage several open datasets to quickly populate i
   <li>LPIS data for land-use and crop data.</li>
 </ul>
 
-<strong>LPIS data</strong>
+<h3>Land-use and crop data from LPIS datasets</h3>
 
-Each country has their own LPIS data format which is updated once or several times a year. LPIS data integeration is currently being developed for the following countries:
+Each country (Or region) has their own LPIS data format which is updated once or several times a year. LPIS data integeration is currently being developed for the following countries:
 
 <ul>
   <li>Denmark (DK)</li>
@@ -61,7 +59,7 @@ The following countries have high priority:
 
 The OFCT use LPIS crop reference files to pre-fill most current crop references for specific countries. 
 
-The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with different years such as <code>LPIS_[COUNTRY]_[YEAR].ts</code>.
+The crop references are located in <code>/ui/source/data</code>. Several files can be added for each country, with crop reference for different years. To add a new LPIS crop reference file for a specific country or region, create the file in the directory <a href="https://github.com/euraf/OpenFarmCarbonTracker/tree/main/ui/src/data">/ui/source/data</a> and use the naming convention <code>LPIS_[COUNTRY]_[YEAR].ts</code>. 
 
 Example of crop reference file:
 For an example of how a crop reference file can look we have an example for Denmark here:
