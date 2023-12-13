@@ -9,12 +9,15 @@ There are several ways that you can contribute to the OFCT without coding. These
 <ul>
 <li>Contributing with data sources and references for parameters</li>
 <li>Report bugs and issues</li>
-<li>Translating the OFCT app to a new language (COMING SOON).</li>
+<li>Make suggestions for improvements or discuss methodologies</li>
+<li>Translating the OFCT app to a new language (COMING SOON)</li>
 </ul>
 
 <h2>Reporting bugs, issues or suggestions for improvements</h2>
 
 If you experience a bug or an issues, please check <a href="https://github.com/euraf/OpenFarmCarbonTracker/issues">here</a>. If the bug or issue is not represented in the current posts, please create your own and describe the problem. 
+
+If you would like to suggest improvements or join discussions about methodologies you can join <a href="[https://github.com/euraf/OpenFarmCarbonTracker/issues](https://github.com/euraf/OpenFarmCarbonTracker/discussions)">the discussions forum</a>
 
 <h2>Contributing sources for parameters</h2>
 Source for emission factors and other parameters can be added for each country without coding. 
