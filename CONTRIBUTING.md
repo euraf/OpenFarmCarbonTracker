@@ -8,17 +8,26 @@ There are several ways that you can contribute to the OFCT without coding. These
 
 <ul>
 <li>Contributing with data sources and references for parameters</li>
-<li>Report bugs and issues <a href="https://github.com/euraf/OpenFarmCarbonTracker/issues">here</a></li>
-<li>Translating the OFCT app to a new language.</li>
+<li>Report bugs and issues</li>
+<li>Translating the OFCT app to a new language (COMING SOON).</li>
 </ul>
 
-<strong>Contributing sources for parameters</strong>
+<h2>Reporting bugs, issues or suggestions for improvements</h2>
 
-The Open Farm Carbon Tracker seeks to adhere to the highest standards of transparency and scientific rigor. This means that sources needs to:
-<ul>
-  <li>be supported by litterature, ideally peer reviewed litterature</li>
-  <li>have a DOI, to ensure permanence in the source availability</li>
-</ul>
+If you experience a bug or an issues, please check <a href="https://github.com/euraf/OpenFarmCarbonTracker/issues">here</a>. If the bug or issue is not represented in the current posts, please create your own and describe the problem. 
+
+<h2>Contributing sources for parameters</h2>
+Source for emission factors and other parameters can be added for each country without coding. 
+
+<h3>Emission factors for fuel</h3>
+For fuel emission factors, go to <a href="src/energy/data/emission_factor_fuel.csv">src/energy/data/emission_factor_fuel.csv</a>.
+
+To add a source, edit the values for a specific type of fuel. 
+
+<h3>Country specific emission factors for electricity</h3>
+For electricity emission factors, go to <a href="src/energy/data/emission_factor_electricity.csv">src/energy/data/emission_factor_electricity.csv</a>.
+
+To add a source, edit the <code>kgeq C02/Unit</code> and <code>SOURCE</code> for a specific country. 
 
 <h1>Contributing to development</h1>
 
