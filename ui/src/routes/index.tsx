@@ -1,4 +1,5 @@
-import { A, Title } from "solid-start";
+import { Title } from "@solidjs/meta";
+import { A } from "@solidjs/router";
 import PredictEnergy from "~/components/PredictEnergy";
 
 // import "ag-grid-community/styles/ag-grid.css"; // grid core CSS
@@ -59,6 +60,7 @@ const totalCO2e = createMemo(() => {
   
   return total;
 });
+
 export default function Home() {
   const [newFieldName, setNewFieldName] = createSignal("");
 
