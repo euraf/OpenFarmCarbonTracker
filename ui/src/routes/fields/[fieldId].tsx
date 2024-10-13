@@ -1,4 +1,4 @@
-import { A, refetchRouteData, useParams } from "solid-start";
+import { A, useParams } from "@solidjs/router";
 import { store, setStore } from "../../store/store";
 import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
