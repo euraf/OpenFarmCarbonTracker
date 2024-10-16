@@ -36,7 +36,7 @@ export default function FieldView() {
 
   return (
     <main class="mx-4 overflow-scroll">
-      <div class="p-2 my-2 bg-white">
+      <div class="p-2 my-2 bg-white rounded-md">
         <h2 class="font-bold mb-2">Field Information</h2>
         Name: {currentField()?.name}
         <br />
@@ -45,13 +45,15 @@ export default function FieldView() {
           : `${currentField()?.area!.toFixed(0).replace(".", ",")} m2`}
       </div>
 
-      <div class="p-2 my-2 bg-white">
+      <div class="p-2 my-2 bg-white rounded-md">
         <h2 class="font-bold mb-2">Land Use and Land Use Changes:</h2>
         <div class="flex gap-5 overflow-scroll">
           {currentField()?.rotations?.map((rotation, rotationIdx) => (
-            <div class="p-2 border border-gray-600">
+            <div class="p-4 border border-gray-300 rounded-lg shadow-md bg-gray-50 group relative ">
               <Button
                 variant={"destructive"}
+                class="invisible group-hover:visible"
+                title="Delete land use"
                 onClick={(e) => {
                   setStore("fields", (fields) =>
                     fields.map((field) =>
@@ -72,99 +74,89 @@ export default function FieldView() {
 
               <br />
               <br />
-              Split (Tree area){" "}
-              <input
-                onChange={(e) => {
-                  setStore("fields", (fields) =>
-                    fields.map((field) =>
-                      field.uuid === currentField()?.uuid
-                        ? {
-                          ...field,
-                          rotations: field.rotations?.map((rotation, index) =>
-                            index === rotationIdx
-                              ? {
-                                ...rotation,
-                                splitTreePercent: parseFloat(
-                                  e.target.value,
-                                ),
-                              }
-                              : rotation
-                          ),
-                        }
-                        : field
-                    ));
-                }}
-                type="number"
-                min="0"
-                max="100"
-                value={rotation.splitTreePercent ?? 20}
-              />
-              %
+              <TextField>
+                <TextFieldLabel for="splitTreePercent">
+                  Split (% Area with trees)
+                </TextFieldLabel>
+                <TextFieldInput
+                  name="splitTreePercent"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={rotation.splitTreePercent ?? 20}
+                  onChange={(e) => {
+                    setStore("fields", (fields) =>
+                      fields.map((field) =>
+                        field.uuid === currentField()?.uuid
+                          ? {
+                            ...field,
+                            rotations: field.rotations?.map((rotation, index) =>
+                              index === rotationIdx
+                                ? {
+                                  ...rotation,
+                                  splitTreePercent: parseFloat(
+                                    e.target.value,
+                                  ),
+                                }
+                                : rotation
+                            ),
+                          }
+                          : field
+                      ));
+                  }}
+                />
+              </TextField>
+
               <br />
               <br />
-              <div class="flex gap-5 justify-start items-center min-h-10">
-                <span class="min-w-[120px]">Crop segments:</span>
+              <p class="min-w-[200px] font-bold mb-2">Segments: <span class="bg-blue-500 text-white text-xs font-bold rounded-full px-2 py-1" >
+                {Math.max(rotation.cropSegments.reduce((sum, segment) => sum + (segment.years || 0), 0), rotation.treeSegments.reduce((sum, segment) => sum + (segment.years || 0), 0))}y cycle
+              </span></p>
+
+              
+
+
+              <div class=" flex gap-5 justify-start items-center min-h-10" >
+                <span class="min-w-[60px]">Crops:</span>
+
+                
+                
+                      
                 {rotation.cropSegments.map(
                   (segment: SimpleTier1LPISSegment, cropSegmentIdx: number) => {
                     return (
+                      <div class="relative">
+                      <span class="absolute top-[-10px] right-[-10px] z-20 bg-blue-500 text-white text-xs font-bold rounded-full px-2 py-1" >
+                            {segment.years ? `${segment.years}y` : null}
+                      </span>
                       <div
-                        class={`flex gap-2 items-center bg-white p-2 ${
+                        class={`hover:border-slate-600 bg-white cursor-pointer flex gap-2 min-w-[120px] border-2 border-slate-400 h-[100px] w-[200px] overflow-scroll rounded-md p-2 relative group/segment  ${
                           activeSegment()?.cropOrTree == "crop" &&
                             cropSegmentIdx == activeSegment()?.segmentIdx &&
                             rotationIdx == activeSegment()?.rotationIdx
                             ? "border-3 border-blue-500"
                             : "border-3 border-white"
                         }`}
+                        onClick={() => {
+                          setActiveSegment({
+                            segmentData: segment,
+                            cropOrTree: "crop",
+                            rotationIdx: rotationIdx,
+                            segmentIdx: cropSegmentIdx,
+                          });
+                        }}
                       >
-                        <Button
-                          variant={"destructive"}
-                          onClick={() => {
-                            setStore("fields", (fields) =>
-                              fields.map((field) =>
-                                field.uuid === currentField()?.uuid
-                                  ? {
-                                    ...field,
-                                    rotations: field.rotations?.map(
-                                      (rotation, rotIdx) =>
-                                        rotIdx === rotationIdx
-                                          ? {
-                                            ...rotation,
-                                            cropSegments: rotation.cropSegments
-                                              .filter(
-                                                (_, idx) =>
-                                                  idx !== cropSegmentIdx,
-                                              ),
-                                          }
-                                          : rotation,
-                                    ),
-                                  }
-                                  : field
-                              ));
-                          }}
-                        >
-                          <i class="fa-solid fa-x" />
-                        </Button>
-
-                        <div
-                          class="cursor-pointer"
-                          onClick={() => {
-                            setActiveSegment({
-                              segmentData: segment,
-                              cropOrTree: "crop",
-                              rotationIdx: rotationIdx,
-                              segmentIdx: cropSegmentIdx,
-                            });
-                          }}
-                        >
+                       
                           {segment.LPIS_ID
                             ? `${
                               LPIS_DK.find(
                                 ([id]) => id === segment.LPIS_ID,
                               )?.[1]
                             }`
-                            : null}{" "}
-                          {segment.years ? `(${segment.years}y)` : null}
-                        </div>
+                            : null}
+                          
+                        
+                      </div>
                       </div>
                     );
                   },
@@ -199,68 +191,46 @@ export default function FieldView() {
               </div>
               <br />
               <div class="flex gap-5 justify-start items-center min-h-10">
-                <span class="min-w-[120px]">Tree segments:</span>
+                <span class="min-w-[60px]">Trees:</span>
                 {rotation.treeSegments.map(
                   (segment: SimpleTier1LPISSegment, treeSegmentIdx: number) => {
                     return (
+                      <div class="relative">
+                      <span class="absolute top-[-10px] right-[-10px] z-20 bg-blue-500 text-white text-xs font-bold rounded-full px-2 py-1" >
+                            {segment.years ? `${segment.years}y` : null}
+                      </span>
+
                       <div
-                        class={`flex gap-2 items-center bg-white p-2 ${
+                        class={`hover:border-slate-600 cursor-pointer bg-white  flex gap-2 overflow-scroll border-2 border-slate-400 h-[100px] w-[200px] rounded-md p-2 ${
                           activeSegment()?.cropOrTree == "tree" &&
                             treeSegmentIdx == activeSegment()?.segmentIdx &&
                             rotationIdx == activeSegment()?.rotationIdx
                             ? "border-3 border-blue-500"
                             : "border-3 border-white"
                         }`}
+                        onClick={() => {
+                          setActiveSegment({
+                            segmentData: segment,
+                            cropOrTree: "tree",
+                            rotationIdx: rotationIdx,
+                            segmentIdx: treeSegmentIdx,
+                          });
+                        }}
                       >
-                        <Button
-                          onClick={() => {
-                            setStore("fields", (fields) =>
-                              fields.map((field) =>
-                                field.uuid === currentField()?.uuid
-                                  ? {
-                                    ...field,
-                                    rotations: field.rotations?.map(
-                                      (rotation, rotIdx) =>
-                                        rotIdx === rotationIdx
-                                          ? {
-                                            ...rotation,
-                                            treeSegments: rotation.treeSegments
-                                              .filter(
-                                                (_, idx) =>
-                                                  idx !== treeSegmentIdx,
-                                              ),
-                                          }
-                                          : rotation,
-                                    ),
-                                  }
-                                  : field
-                              ));
-                          }}
-                        >
-                          Delete
-                        </Button>
+                        
+                          
 
-                        <div
-                          class="cursor-pointer"
-                          onClick={() => {
-                            setActiveSegment({
-                              segmentData: segment,
-                              cropOrTree: "tree",
-                              rotationIdx: rotationIdx,
-                              segmentIdx: treeSegmentIdx,
-                            });
-                          }}
-                        >
                           {segment.LPIS_ID
                             ? `${
                               LPIS_DK.find(
                                 ([id]) => id === segment.LPIS_ID,
                               )?.[1]
                             }`
-                            : null}{" "}
-                          {segment.years ? `(${segment.years}y)` : null}
+                            : null}
+                          
                         </div>
-                      </div>
+                        </div>
+                      
                     );
                   },
                 )}
@@ -320,7 +290,7 @@ export default function FieldView() {
                   }),
                 ]);
               }}
-              class="w-fit"
+              class="w-[100px] h-[50px]"
             >
               Add land use
             </Button>
@@ -331,19 +301,113 @@ export default function FieldView() {
 
       {activeSegment()
         ? (
-          <div class="p-2 my-2 bg-white">
+          <div class="p-2 my-2 bg-white rounded-md">
+            <Button
+              variant={"destructive"}
+              onClick={() => {
+                setStore("fields", (fields) =>
+                  fields.map((field) =>
+                    field.uuid === currentField()?.uuid
+                      ? {
+                        ...field,
+                        rotations: field.rotations?.map(
+                          (rotation, rotIdx) =>
+                            rotIdx === activeSegment()?.rotationIdx
+                              ? {
+                                ...rotation,
+
+                                cropSegments:
+                                  activeSegment()?.cropOrTree === "crop"
+                                    ? rotation.cropSegments
+                                      .filter(
+                                        (_, idx) =>
+                                          idx !== activeSegment()?.segmentIdx,
+                                      )
+                                    : rotation.cropSegments,
+                                treeSegments:
+                                  activeSegment()?.cropOrTree === "tree"
+                                    ? rotation.treeSegments
+                                      .filter(
+                                        (_, idx) =>
+                                          idx !== activeSegment()?.segmentIdx,
+                                      )
+                                    : rotation.treeSegments,
+                              }
+                              : rotation,
+                        ),
+                      }
+                      : field
+                  ));
+                  setActiveSegment(null)
+              }}
+            >
+              <i class="fa-solid fa-x" />
+            </Button>
+
+            <br />
+            <br />
             Model:
             <select>
               <option value={"simple_tier1"}>Simple (Tier 1)</option>
             </select>
             <br />
             <br />
+            <TextField>
+              <TextFieldLabel for="years">Years</TextFieldLabel>
+              <TextFieldInput
+                name="years"
+                type="number"
+                value={activeSegment()?.segmentData.years}
+                min={1}
+                onChange={(e) => {
+                  setStore("fields", (fields) =>
+                    fields.map((field) =>
+                      field.uuid === params.fieldId
+                        ? {
+                          ...field,
+                          rotations: field.rotations?.map((rotation, index) =>
+                            index === activeSegment()?.rotationIdx
+                              ? {
+                                ...rotation,
+                                [
+                                  activeSegment()?.cropOrTree == "crop"
+                                    ? "cropSegments"
+                                    : "treeSegments"
+                                ]: rotation[
+                                  activeSegment()?.cropOrTree == "crop"
+                                    ? "cropSegments"
+                                    : "treeSegments"
+                                ].map((segment, index) =>
+                                  index === activeSegment()?.segmentIdx
+                                    ? {
+                                      ...segment,
+                                      years: parseInt(e.target.value),
+                                    }
+                                    : segment
+                                ),
+                              }
+                              : rotation
+                          ),
+                        }
+                        : field
+                    ));
+                }}
+              />
+            </TextField>
+
             <br />
+
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for="crop"
+            >
+              Crop
+            </label>
             <select
+              name="crop"
+              class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
               value={activeSegment()?.segmentData.LPIS_ID}
               onChange={(e) => {
-
-
                 setActiveSegment((prevSegment) => {
                   if (!prevSegment) return null;
                   return {
@@ -393,50 +457,8 @@ export default function FieldView() {
               })}
             </select>
             <br />
-            <br />
 
-            <TextField>
-              <TextFieldLabel for="years">Years</TextFieldLabel>
-              <TextFieldInput
-                name="years"
-                type="number"
-                value={activeSegment()?.segmentData.years}
-                min={1}
-                onChange={(e) => {
-                  setStore("fields", (fields) =>
-                    fields.map((field) =>
-                      field.uuid === params.fieldId
-                        ? {
-                          ...field,
-                          rotations: field.rotations?.map((rotation, index) =>
-                            index === activeSegment()?.rotationIdx
-                              ? {
-                                ...rotation,
-                                [
-                                  activeSegment()?.cropOrTree == "crop"
-                                    ? "cropSegments"
-                                    : "treeSegments"
-                                ]: rotation[
-                                  activeSegment()?.cropOrTree == "crop"
-                                    ? "cropSegments"
-                                    : "treeSegments"
-                                ].map((segment, index) =>
-                                  index === activeSegment()?.segmentIdx
-                                    ? {
-                                      ...segment,
-                                      years: parseInt(e.target.value),
-                                    }
-                                    : segment
-                                ),
-                              }
-                              : rotation
-                          ),
-                        }
-                        : field
-                    ));
-                }}
-              />
-            </TextField>
+            
             <br />
             {activeSegment()?.segmentData.LPIS_ID
               ? (
@@ -445,16 +467,22 @@ export default function FieldView() {
                     {LPIS_DK.find(
                         (el) => el[0] === activeSegment()?.segmentData.LPIS_ID,
                       )?.[2] === "JA"
-                      ? <i class="fa-solid fa-check text-green-600 self-center" />
-                      : <i class="fa-solid fa-minus text-red-400 self-center" />}
+                      ? (
+                        <i class="fa-solid fa-check text-green-600 self-center" />
+                      )
+                      : 
+                      <i class="fa-solid fa-minus text-red-400 self-center" />}
                     Carbon fixating
                   </span>
                   <span class="gap-2 flex">
                     {LPIS_DK.find(
                         (el) => el[0] === activeSegment()?.segmentData.LPIS_ID,
                       )?.[3] === "JA"
-                      ? <i class="fa-solid fa-check text-green-600 self-center" />
-                      : <i class="fa-solid fa-minus text-red-400 self-center" />}
+                      ? (
+                        <i class="fa-solid fa-check text-green-600 self-center" />
+                      )
+                      : 
+                      <i class="fa-solid fa-minus text-red-400 self-center" />}
                     Legume
                   </span>
                   <br />
@@ -465,7 +493,7 @@ export default function FieldView() {
         )
         : null}
 
-      <div class="p-2 my-2 bg-white">
+      <div class="p-2 my-2 bg-white rounded-md">
         <h2 class="font-bold mb-2">Field Emission</h2>
 
         {currentField()

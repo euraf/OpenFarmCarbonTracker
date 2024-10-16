@@ -31,8 +31,8 @@ export default function App() {
 
   return (
     <>
-      <ColorModeScript storageType={storageManager.type} />
-      <ColorModeProvider storageManager={storageManager}>
+      {/* <ColorModeScript storageType={storageManager.type}/>
+      <ColorModeProvider storageManager={storageManager} initialColorMode="light"> */}
         <MetaProvider>
           <Title>Open Farm Carbon Tracker</Title>
 
@@ -55,7 +55,7 @@ export default function App() {
             <FileRoutes />
           </Router>
         </MetaProvider>
-      </ColorModeProvider>
+      {/* </ColorModeProvider> */}
     </>
   );
 }

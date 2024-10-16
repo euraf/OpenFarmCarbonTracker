@@ -349,11 +349,11 @@ export const EditFieldMode: Component<{
 
 	function removeLPISFields() {
 		let tilesets = [
-			// "AT_INSPIRE_FELDSTUECKE_2019_POLYGON",
+			"AT_INSPIRE_FELDSTUECKE_2019_POLYGON",
 			"DK_Marker_2023",
-			// "FI_AgriculturalParcel_2023",
-			// "FR_PARCELLES_GRAPHIQUES_2022",
-			// "NL_brpgewaspercelen_definitief_2022",
+			"FI_AgriculturalParcel_2023",
+			"FR_PARCELLES_GRAPHIQUES_2022",
+			"NL_brpgewaspercelen_definitief_2022",
 		];
 
 		for (const tileset of tilesets) {
@@ -425,11 +425,11 @@ export const EditFieldMode: Component<{
 
 	function addLPISFields(map: maplibregl.Map) {
 		let tilesets = [
-			// "AT_INSPIRE_FELDSTUECKE_2019_POLYGON",
+			"AT_INSPIRE_FELDSTUECKE_2019_POLYGON",
 			"DK_Marker_2023",
-			// "FI_AgriculturalParcel_2023",
-			// "FR_PARCELLES_GRAPHIQUES_2022",
-			// "NL_brpgewaspercelen_definitief_2022",
+			"FI_AgriculturalParcel_2023",
+			"FR_PARCELLES_GRAPHIQUES_2022",
+			"NL_brpgewaspercelen_definitief_2022",
 		];
 
 		let hoveredStateIds: string[] = [];
