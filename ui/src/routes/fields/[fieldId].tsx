@@ -7,13 +7,11 @@ import { MyChart } from "~/components/chart";
 import { createEffect, createSignal } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
 import { Button } from "~/components/ui/button";
+import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
+import { Select, SelectItem } from "~/components/ui/select";
 
 export default function FieldView() {
   const params = useParams<{ fieldId: string }>();
-
-  // let currentField: Field | undefined = store.fields.find(
-  //   (field) => field.uuid === params.fieldId
-  // );
 
   let [currentField, setCurrentField] = createSignal<Field | undefined>();
 
@@ -32,61 +30,22 @@ export default function FieldView() {
 
   return (
     <main class="mx-4 overflow-scroll">
-      
-      <div style="padding: 10px; margin: 10px 0; background-color: white;">
-        <h2 style="font-weight: bold; margin-bottom: 10px;">
-          Field Information
-        </h2>
+      <div class="p-2 my-2 bg-white">
+        <h2 class="font-bold mb-2">Field Information</h2>
         Name: {currentField()?.name}
-        {/* <input
-          type="text"
-          onChange={(e) => {
-            setStore("fields", (fields) =>
-              fields.map((field) =>
-                field.uuid === params.fieldId
-                  ? { ...field, name: e.target.value }
-                  : field
-              )
-            );
-          }}
-          value={currentField()?.name}
-        /> */}
-        <br /> 
+        <br />
         Area: {currentField()?.area! > 5000
-								? `${(currentField()?.area! * 0.0001)
-										.toFixed(2)
-										// .replace(".", ",")
-                  } ha`
-								: `${currentField()?.area!.toFixed(0).replace(".", ",")} m2`}
-
-
-        {/* <label for="area">Area (ha):</label>
-        <input
-          onChange={(e) => {
-            setStore("fields", (fields) =>
-              fields.map((field) =>
-                field.uuid === params.fieldId
-                  ? { ...field, area: parseFloat(e.target.value) }
-                  : field
-              )
-            );
-          }}
-          name="area"
-          type="number"
-          min={0}
-          value={currentField()?.area ?? 1}
-        />{" "} */}
+          ? `${(currentField()?.area! * 0.0001).toFixed(2)} ha`
+          : `${currentField()?.area!.toFixed(0).replace(".", ",")} m2`}
       </div>
 
-      <div style="padding: 10px; margin: 10px 0; background-color: white;">
-        <h2 style="font-weight: bold; margin-bottom: 10px;">
-          Land Use and Land Use Changes:
-        </h2>
-        <div style={"display: flex; gap: 20px; overflow: scroll;"}>
+      <div class="p-2 my-2 bg-white">
+        <h2 class="font-bold mb-2">Land Use and Land Use Changes:</h2>
+        <div class="flex gap-5 overflow-scroll">
           {currentField()?.rotations?.map((rotation, rotationIdx) => (
-            <div style="padding: 10px; border: 1px solid #555; ">
+            <div class="p-2 border border-gray-600">
               <Button
-              variant={"destructive"}
+                variant={"destructive"}
                 onClick={(e) => {
                   setStore("fields", (fields) =>
                     fields.map((field) =>
@@ -104,7 +63,7 @@ export default function FieldView() {
               >
                 <i class="fa-solid fa-x" />
               </Button>
-              
+
               <br />
               <br />
               Split (Tree area){" "}
@@ -138,22 +97,22 @@ export default function FieldView() {
               %
               <br />
               <br />
-              <div style="display: flex; gap: 20px;  justify-content: flex-start; align-items: center; min-height: 40px;">
-                <span style="min-width: 120px;">Crop segments:</span>
+              <div class="flex gap-5 justify-start items-center min-h-10">
+                <span class="min-w-[120px]">Crop segments:</span>
                 {rotation.cropSegments.map(
                   (segment: SimpleTier1LPISSegment, cropSegmentIdx: number) => {
                     return (
                       <div
-                        style={`display: flex; gap: 10px; align-items: center; background-color: white; padding: 10px; ${
+                        class={`flex gap-2 items-center bg-white p-2 ${
                           activeSegment()?.cropOrTree == "crop" &&
                           cropSegmentIdx == activeSegment()?.segmentIdx &&
                           rotationIdx == activeSegment()?.rotationIdx
-                            ? "border: 3px solid blue;"
-                            : "border: 3px solid white;"
-                        }  `}
+                            ? "border-3 border-blue-500"
+                            : "border-3 border-white"
+                        }`}
                       >
                         <Button
-                        variant={"destructive"}
+                          variant={"destructive"}
                           onClick={() => {
                             setStore("fields", (fields) =>
                               fields.map((field) =>
@@ -183,7 +142,7 @@ export default function FieldView() {
                         </Button>
 
                         <div
-                          style="cursor: pointer;"
+                          class="cursor-pointer"
                           onClick={() => {
                             setActiveSegment({
                               segmentData: segment,
@@ -236,19 +195,19 @@ export default function FieldView() {
                 </Button>
               </div>
               <br />
-              <div style="display: flex; gap: 20px; justify-content: flex-start; align-items: center;  min-height: 40px;">
-                <span style="min-width: 120px; ">Tree segments:</span>
+              <div class="flex gap-5 justify-start items-center min-h-10">
+                <span class="min-w-[120px]">Tree segments:</span>
                 {rotation.treeSegments.map(
                   (segment: SimpleTier1LPISSegment, treeSegmentIdx: number) => {
                     return (
                       <div
-                        style={`display: flex; gap: 10px; align-items: center; background-color: white; padding: 10px; ${
+                        class={`flex gap-2 items-center bg-white p-2 ${
                           activeSegment()?.cropOrTree == "tree" &&
                           treeSegmentIdx == activeSegment()?.segmentIdx &&
                           rotationIdx == activeSegment()?.rotationIdx
-                            ? "border: 3px solid blue;"
-                            : "border: 3px solid white;"
-                        } `}
+                            ? "border-3 border-blue-500"
+                            : "border-3 border-white"
+                        }`}
                       >
                         <Button
                           onClick={() => {
@@ -280,7 +239,7 @@ export default function FieldView() {
                         </Button>
 
                         <div
-                          style="cursor: pointer;"
+                          class="cursor-pointer"
                           onClick={() => {
                             setActiveSegment({
                               segmentData: segment,
@@ -334,7 +293,7 @@ export default function FieldView() {
               </div>
             </div>
           ))}
-          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div class="flex flex-col justify-center items-center">
             <Button
               onClick={() => {
                 currentField()?.rotations;
@@ -360,26 +319,17 @@ export default function FieldView() {
                   }),
                 ]);
               }}
-              style="width: fit-content;"
+              class="w-fit"
             >
               Add land use
             </Button>
           </div>
-
-          {/* <div style="margin-left: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <span style="text-align: center;">
-              Repeat last
-              <br />
-              rotation
-            </span>
-            <input type="checkbox" />
-          </div> */}
         </div>
         <br />
       </div>
 
       {activeSegment() ? (
-        <div style="padding: 10px; margin: 10px 0; background-color: white;">
+        <div class="p-2 my-2 bg-white">
           Model:
           <select>
             <option value={"simple_tier1"}>Simple (Tier 1)</option>
@@ -427,8 +377,11 @@ export default function FieldView() {
             })}
           </select>
           <br />
-          <label for="years">Years</label>
-          <input
+          <br />
+          
+          <TextField>
+          <TextFieldLabel for="years">Years</TextFieldLabel>
+          <TextFieldInput
             name="years"
             type="number"
             value={activeSegment()?.segmentData.years}
@@ -466,6 +419,7 @@ export default function FieldView() {
               );
             }}
           />
+          </TextField>
           <br />
           {activeSegment()?.segmentData.LPIS_ID ? (
             <>
@@ -500,12 +454,11 @@ export default function FieldView() {
         </div>
       ) : null}
 
-      <div style="padding: 10px; margin: 10px 0; background-color: white;">
-        <h2 style="font-weight: bold; margin-bottom: 10px;">Field Emission</h2>
+      <div class="p-2 my-2 bg-white">
+        <h2 class="font-bold mb-2">Field Emission</h2>
 
         {currentField() ? (
           <>
-          
             <MyChart data={calculateFieldEmission(currentField()!)} />
           </>
         ) : null}
