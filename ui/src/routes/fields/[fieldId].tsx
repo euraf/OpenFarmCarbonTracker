@@ -1,5 +1,5 @@
 import { A, useParams } from "@solidjs/router";
-import { store, setStore } from "../../store/store";
+import { setStore, store } from "../../store/store";
 import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
 import { LPIS_DK } from "~/data/LPIS_DK_2023";
@@ -7,7 +7,11 @@ import { MyChart } from "~/components/chart";
 import { createEffect, createSignal } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
 import { Button } from "~/components/ui/button";
-import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
+import {
+  TextField,
+  TextFieldInput,
+  TextFieldLabel,
+} from "~/components/ui/text-field";
 import { Select, SelectItem } from "~/components/ui/select";
 
 export default function FieldView() {
@@ -21,12 +25,14 @@ export default function FieldView() {
     });
   });
 
-  const [activeSegment, setActiveSegment] = createSignal<{
-    segmentData: SimpleTier1LPISSegment;
-    cropOrTree: "tree" | "crop";
-    rotationIdx: number;
-    segmentIdx: number;
-  } | null>(null);
+  const [activeSegment, setActiveSegment] = createSignal<
+    {
+      segmentData: SimpleTier1LPISSegment;
+      cropOrTree: "tree" | "crop";
+      rotationIdx: number;
+      segmentIdx: number;
+    } | null
+  >(null);
 
   return (
     <main class="mx-4 overflow-scroll">
@@ -51,14 +57,14 @@ export default function FieldView() {
                     fields.map((field) =>
                       field.uuid === params.fieldId
                         ? {
-                            ...field,
-                            rotations: field.rotations?.filter(
-                              (_, rotIdx) => rotIdx !== rotationIdx
-                            ),
-                          }
+                          ...field,
+                          rotations: field.rotations?.filter(
+                            (_, rotIdx) =>
+                              rotIdx !== rotationIdx,
+                          ),
+                        }
                         : field
-                    )
-                  );
+                    ));
                 }}
               >
                 <i class="fa-solid fa-x" />
@@ -73,21 +79,20 @@ export default function FieldView() {
                     fields.map((field) =>
                       field.uuid === currentField()?.uuid
                         ? {
-                            ...field,
-                            rotations: field.rotations?.map((rotation, index) =>
-                              index === rotationIdx
-                                ? {
-                                    ...rotation,
-                                    splitTreePercent: parseFloat(
-                                      e.target.value
-                                    ),
-                                  }
-                                : rotation
-                            ),
-                          }
+                          ...field,
+                          rotations: field.rotations?.map((rotation, index) =>
+                            index === rotationIdx
+                              ? {
+                                ...rotation,
+                                splitTreePercent: parseFloat(
+                                  e.target.value,
+                                ),
+                              }
+                              : rotation
+                          ),
+                        }
                         : field
-                    )
-                  );
+                    ));
                 }}
                 type="number"
                 min="0"
@@ -105,8 +110,8 @@ export default function FieldView() {
                       <div
                         class={`flex gap-2 items-center bg-white p-2 ${
                           activeSegment()?.cropOrTree == "crop" &&
-                          cropSegmentIdx == activeSegment()?.segmentIdx &&
-                          rotationIdx == activeSegment()?.rotationIdx
+                            cropSegmentIdx == activeSegment()?.segmentIdx &&
+                            rotationIdx == activeSegment()?.rotationIdx
                             ? "border-3 border-blue-500"
                             : "border-3 border-white"
                         }`}
@@ -118,24 +123,23 @@ export default function FieldView() {
                               fields.map((field) =>
                                 field.uuid === currentField()?.uuid
                                   ? {
-                                      ...field,
-                                      rotations: field.rotations?.map(
-                                        (rotation, rotIdx) =>
-                                          rotIdx === rotationIdx
-                                            ? {
-                                                ...rotation,
-                                                cropSegments:
-                                                  rotation.cropSegments.filter(
-                                                    (_, idx) =>
-                                                      idx !== cropSegmentIdx
-                                                  ),
-                                              }
-                                            : rotation
-                                      ),
-                                    }
+                                    ...field,
+                                    rotations: field.rotations?.map(
+                                      (rotation, rotIdx) =>
+                                        rotIdx === rotationIdx
+                                          ? {
+                                            ...rotation,
+                                            cropSegments: rotation.cropSegments
+                                              .filter(
+                                                (_, idx) =>
+                                                  idx !== cropSegmentIdx,
+                                              ),
+                                          }
+                                          : rotation,
+                                    ),
+                                  }
                                   : field
-                              )
-                            );
+                              ));
                           }}
                         >
                           <i class="fa-solid fa-x" />
@@ -154,16 +158,16 @@ export default function FieldView() {
                         >
                           {segment.LPIS_ID
                             ? `${
-                                LPIS_DK.find(
-                                  ([id]) => id === segment.LPIS_ID
-                                )?.[1]
-                              }`
+                              LPIS_DK.find(
+                                ([id]) => id === segment.LPIS_ID,
+                              )?.[1]
+                            }`
                             : null}{" "}
                           {segment.years ? `(${segment.years}y)` : null}
                         </div>
                       </div>
                     );
-                  }
+                  },
                 )}
 
                 <Button
@@ -172,23 +176,22 @@ export default function FieldView() {
                       fields.map((field) =>
                         field.uuid === currentField()?.uuid
                           ? {
-                              ...field,
-                              rotations: field.rotations?.map(
-                                (rotation, rotIdx) =>
-                                  rotIdx === rotationIdx
-                                    ? {
-                                        ...rotation,
-                                        cropSegments: [
-                                          ...rotation.cropSegments,
-                                          { years: 1 },
-                                        ],
-                                      }
-                                    : rotation
-                              ),
-                            }
+                            ...field,
+                            rotations: field.rotations?.map(
+                              (rotation, rotIdx) =>
+                                rotIdx === rotationIdx
+                                  ? {
+                                    ...rotation,
+                                    cropSegments: [
+                                      ...rotation.cropSegments,
+                                      { years: 1 },
+                                    ],
+                                  }
+                                  : rotation,
+                            ),
+                          }
                           : field
-                      )
-                    );
+                      ));
                   }}
                 >
                   +
@@ -203,8 +206,8 @@ export default function FieldView() {
                       <div
                         class={`flex gap-2 items-center bg-white p-2 ${
                           activeSegment()?.cropOrTree == "tree" &&
-                          treeSegmentIdx == activeSegment()?.segmentIdx &&
-                          rotationIdx == activeSegment()?.rotationIdx
+                            treeSegmentIdx == activeSegment()?.segmentIdx &&
+                            rotationIdx == activeSegment()?.rotationIdx
                             ? "border-3 border-blue-500"
                             : "border-3 border-white"
                         }`}
@@ -215,24 +218,23 @@ export default function FieldView() {
                               fields.map((field) =>
                                 field.uuid === currentField()?.uuid
                                   ? {
-                                      ...field,
-                                      rotations: field.rotations?.map(
-                                        (rotation, rotIdx) =>
-                                          rotIdx === rotationIdx
-                                            ? {
-                                                ...rotation,
-                                                treeSegments:
-                                                  rotation.treeSegments.filter(
-                                                    (_, idx) =>
-                                                      idx !== treeSegmentIdx
-                                                  ),
-                                              }
-                                            : rotation
-                                      ),
-                                    }
+                                    ...field,
+                                    rotations: field.rotations?.map(
+                                      (rotation, rotIdx) =>
+                                        rotIdx === rotationIdx
+                                          ? {
+                                            ...rotation,
+                                            treeSegments: rotation.treeSegments
+                                              .filter(
+                                                (_, idx) =>
+                                                  idx !== treeSegmentIdx,
+                                              ),
+                                          }
+                                          : rotation,
+                                    ),
+                                  }
                                   : field
-                              )
-                            );
+                              ));
                           }}
                         >
                           Delete
@@ -251,16 +253,16 @@ export default function FieldView() {
                         >
                           {segment.LPIS_ID
                             ? `${
-                                LPIS_DK.find(
-                                  ([id]) => id === segment.LPIS_ID
-                                )?.[1]
-                              }`
+                              LPIS_DK.find(
+                                ([id]) => id === segment.LPIS_ID,
+                              )?.[1]
+                            }`
                             : null}{" "}
                           {segment.years ? `(${segment.years}y)` : null}
                         </div>
                       </div>
                     );
-                  }
+                  },
                 )}
 
                 <Button
@@ -269,23 +271,22 @@ export default function FieldView() {
                       fields.map((field) =>
                         field.uuid === currentField()?.uuid
                           ? {
-                              ...field,
-                              rotations: field.rotations?.map(
-                                (rotation, rotIdx) =>
-                                  rotIdx === rotationIdx
-                                    ? {
-                                        ...rotation,
-                                        treeSegments: [
-                                          ...rotation.treeSegments,
-                                          { years: 1 },
-                                        ],
-                                      }
-                                    : rotation
-                              ),
-                            }
+                            ...field,
+                            rotations: field.rotations?.map(
+                              (rotation, rotIdx) =>
+                                rotIdx === rotationIdx
+                                  ? {
+                                    ...rotation,
+                                    treeSegments: [
+                                      ...rotation.treeSegments,
+                                      { years: 1 },
+                                    ],
+                                  }
+                                  : rotation,
+                            ),
+                          }
                           : field
-                      )
-                    );
+                      ));
                   }}
                 >
                   +
@@ -328,140 +329,152 @@ export default function FieldView() {
         <br />
       </div>
 
-      {activeSegment() ? (
-        <div class="p-2 my-2 bg-white">
-          Model:
-          <select>
-            <option value={"simple_tier1"}>Simple (Tier 1)</option>
-          </select>
-          <br />
-          <br />
-          <br />
-          <select
-            value={activeSegment()?.segmentData.LPIS_ID}
-            onChange={(e) => {
-              setStore("fields", (fields) =>
-                fields.map((field) =>
-                  field.uuid === params.fieldId
-                    ? {
+      {activeSegment()
+        ? (
+          <div class="p-2 my-2 bg-white">
+            Model:
+            <select>
+              <option value={"simple_tier1"}>Simple (Tier 1)</option>
+            </select>
+            <br />
+            <br />
+            <br />
+            <select
+              value={activeSegment()?.segmentData.LPIS_ID}
+              onChange={(e) => {
+
+
+                setActiveSegment((prevSegment) => {
+                  if (!prevSegment) return null;
+                  return {
+                    ...prevSegment,
+                    segmentData: {
+                      ...prevSegment.segmentData,
+                      LPIS_ID: parseInt(e.target.value),
+                    },
+                  };
+                });
+
+                setStore("fields", (fields) =>
+                  fields.map((field) =>
+                    field.uuid === params.fieldId
+                      ? {
                         ...field,
                         rotations: field.rotations?.map((rotation, index) =>
                           index === activeSegment()?.rotationIdx
                             ? {
-                                ...rotation,
-                                [activeSegment()?.cropOrTree == "crop"
+                              ...rotation,
+                              [
+                                activeSegment()?.cropOrTree == "crop"
                                   ? "cropSegments"
-                                  : "treeSegments"]: rotation[
+                                  : "treeSegments"
+                              ]: rotation[
+                                activeSegment()?.cropOrTree == "crop"
+                                  ? "cropSegments"
+                                  : "treeSegments"
+                              ].map((segment, index) =>
+                                index === activeSegment()?.segmentIdx
+                                  ? {
+                                    ...segment,
+                                    LPIS_ID: parseInt(e.target.value),
+                                  }
+                                  : segment
+                              ),
+                            }
+                            : rotation
+                        ),
+                      }
+                      : field
+                  ));
+              }}
+            >
+              {LPIS_DK.map((species) => {
+                return <option value={species[0]}>{species[1]}</option>;
+              })}
+            </select>
+            <br />
+            <br />
+
+            <TextField>
+              <TextFieldLabel for="years">Years</TextFieldLabel>
+              <TextFieldInput
+                name="years"
+                type="number"
+                value={activeSegment()?.segmentData.years}
+                min={1}
+                onChange={(e) => {
+                  setStore("fields", (fields) =>
+                    fields.map((field) =>
+                      field.uuid === params.fieldId
+                        ? {
+                          ...field,
+                          rotations: field.rotations?.map((rotation, index) =>
+                            index === activeSegment()?.rotationIdx
+                              ? {
+                                ...rotation,
+                                [
+                                  activeSegment()?.cropOrTree == "crop"
+                                    ? "cropSegments"
+                                    : "treeSegments"
+                                ]: rotation[
                                   activeSegment()?.cropOrTree == "crop"
                                     ? "cropSegments"
                                     : "treeSegments"
                                 ].map((segment, index) =>
                                   index === activeSegment()?.segmentIdx
                                     ? {
-                                        ...segment,
-                                        LPIS_ID: parseInt(e.target.value),
-                                      }
+                                      ...segment,
+                                      years: parseInt(e.target.value),
+                                    }
                                     : segment
                                 ),
                               }
-                            : rotation
-                        ),
-                      }
-                    : field
-                )
-              );
-            }}
-          >
-            {LPIS_DK.map((species) => {
-              return <option value={species[0]}>{species[1]}</option>;
-            })}
-          </select>
-          <br />
-          <br />
-          
-          <TextField>
-          <TextFieldLabel for="years">Years</TextFieldLabel>
-          <TextFieldInput
-            name="years"
-            type="number"
-            value={activeSegment()?.segmentData.years}
-            min={1}
-            onChange={(e) => {
-              setStore("fields", (fields) =>
-                fields.map((field) =>
-                  field.uuid === params.fieldId
-                    ? {
-                        ...field,
-                        rotations: field.rotations?.map((rotation, index) =>
-                          index === activeSegment()?.rotationIdx
-                            ? {
-                                ...rotation,
-                                [activeSegment()?.cropOrTree == "crop"
-                                  ? "cropSegments"
-                                  : "treeSegments"]: rotation[
-                                  activeSegment()?.cropOrTree == "crop"
-                                    ? "cropSegments"
-                                    : "treeSegments"
-                                ].map((segment, index) =>
-                                  index === activeSegment()?.segmentIdx
-                                    ? {
-                                        ...segment,
-                                        years: parseInt(e.target.value),
-                                      }
-                                    : segment
-                                ),
-                              }
-                            : rotation
-                        ),
-                      }
-                    : field
-                )
-              );
-            }}
-          />
-          </TextField>
-          <br />
-          {activeSegment()?.segmentData.LPIS_ID ? (
-            <>
-              <label for="carbon-fixating">Carbon fixating</label>
-              <input
-                disabled
-                name=""
-                type="checkbox"
-                checked={
-                  LPIS_DK.find(
-                    (el) => el[0] === activeSegment()?.segmentData.LPIS_ID
-                  )![2] === "JA"
-                }
+                              : rotation
+                          ),
+                        }
+                        : field
+                    ));
+                }}
               />
-              <br />
-              <label for="legume">Legume</label>
-              <input
-                disabled
-                name="legume"
-                type="checkbox"
-                checked={
-                  LPIS_DK.find(
-                    (el) => el[0] === activeSegment()?.segmentData.LPIS_ID
-                  )![3] === "JA"
-                }
-              />
-              <br />
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
-      ) : null}
+            </TextField>
+            <br />
+            {activeSegment()?.segmentData.LPIS_ID
+              ? (
+                <>
+                  <span class="gap-2 flex align-middle">
+                    {LPIS_DK.find(
+                        (el) => el[0] === activeSegment()?.segmentData.LPIS_ID,
+                      )?.[2] === "JA"
+                      ? <i class="fa-solid fa-check text-green-600 self-center" />
+                      : <i class="fa-solid fa-minus text-red-400 self-center" />}
+                    Carbon fixating
+                  </span>
+                  <span class="gap-2 flex">
+                    {LPIS_DK.find(
+                        (el) => el[0] === activeSegment()?.segmentData.LPIS_ID,
+                      )?.[3] === "JA"
+                      ? <i class="fa-solid fa-check text-green-600 self-center" />
+                      : <i class="fa-solid fa-minus text-red-400 self-center" />}
+                    Legume
+                  </span>
+                  <br />
+                </>
+              )
+              : <></>}
+          </div>
+        )
+        : null}
 
       <div class="p-2 my-2 bg-white">
         <h2 class="font-bold mb-2">Field Emission</h2>
 
-        {currentField() ? (
-          <>
-            <MyChart data={calculateFieldEmission(currentField()!)} />
-          </>
-        ) : null}
+        {currentField()
+          ? (
+            <>
+              <MyChart data={calculateFieldEmission(currentField()!)} />
+            </>
+          )
+          : null}
       </div>
     </main>
   );
