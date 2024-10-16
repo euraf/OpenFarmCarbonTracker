@@ -17,10 +17,10 @@ function Link({ href, children }) {
 export function NavBar () {
   return <div class="flex gap-2 m-4 bg-white p-2 rounded-lg">
   <Link href="/fields">
-    Map
+    Fields
   </Link>
   <Link href="/farm-emission">
-    Farm Emission
+    Accumulated Emission
   </Link>
 </div>
 }
