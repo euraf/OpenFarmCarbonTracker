@@ -6,6 +6,7 @@ import { LPIS_DK } from "~/data/LPIS_DK_2023";
 import { MyChart } from "~/components/chart";
 import { createEffect, createSignal } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
+import { Button } from "~/components/ui/button";
 
 export default function FieldView() {
   const params = useParams<{ fieldId: string }>();
@@ -30,15 +31,14 @@ export default function FieldView() {
   } | null>(null);
 
   return (
-    <main>
-      <A href="/">⬅ Back</A>
-
+    <main class="mx-4 overflow-scroll">
+      
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
         <h2 style="font-weight: bold; margin-bottom: 10px;">
           Field Information
         </h2>
-        Name:
-        <input
+        Name: {currentField()?.name}
+        {/* <input
           type="text"
           onChange={(e) => {
             setStore("fields", (fields) =>
@@ -50,9 +50,17 @@ export default function FieldView() {
             );
           }}
           value={currentField()?.name}
-        />
-        <br /> <br />
-        <label for="area">Area (ha):</label>
+        /> */}
+        <br /> 
+        Area: {currentField()?.area! > 5000
+								? `${(currentField()?.area! * 0.0001)
+										.toFixed(2)
+										// .replace(".", ",")
+                  } ha`
+								: `${currentField()?.area!.toFixed(0).replace(".", ",")} m2`}
+
+
+        {/* <label for="area">Area (ha):</label>
         <input
           onChange={(e) => {
             setStore("fields", (fields) =>
@@ -67,7 +75,7 @@ export default function FieldView() {
           type="number"
           min={0}
           value={currentField()?.area ?? 1}
-        />{" "}
+        />{" "} */}
       </div>
 
       <div style="padding: 10px; margin: 10px 0; background-color: white;">
@@ -76,8 +84,9 @@ export default function FieldView() {
         </h2>
         <div style={"display: flex; gap: 20px; overflow: scroll;"}>
           {currentField()?.rotations?.map((rotation, rotationIdx) => (
-            <div style="padding: 10px; border: 1px solid #555;  background-color: rgb(218, 230, 239);">
-              <button
+            <div style="padding: 10px; border: 1px solid #555; ">
+              <Button
+              variant={"destructive"}
                 onClick={(e) => {
                   setStore("fields", (fields) =>
                     fields.map((field) =>
@@ -93,9 +102,9 @@ export default function FieldView() {
                   );
                 }}
               >
-                X
-              </button>{" "}
-              Delete land use
+                <i class="fa-solid fa-x" />
+              </Button>
+              
               <br />
               <br />
               Split (Tree area){" "}
@@ -143,7 +152,8 @@ export default function FieldView() {
                             : "border: 3px solid white;"
                         }  `}
                       >
-                        <button
+                        <Button
+                        variant={"destructive"}
                           onClick={() => {
                             setStore("fields", (fields) =>
                               fields.map((field) =>
@@ -169,8 +179,8 @@ export default function FieldView() {
                             );
                           }}
                         >
-                          Delete
-                        </button>
+                          <i class="fa-solid fa-x" />
+                        </Button>
 
                         <div
                           style="cursor: pointer;"
@@ -197,7 +207,7 @@ export default function FieldView() {
                   }
                 )}
 
-                <button
+                <Button
                   onClick={() => {
                     setStore("fields", (fields) =>
                       fields.map((field) =>
@@ -223,7 +233,7 @@ export default function FieldView() {
                   }}
                 >
                   +
-                </button>
+                </Button>
               </div>
               <br />
               <div style="display: flex; gap: 20px; justify-content: flex-start; align-items: center;  min-height: 40px;">
@@ -240,7 +250,7 @@ export default function FieldView() {
                             : "border: 3px solid white;"
                         } `}
                       >
-                        <button
+                        <Button
                           onClick={() => {
                             setStore("fields", (fields) =>
                               fields.map((field) =>
@@ -267,7 +277,7 @@ export default function FieldView() {
                           }}
                         >
                           Delete
-                        </button>
+                        </Button>
 
                         <div
                           style="cursor: pointer;"
@@ -294,7 +304,7 @@ export default function FieldView() {
                   }
                 )}
 
-                <button
+                <Button
                   onClick={() => {
                     setStore("fields", (fields) =>
                       fields.map((field) =>
@@ -320,12 +330,12 @@ export default function FieldView() {
                   }}
                 >
                   +
-                </button>
+                </Button>
               </div>
             </div>
           ))}
           <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <button
+            <Button
               onClick={() => {
                 currentField()?.rotations;
 
@@ -352,10 +362,8 @@ export default function FieldView() {
               }}
               style="width: fit-content;"
             >
-              Add
-              <br />
-              land use
-            </button>
+              Add land use
+            </Button>
           </div>
 
           {/* <div style="margin-left: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">

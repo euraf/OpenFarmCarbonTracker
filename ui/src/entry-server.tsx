@@ -20,6 +20,13 @@ export default createHandler(() => {
 							content="width=device-width, initial-scale=1"
 						/>
 
+
+						{/* <!-- Font Awesome --> */}
+						<link
+							href="https://use.fontawesome.com/releases/v6.4.0/css/all.css"
+							rel="stylesheet"
+						/>
+						
 						<link
 							rel="shortcut icon"
 							type="image/png"
@@ -37,7 +44,7 @@ export default createHandler(() => {
 
 						{assets}
 					</head>
-          <body class="overflow-hidden">
+          <body >
             <div id="app">{children}</div>
             {scripts}
           </body>

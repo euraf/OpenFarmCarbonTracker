@@ -1,37 +1,61 @@
 // @refresh reload
 import { Suspense } from "solid-js";
 import { FileRoutes } from "@solidjs/start/router";
-import { Router } from "@solidjs/router";
-
-import "./styling/reset.css";
-import "./styling/root.css";
+import { A, Router } from "@solidjs/router";
+import { isServer } from "solid-js/web";
+import {
+  ColorModeProvider,
+  ColorModeScript,
+  cookieStorageManagerSSR,
+} from "@kobalte/core";
+import { getCookie } from "vinxi/http";
+import "./app.css";
 import { MetaProvider, Title } from "@solidjs/meta";
+import { AppBar } from "./components/ui/appbar";
+import {
+  NavigationMenu,
+  NavigationMenuTrigger,
+} from "./components/ui/navigation-menu";
+import { NavBar } from "./components/ui/navbar";
+
+function getServerCookies() {
+  "use server";
+  const colorMode = getCookie("kb-color-mode");
+  return colorMode ? `kb-color-mode=${colorMode}` : "";
+}
 
 export default function App() {
+  const storageManager = cookieStorageManagerSSR(
+    isServer ? getServerCookies() : document.cookie,
+  );
+
   return (
     <>
-      <MetaProvider>
-        <Title>Open Farm Carbon Tracker</Title>
+      <ColorModeScript storageType={storageManager.type} />
+      <ColorModeProvider storageManager={storageManager}>
+        <MetaProvider>
+          <Title>Open Farm Carbon Tracker</Title>
 
-        <div class="appbar">
-          <h1>Open Farm Carbon Tracker</h1>
-          <div>
-            <a href="https://github.com/euraf/OpenFarmCarbonTracker">
-              <img width="25" src="/github-mark/github-mark-white.png" />
-            </a>
-          </div>
-        </div>
+          <Router
+            root={(props) => (
+              <>
+                <div class="flex flex-col w-screen h-screen overflow-hidden">
+                  <AppBar />
+                  <NavBar />
 
-        <Router
-          root={(props) => (
-            <Suspense>
-              {props.children}
-            </Suspense>
-          )}
-        >
-          <FileRoutes />
-        </Router>
-      </MetaProvider>
+                  
+                    <Suspense>
+                      {props.children}
+                    </Suspense>
+                  
+                </div>
+              </>
+            )}
+          >
+            <FileRoutes />
+          </Router>
+        </MetaProvider>
+      </ColorModeProvider>
     </>
   );
 }

@@ -18,6 +18,7 @@ export type Field = {
   uuid: string;
   name: string;
   area?: number;
+  geometry?: string;
   rotations?: Rotation[];
   repeatLastRotation: boolean;
 };
