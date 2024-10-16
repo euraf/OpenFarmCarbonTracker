@@ -17,7 +17,7 @@ function Link({ href, children }) {
 export function NavBar () {
   return <div class="flex gap-2 m-4 bg-white p-2 rounded-lg">
   <Link href="/fields">
-    Fields
+    Map
   </Link>
   <Link href="/farm-emission">
     Farm Emission
