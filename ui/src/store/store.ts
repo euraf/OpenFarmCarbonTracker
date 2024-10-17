@@ -24,13 +24,6 @@ export type Field = {
   repeatLastRotation: boolean;
 };
 
-const lsCountry = localStorage.getItem("country") ?? "DK";
-export const [country, setCountry] = createSignal<string>(lsCountry);
-
-createEffect(() => {
-localStorage.setItem("country", country());
-});
-
 
 const lsStore = JSON.parse(localStorage.getItem("store") ?? '{"fields":[]}');
 export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode }>(lsStore);

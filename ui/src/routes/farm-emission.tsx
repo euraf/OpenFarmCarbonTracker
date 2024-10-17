@@ -1,9 +1,10 @@
 import { MyChart } from "~/components/chart";
 import { calculateFarmEmission } from "~/util/emission";
 import { country, Field, setCountry, setStore, store } from "~/store/store";
-import { createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { NavBar } from "~/components/ui/navbar";
 import { Button } from "~/components/ui/button";
+import { Navigate, useNavigate } from "@solidjs/router";
 
 const totalCO2e = createMemo(() => {
   let total = 0;
@@ -29,12 +30,17 @@ const totalCO2e = createMemo(() => {
 });
 
 export default function FarmEmission() {
+
+  
+  
   const [includedFields, setIncludedFields] = createSignal(
     store.fields.map(() => true)
   );
 
   return (
     <>
+        <Show when={store.country} fallback={<Navigate href={"/"} />}>
+
       <main class="p-4 grow flex flex-col">
         
 
@@ -88,6 +94,7 @@ export default function FarmEmission() {
           ))}
         </div>
       </main>
+      </Show>
     </>
   );
 }

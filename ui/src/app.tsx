@@ -46,9 +46,7 @@ export default function App() {
               <div class="flex flex-col w-screen h-screen overflow-hidden">
                 <AppBar />
 
-                <Show when={store.country} fallback={<Navigate href={"/"} />}>
                   <NavBar />
-                </Show>
 
                 <Suspense>
                   {props.children}

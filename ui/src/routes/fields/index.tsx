@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { A } from "@solidjs/router";
-import { createEffect, createSignal, Match, Switch } from "solid-js";
+import { A, Navigate, useNavigate } from "@solidjs/router";
+import { createEffect, createSignal, Match, Show, Switch } from "solid-js";
 import { Button } from "~/components/ui/button";
 import { TextField, TextFieldInput } from "~/components/ui/text-field";
 import { Field, setStore, store } from "~/store/store";
@@ -28,6 +28,7 @@ export default function Fields() {
 
   const [mode, setMode] = createSignal<modes>(modes.default);
   const [styleLoaded, setStyleLoaded] = createSignal<boolean>(false);
+
 
   let map: maplibregl.Map;
 
@@ -99,6 +100,7 @@ export default function Fields() {
 
   return (
     <>
+    <Show when={store.country} fallback={<Navigate href={"/"} />}>
       <main class="grow flex flex-col">
         <div
           id="map"
@@ -128,6 +130,7 @@ export default function Fields() {
           </Match>
         </Switch>
       </main>
+    </Show>
     </>
   );
 }

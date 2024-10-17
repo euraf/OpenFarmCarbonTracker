@@ -1,10 +1,10 @@
-import { A, useParams } from "@solidjs/router";
+import { A, Navigate, useNavigate, useParams } from "@solidjs/router";
 import { setStore, store } from "../../store/store";
 import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
 import { LPIS_DK } from "~/data/LPIS_DK_2023";
 import { MyChart } from "~/components/chart";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
 import { Button } from "~/components/ui/button";
 import {
@@ -15,6 +15,8 @@ import {
 import { Select, SelectItem } from "~/components/ui/select";
 
 export default function FieldView() {
+
+  
   const params = useParams<{ fieldId: string }>();
 
   let [currentField, setCurrentField] = createSignal<Field | undefined>();
@@ -35,6 +37,7 @@ export default function FieldView() {
   >(null);
 
   return (
+    <Show when={store.country} fallback={<Navigate href={"/"} />}>
     <main class="mx-4 overflow-scroll">
       <div class="p-2 my-2 bg-white rounded-md">
         <h2 class="font-bold mb-2">Field Information</h2>
@@ -505,5 +508,6 @@ export default function FieldView() {
           : null}
       </div>
     </main>
+    </Show>
   );
 }

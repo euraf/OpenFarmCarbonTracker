@@ -1,6 +1,6 @@
 
-import { useNavigate } from "@solidjs/router";
-import { createSignal } from "solid-js";
+import { Navigate, useNavigate } from "@solidjs/router";
+import { createSignal, Show } from "solid-js";
 import { Button } from "~/components/ui/button";
 import { setStore, store } from "~/store/store";
 import { countries } from "~/util/countries";
@@ -9,10 +9,7 @@ import { countries } from "~/util/countries";
 
 export default function Home() {
 
-  if (store.country) {
-    const navigate = useNavigate()
-    navigate('/fields') 
-  }
+ 
 
   const [selectedCountry, setSelectedCountry] = createSignal("");
 
@@ -24,6 +21,8 @@ export default function Home() {
   }
 
   return (
+    <Show when={!store.country} fallback={<Navigate href={"/fields"} />}>
+
     <div class="max-w-xs mt-4 mx-auto bg-white p-5 rounded-lg shadow-md text-center">
       <select
         value={selectedCountry()}
@@ -41,5 +40,7 @@ export default function Home() {
         Continue
       </Button>
     </div>
+    </Show>
+    
   );
 }
