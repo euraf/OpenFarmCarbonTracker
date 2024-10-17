@@ -3,14 +3,9 @@ import { useNavigate } from "@solidjs/router";
 import { createSignal } from "solid-js";
 import { Button } from "~/components/ui/button";
 import { setStore, store } from "~/store/store";
+import { countries } from "~/util/countries";
 
-export const countries = [
-  { code: "DK", name: "Denmark" },
-  { code: "FI", name: "Finland" },
-  { code: "NL", name: "Netherlands" },
-  { code: "AT", name: "Austria" },
-  { code: "FR", name: "France" },
-];
+
 
 export default function Home() {
 

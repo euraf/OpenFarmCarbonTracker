@@ -37,7 +37,9 @@ export default function Fields() {
           container: mapref()!,
           attributionControl: false,
           style: GoogleSatStyle,
-          center: calculateCentroid(store.fields.map((field) => field.geometry)),
+          center: calculateCentroid(
+            store.fields.map((field) => field.geometry),
+          ),
           zoom: 12,
           maxZoom: 20,
         });
@@ -46,8 +48,26 @@ export default function Fields() {
           container: mapref()!,
           attributionControl: false,
           style: GoogleSatStyle,
-          center: [9, 46],
-          zoom: 4,
+          center: (() => {
+            const countryCoordinates: { [key: string]: [number, number] } = {
+              DK: [10.0, 56.0],
+              FI: [25.0, 64.0],
+              NL: [5.5, 52.0],
+              AT: [13.0, 47.5],
+              FR: [2.5, 46.5],
+            };
+            return countryCoordinates[store.country] || [9, 46];
+          })(),
+          zoom: (() => {
+            const countryZoomLevels: { [key: string]: number } = {
+              DK: 6,
+              FI: 4,
+              NL: 6,
+              AT: 6,
+              FR: 5,
+            };
+            return countryZoomLevels[store.country] || 6;
+          })(),
           maxZoom: 20,
         });
       }
