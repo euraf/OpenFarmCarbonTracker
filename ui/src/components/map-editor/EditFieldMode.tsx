@@ -112,6 +112,7 @@ export const EditFieldMode: Component<{
 						),
 				);
 			} else {
+				console.log('polygon()?.properties?.Afgkode', polygon())
 				setStore("fields", (prevFields) => [
 					...prevFields,
 					{
@@ -119,7 +120,14 @@ export const EditFieldMode: Component<{
 						name: payload.name,
 						geometry: payload.geometry,
 						area: payload.area,
-						rotations: [],
+						rotations: polygon()?.properties?.Afgkode ? [{
+							splitTreePercent: 0,
+							cropSegments: [{
+								LPIS_ID: polygon()?.properties?.Afgkode,
+							  years: 10,
+							}],
+							treeSegments: []
+						}] : [],
 						repeatLastRotation: false,
 					},
 				]);
