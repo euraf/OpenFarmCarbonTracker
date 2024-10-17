@@ -53,9 +53,7 @@ const AppBar: Component = () => {
         <button
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => {
-            setStore({ fields: [], country: "" });
-            localStorage.removeItem("store");
-            localStorage.removeItem("country");
+            setStore({ fields: [], country: undefined });
           }}
         >
           Reset
