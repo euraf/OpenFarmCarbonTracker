@@ -12,7 +12,12 @@ import * as turf from "@turf/turf";
 // @ts-ignore
 import { centroid, featureCollection } from "@turf/turf";
 
-import { type Feature, type FeatureCollection, type Polygon, type GeoJsonProperties } from "geojson";
+import {
+	type Feature,
+	type FeatureCollection,
+	type GeoJsonProperties,
+	type Polygon,
+} from "geojson";
 
 import {
 	updateArea,
@@ -23,18 +28,21 @@ import { modes } from "~/routes/fields/index.tsx";
 import { removeLayers } from "~/util/removeLayers.ts";
 import { Field, setStore } from "~/store/store";
 import { Button } from "~/components/ui/button";
+import { CountryCode } from "~/util/countries";
 
 export const EditFieldMode: Component<{
 	setMode: any;
 	getMap: () => maplibregl.Map;
-	store: any;
+	store: { fields: Field[]; country: CountryCode };
 	field: Field;
 }> = ({ getMap, setMode, store, field }) => {
 	let draw: MapboxDraw;
 
-	console.log(field, store.fields)
+	console.log(field, store.fields);
 
-	const [fieldName, setFieldName] = createSignal<string>("");
+	const [fieldName, setFieldName] = createSignal<string>(
+		field?.name ? field.name : "",
+	);
 	// const [fieldGeometry, setFieldGeometry] = createSignal<Polygon>();
 	// const [fieldArea, setfieldArea] = createSignal<number>();
 
@@ -71,11 +79,14 @@ export const EditFieldMode: Component<{
 
 	const addFieldFormAction = action(async (formData: FormData) => {
 		setSubmitDisabled(true);
-		console.log("HER2E??")
+		console.log("HER2E??");
 
-		if (!formData.get("geometry")?.toString() || !formData.get("area")?.toString() || !fieldName()) {
-			setSubmitDisabled(false)
-			return
+		if (
+			!formData.get("geometry")?.toString() ||
+			!formData.get("area")?.toString() || !fieldName()
+		) {
+			setSubmitDisabled(false);
+			return;
 		}
 
 		const payload = {
@@ -83,9 +94,8 @@ export const EditFieldMode: Component<{
 			geometry: JSON.parse(formData.get("geometry")?.toString()),
 			area: Number.parseFloat(formData.get("area")?.toString()),
 		};
-		
-		if (payload.geometry && payload.area && payload.name) {
 
+		if (payload.geometry && payload.area && payload.name) {
 			if (field?.uuid) {
 				setStore(
 					"fields",
@@ -354,7 +364,7 @@ export const EditFieldMode: Component<{
 			"FI_AgriculturalParcel_2023",
 			"FR_PARCELLES_GRAPHIQUES_2022",
 			"NL_brpgewaspercelen_definitief_2022",
-		].filter(tileset => tileset.startsWith(store.country));
+		].filter((tileset) => tileset.startsWith(store.country));
 
 		for (const tileset of tilesets) {
 			if (getMap().getLayer(`${tileset}_fieldfill`)) {
@@ -430,7 +440,7 @@ export const EditFieldMode: Component<{
 			"FI_AgriculturalParcel_2023",
 			"FR_PARCELLES_GRAPHIQUES_2022",
 			"NL_brpgewaspercelen_definitief_2022",
-		].filter(tileset => tileset.startsWith(store.country));
+		].filter((tileset) => tileset.startsWith(store.country));
 
 		let hoveredStateIds: string[] = [];
 
@@ -554,14 +564,25 @@ export const EditFieldMode: Component<{
 									geometry: combinedGeometry.geometry,
 									properties: {},
 								});
-								drawKMLorLPIS();
-								setShowLPISFields(false);
 							}
 						} else {
 							setPolygon(features[0]);
-							drawKMLorLPIS();
-							setShowLPISFields(false);
 						}
+						const fieldNameDefaults = {
+							"FR": "id_parcel",
+							"DK": "Marknr",
+							"FI": "TUNNUS",
+							"AT": "FS_KENNUNG",
+							"NL": "id",
+						};
+
+						const fieldNameKey = fieldNameDefaults[store.country];
+						const fieldName = features[0].properties[fieldNameKey];
+
+						setFieldName(`${fieldNameKey}: ${fieldName}`);
+
+						drawKMLorLPIS();
+						setShowLPISFields(false);
 					}
 				}
 
@@ -607,7 +628,8 @@ export const EditFieldMode: Component<{
 							)} */
 							}
 						</div>
-						{/* <div class="mb-2">
+						{
+							/* <div class="mb-2">
 							<span class="w-full block  text-white mb-2">Upload geometry</span>
 
 							<Button>
@@ -630,7 +652,8 @@ export const EditFieldMode: Component<{
 								id="kmlfile"
 								title="KML File"
 							/>
-						</div> */}
+						</div> */
+						}
 
 						<div class="mb-4">
 							<label for="fieldName" class="block  text-white ">
@@ -640,7 +663,7 @@ export const EditFieldMode: Component<{
 								type="text"
 								id="fieldName"
 								name="fieldName"
-								value={field?.name ? field.name : ""}
+								value={fieldName()}
 								onChange={(e) => setFieldName(e.target.value)}
 								class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 								placeholder="Enter field name"

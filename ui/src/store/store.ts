@@ -1,5 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
+import { CountryCode } from "~/util/countries";
 
 export type SimpleTier1LPISSegment = {
   LPIS_ID?: number;
@@ -32,7 +33,7 @@ localStorage.setItem("country", country());
 
 
 const lsStore = JSON.parse(localStorage.getItem("store") ?? '{"fields":[]}');
-export const [store, setStore] = createStore<{ fields: Field[], country: string }>(lsStore);
+export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode }>(lsStore);
 
 createEffect(() => {
 

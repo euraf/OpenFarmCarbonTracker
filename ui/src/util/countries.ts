@@ -5,3 +5,5 @@ export const countries = [
   { code: "AT", name: "Austria" },
   { code: "FR", name: "France" },
 ];
+
+export type CountryCode = "DK" | "FI" | "NL" | "AT" | "FR";
