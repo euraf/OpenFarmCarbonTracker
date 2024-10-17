@@ -13,7 +13,7 @@ export default createHandler(() => {
 						/>
 						<link rel="icon" href="/favicon.ico" />
 
-						<title>OpenFarmCarbokTracker</title>
+						<title>OpenFarmCarbonTracker</title>
 						<meta charset="utf-8" />
 						<meta
 							name="viewport"
@@ -26,7 +26,7 @@ export default createHandler(() => {
 							href="https://use.fontawesome.com/releases/v6.4.0/css/all.css"
 							rel="stylesheet"
 						/>
-						
+
 						<link
 							rel="shortcut icon"
 							type="image/png"
