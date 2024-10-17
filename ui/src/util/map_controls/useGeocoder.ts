@@ -1,6 +1,7 @@
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 import maplibregl from 'maplibre-gl';
+import { store } from "~/store/store";
 
 export function useGeocoder(map: maplibregl.Map) {
   
@@ -11,10 +12,11 @@ export function useGeocoder(map: maplibregl.Map) {
           const request =
       `https://nominatim.openstreetmap.org/search?q=${
           config.query
-      }&format=geojson&polygon_geojson=1&addressdetails=1`;
+      }&format=geojson&polygon_geojson=1&addressdetails=1&countrycodes=${store.country.toLowerCase()}`;
           const response = await fetch(request);
           const geojson = await response.json();
           for (const feature of geojson.features) {
+            
               const center = [
                   feature.bbox[0] +
               (feature.bbox[2] - feature.bbox[0]) / 2,
@@ -34,7 +36,8 @@ export function useGeocoder(map: maplibregl.Map) {
                   center
               };
               features.push(point);
-          }
+          
+        }
       } catch (e) {
           console.error(`Failed to forwardGeocode with error: ${e}`);
       }
@@ -50,6 +53,7 @@ map.addControl(
       marker: true,
       showResultMarkers: true,
       showResultsWhileTyping: true,
+      collapsed: true
   })
 );
 }
