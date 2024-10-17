@@ -1,7 +1,7 @@
 // @refresh reload
-import { Suspense } from "solid-js";
+import { Show, Suspense } from "solid-js";
 import { FileRoutes } from "@solidjs/start/router";
-import { A, Router } from "@solidjs/router";
+import { A, Navigate, Router } from "@solidjs/router";
 import { isServer } from "solid-js/web";
 import {
   ColorModeProvider,
@@ -17,6 +17,8 @@ import {
   NavigationMenuTrigger,
 } from "./components/ui/navigation-menu";
 import { NavBar } from "./components/ui/navbar";
+import { store } from "./store/store";
+import Home from "./routes";
 
 function getServerCookies() {
   "use server";
@@ -31,30 +33,33 @@ export default function App() {
 
   return (
     <>
-      {/* <ColorModeScript storageType={storageManager.type}/>
-      <ColorModeProvider storageManager={storageManager} initialColorMode="light"> */}
-        <MetaProvider>
-          <Title>Open Farm Carbon Tracker</Title>
+      {
+        /* <ColorModeScript storageType={storageManager.type}/>
+      <ColorModeProvider storageManager={storageManager} initialColorMode="light"> */
+      }
+      <MetaProvider>
+        <Title>Open Farm Carbon Tracker</Title>
 
-          <Router
-            root={(props) => (
-              <>
-                <div class="flex flex-col w-screen h-screen overflow-hidden">
-                  <AppBar />
+        <Router
+          root={(props) => (
+            <>
+              <div class="flex flex-col w-screen h-screen overflow-hidden">
+                <AppBar />
+
+                <Show when={store.country} fallback={<Navigate href={"/"} />}>
                   <NavBar />
+                </Show>
 
-                  
-                    <Suspense>
-                      {props.children}
-                    </Suspense>
-                  
-                </div>
-              </>
-            )}
-          >
-            <FileRoutes />
-          </Router>
-        </MetaProvider>
+                <Suspense>
+                  {props.children}
+                </Suspense>
+              </div>
+            </>
+          )}
+        >
+          <FileRoutes />
+        </Router>
+      </MetaProvider>
       {/* </ColorModeProvider> */}
     </>
   );

@@ -1,9 +1,50 @@
-import { Navigate } from "@solidjs/router";
-import { NavigationMenu, NavigationMenuTrigger } from "~/components/ui/navigation-menu";
+
+import { useNavigate } from "@solidjs/router";
+import { createSignal } from "solid-js";
+import { Button } from "~/components/ui/button";
+import { setStore, store } from "~/store/store";
+
+export const countries = [
+  { code: "DK", name: "Denmark" },
+  { code: "FI", name: "Finland" },
+  { code: "NL", name: "Netherlands" },
+  { code: "AT", name: "Austria" },
+  { code: "FR", name: "France" },
+];
 
 export default function Home() {
-  
+
+  if (store.country) {
+    const navigate = useNavigate()
+    navigate('/fields') 
+  }
+
+  const [selectedCountry, setSelectedCountry] = createSignal("");
+
+  function handleCountrySelect() {
+    if (selectedCountry()) {
+      setStore("country", selectedCountry());
+      window.location.href = "/fields";
+    }
+  }
+
   return (
-    <Navigate href={"/fields"} />
+    <div class="max-w-xs mt-4 mx-auto bg-white p-5 rounded-lg shadow-md text-center">
+      <select
+        value={selectedCountry()}
+        onChange={(e) => setSelectedCountry(e.target.value)}
+        class="w-full p-2 mb-3 rounded border border-gray-300"
+      >
+        <option value="" disabled>
+          Select a country
+        </option>
+        {countries.map((country) => (
+          <option value={country.code}>{country.name}</option>
+        ))}
+      </select>
+      <Button onClick={handleCountrySelect} class="w-full">
+        Continue
+      </Button>
+    </div>
   );
 }

@@ -32,7 +32,7 @@ localStorage.setItem("country", country());
 
 
 const lsStore = JSON.parse(localStorage.getItem("store") ?? '{"fields":[]}');
-export const [store, setStore] = createStore<{ fields: Field[] }>(lsStore);
+export const [store, setStore] = createStore<{ fields: Field[], country: string }>(lsStore);
 
 createEffect(() => {
 

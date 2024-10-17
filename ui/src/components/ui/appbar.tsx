@@ -50,6 +50,17 @@ const AppBar: Component = () => {
           Load
         </button>
 
+        <button
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            setStore({ fields: [], country: "" });
+            localStorage.removeItem("store");
+            localStorage.removeItem("country");
+          }}
+        >
+          Reset
+        </button>
+
 
         <a href="https://github.com/euraf/OpenFarmCarbonTracker">
           <img width="25" src="/github-mark/github-mark-white.png" />
