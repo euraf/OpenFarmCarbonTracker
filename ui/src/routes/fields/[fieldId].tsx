@@ -459,8 +459,8 @@ export default function FieldView() {
             <br />
 
             
-            <br />
-            {activeSegment()?.segmentData.LPIS_ID
+            {/* <br /> */}
+            {/* {activeSegment()?.segmentData.LPIS_ID
               ? (
                 <>
                   <span class="gap-2 flex align-middle">
@@ -488,7 +488,7 @@ export default function FieldView() {
                   <br />
                 </>
               )
-              : <></>}
+              : <></>} */}
           </div>
         )
         : null}

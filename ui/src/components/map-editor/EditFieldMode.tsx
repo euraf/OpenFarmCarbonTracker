@@ -607,7 +607,7 @@ export const EditFieldMode: Component<{
 							)} */
 							}
 						</div>
-						<div class="mb-2">
+						{/* <div class="mb-2">
 							<span class="w-full block  text-white mb-2">Upload geometry</span>
 
 							<Button>
@@ -630,7 +630,7 @@ export const EditFieldMode: Component<{
 								id="kmlfile"
 								title="KML File"
 							/>
-						</div>
+						</div> */}
 
 						<div class="mb-4">
 							<label for="fieldName" class="block  text-white ">
