@@ -62,8 +62,6 @@ function DefaultMode({
 			}),
 		);
 
-		console.log(fieldsGeo);
-		console.log(JSON.stringify(fieldsLabels));
 		
 		getMap().addLayer({
 			id: "field-fills",
