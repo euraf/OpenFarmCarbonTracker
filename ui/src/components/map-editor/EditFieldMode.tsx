@@ -354,7 +354,7 @@ export const EditFieldMode: Component<{
 			"FI_AgriculturalParcel_2023",
 			"FR_PARCELLES_GRAPHIQUES_2022",
 			"NL_brpgewaspercelen_definitief_2022",
-		];
+		].filter(tileset => tileset.startsWith(store.country));
 
 		for (const tileset of tilesets) {
 			if (getMap().getLayer(`${tileset}_fieldfill`)) {
@@ -430,7 +430,7 @@ export const EditFieldMode: Component<{
 			"FI_AgriculturalParcel_2023",
 			"FR_PARCELLES_GRAPHIQUES_2022",
 			"NL_brpgewaspercelen_definitief_2022",
-		];
+		].filter(tileset => tileset.startsWith(store.country));
 
 		let hoveredStateIds: string[] = [];
 
