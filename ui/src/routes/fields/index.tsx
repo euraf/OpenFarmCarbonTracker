@@ -10,6 +10,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import DefaultMode from "~/components/map-editor/DefaultMode";
 import { EditFieldMode } from "~/components/map-editor/EditFieldMode";
 import { centroid, feature, featureCollection } from "@turf/turf";
+import { useGeocoder } from "~/util/map_controls/useGeocoder";
 
 export enum modes {
   default = 0,
@@ -71,6 +72,8 @@ export default function Fields() {
           maxZoom: 20,
         });
       }
+
+      useGeocoder(map)
 
       map.on("load", () => {
         setStyleLoaded(true);
