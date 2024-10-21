@@ -25,15 +25,20 @@ export type Field = {
 };
 
 
-const lsStore = JSON.parse(localStorage.getItem("store") ?? '{"fields":[]}');
+const lsStore = JSON.parse(localStorage.getItem("store") ?? JSON.stringify(initStore()));
 export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode, energyAndFuel: {
-  diesel: number;
-  coal: number;
-  biogas: number;
-  electricity: number;
+  diesel?: number;
+  coal?: number;
+  biogas?: number;
+  electricity?: number;
 } }>(lsStore);
 
 createEffect(() => {
 
   localStorage.setItem("store", JSON.stringify(store));
 });
+
+export function initStore(){
+  return { fields: [], country: undefined, energyAndFuel: {} };
+}
+

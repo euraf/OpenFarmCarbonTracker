@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import { ModeToggle } from "./mode-toggle";
-import { setStore, store } from "~/store/store";
+import { initStore, setStore, store } from "~/store/store";
 
 const AppBar: Component = () => {
   return (
@@ -53,7 +53,7 @@ const AppBar: Component = () => {
         <button
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => {
-            setStore({ fields: [], country: undefined });
+            setStore(initStore());
           }}
         >
           Reset

@@ -1,6 +1,18 @@
 import { conversionFactors } from "~/data/energy-and-fuel/conversion-factors";
 import { Field, store } from "~/store/store";
 
+export function defaultEnergies(){
+
+  
+
+  return {
+    diesel: store.energyAndFuel?.diesel ?? 0,
+    electricity: store.energyAndFuel?.electricity ?? 0,
+    biogas: store.energyAndFuel?.biogas ?? 0,
+    coal: store.energyAndFuel?.coal ?? 0
+  }
+}
+
 export function calculateFieldEmission(field: Field): {
   accumulated: number[];
   contribution: number[];
@@ -66,10 +78,10 @@ export function calculateFieldEmission(field: Field): {
 
 
 export function calculateFuelEmission() {
-  return (store.energyAndFuel.diesel * conversionFactors[store.country].diesel) +
-         (store.energyAndFuel.coal * conversionFactors[store.country].coal) +
-         (store.energyAndFuel.biogas * conversionFactors[store.country].biogas) +
-         (store.energyAndFuel.electricity * conversionFactors[store.country].electricity);
+  return (defaultEnergies().diesel * conversionFactors[store.country].diesel) +
+         (defaultEnergies().coal * conversionFactors[store.country].coal) +
+         (defaultEnergies().biogas * conversionFactors[store.country].biogas) +
+         (defaultEnergies().electricity * conversionFactors[store.country].electricity);
 }
 
 
