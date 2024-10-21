@@ -1,4 +1,5 @@
-import { Field } from "~/store/store";
+import { conversionFactors } from "~/data/energy-and-fuel/conversion-factors";
+import { Field, store } from "~/store/store";
 
 export function calculateFieldEmission(field: Field): {
   accumulated: number[];
@@ -26,11 +27,13 @@ export function calculateFieldEmission(field: Field): {
     rotation.cropSegments.forEach((segment) => {
       for (let y = cropYearIdx; y < cropYearIdx + (segment.years ?? 0); y++) {
         emission[y] +=
-          2200 * (1 - rotation.splitTreePercent / 100) * (field.area ?? 1);
+          2200 * (1 - rotation.splitTreePercent / 100) * ((field.area ?? 0) / 10000);
       }
 
       cropYearIdx += segment.years ?? 0;
     });
+
+    console.log(field.area)
 
     let treeYearIdx = currentYearIdx;
     rotation.treeSegments.forEach((segment) => {
@@ -38,10 +41,10 @@ export function calculateFieldEmission(field: Field): {
         // First year, there is a cost to implementing trees
         if (y == treeYearIdx) {
           emission[y] +=
-            ((10000 * rotation.splitTreePercent) / 100) * (field.area ?? 1);
+            ((10000 * rotation.splitTreePercent) / 100) * ((field.area ?? 0) / 10000);
         } else {
           emission[y] -=
-            ((15000 * rotation.splitTreePercent) / 100) * (field.area ?? 1);
+            ((15000 * rotation.splitTreePercent) / 100) * ((field.area ?? 0) / 10000);
         }
       }
 
@@ -60,6 +63,15 @@ export function calculateFieldEmission(field: Field): {
 
   return { accumulated: accumulatedEmission, contribution: emission };
 }
+
+
+export function calculateFuelEmission() {
+  return (store.energyAndFuel.diesel * conversionFactors[store.country].diesel) +
+         (store.energyAndFuel.coal * conversionFactors[store.country].coal) +
+         (store.energyAndFuel.biogas * conversionFactors[store.country].biogas) +
+         (store.energyAndFuel.electricity * conversionFactors[store.country].electricity);
+}
+
 
 export function calculateFarmEmission(fields: Field[]): {
   accumulated: number[];
@@ -99,6 +111,9 @@ export function calculateFarmEmission(fields: Field[]): {
       }
     });
   });
+
+  totalEmissions.accumulated = totalEmissions.accumulated.map((value) => value + calculateFuelEmission());
+  totalEmissions.contribution = totalEmissions.contribution.map((value) => value + calculateFuelEmission());
 
   return totalEmissions;
 }

@@ -19,6 +19,10 @@ export function NavBar () {
   <Link href="/fields">
     Fields
   </Link>
+  <Link href="/energy-and-fuel">
+    Energy and Fuel
+  </Link>
+  
   <Link href="/farm-emission">
     Accumulated Emission
   </Link>

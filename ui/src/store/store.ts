@@ -26,7 +26,12 @@ export type Field = {
 
 
 const lsStore = JSON.parse(localStorage.getItem("store") ?? '{"fields":[]}');
-export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode }>(lsStore);
+export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode, energyAndFuel: {
+  diesel: number;
+  coal: number;
+  biogas: number;
+  electricity: number;
+} }>(lsStore);
 
 createEffect(() => {
 

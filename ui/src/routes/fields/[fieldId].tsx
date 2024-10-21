@@ -2,7 +2,7 @@ import { A, Navigate, useNavigate, useParams } from "@solidjs/router";
 import { setStore, store } from "../../store/store";
 import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
-import { LPIS_DK } from "~/data/LPIS_DK_2023";
+import { LPIS_DK } from "~/data/crops/LPIS_DK_2023";
 import { MyChart } from "~/components/chart";
 import { createEffect, createSignal, Show } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
