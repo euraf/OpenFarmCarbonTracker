@@ -38,7 +38,7 @@ export default function Fields() {
         map = new maplibregl.Map({
           container: mapref()!,
           attributionControl: false,
-          style: GoogleSatStyle,
+          style: { ...GoogleSatStyle, projection: { type: 'globe' } },
           center: calculateCentroid(
             store.fields.map((field) => field.geometry),
           ),
@@ -49,7 +49,7 @@ export default function Fields() {
         map = new maplibregl.Map({
           container: mapref()!,
           attributionControl: false,
-          style: GoogleSatStyle,
+          style: { ...GoogleSatStyle, projection: { type: 'globe' } },
           center: (() => {
             const countryCoordinates: { [key: string]: [number, number] } = {
               DK: [10.0, 56.0],
