@@ -5,13 +5,13 @@ import { CountryCode } from "~/util/countries";
 export type SimpleTier1LPISSegment = {
   LPIS_ID?: number;
   years?: number;
-}
+};
 
 export type FixedSplitRotation = {
-  splitTreePercent: number,
-  cropSegments: SimpleTier1LPISSegment[],
-  treeSegments: SimpleTier1LPISSegment[]
-}
+  splitTreePercent: number;
+  cropSegments: SimpleTier1LPISSegment[];
+  treeSegments: SimpleTier1LPISSegment[];
+};
 
 export type Rotation = FixedSplitRotation;
 
@@ -24,21 +24,27 @@ export type Field = {
   repeatLastRotation: boolean;
 };
 
-
-const lsStore = JSON.parse(localStorage.getItem("store") ?? JSON.stringify(initStore()));
-export const [store, setStore] = createStore<{ fields: Field[], country: CountryCode, energyAndFuel: {
-  diesel?: number;
-  coal?: number;
-  biogas?: number;
-  electricity?: number;
-} }>(lsStore);
+const lsStore = JSON.parse(
+  localStorage.getItem("store") ?? JSON.stringify(initStore()),
+);
+export const [store, setStore] = createStore<
+  {
+    fields: Field[];
+    country: CountryCode;
+    energyAndFuel: {
+      diesel?: number;
+      coal?: number;
+      biogas?: number;
+      electricity?: number;
+    };
+    animals: any
+  }
+>(lsStore);
 
 createEffect(() => {
-
   localStorage.setItem("store", JSON.stringify(store));
 });
 
-export function initStore(){
+export function initStore() {
   return { fields: [], country: undefined, energyAndFuel: {} };
 }
-
