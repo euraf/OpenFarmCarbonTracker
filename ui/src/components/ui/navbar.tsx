@@ -25,6 +25,9 @@ export function NavBar () {
   <Link href="/animals">
     Animals
   </Link>
+  <Link href="/machines-and-buildings">
+    Machines and Buildings
+  </Link>
   
   <Link href="/farm-emission">
     Accumulated Emission

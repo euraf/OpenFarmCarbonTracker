@@ -5,12 +5,9 @@ import {
   TextFieldInput,
   TextFieldLabel,
 } from "~/components/ui/text-field";
-import { conversionFactors } from "~/data/energy-and-fuel/conversion-factors";
 import { setStore, store } from "~/store/store";
-import { getStoreCountryName } from "~/util/countries";
-import { calculateFuelEmission, defaultEnergies } from "~/util/emission";
 
-export default function EnergyAndFuel() {
+export default function Animals() {
   function handleInputChange(type: string, value: number) {
     setStore("animals", type, value);
   }
