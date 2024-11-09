@@ -1,10 +1,10 @@
 import { MyChart } from "~/components/chart";
 import { calculateFarmEmission } from "~/util/emission";
-import { country, Field, setCountry, setStore, store } from "~/store/store";
-import { createMemo, createSignal, Show } from "solid-js";
-import { NavBar } from "~/components/ui/navbar";
+import { Accessor, createMemo, createSignal, Setter, Show } from "solid-js";
 import { Button } from "~/components/ui/button";
-import { Navigate, useNavigate } from "@solidjs/router";
+import { Navigate } from "@solidjs/router";
+import { store } from "~/store/store";
+import { LPIS_DK } from "~/data/crops/LPIS_DK_2023";
 
 const totalCO2e = createMemo(() => {
   let total = 0;
@@ -53,48 +53,54 @@ export default function FarmEmission() {
           />
         </div>
 
-        <div class="bg-white rounded-lg p-4 mt-2">
-          <h2 class="text-black">Select which fields to include in the farm emissoin calculation</h2>
-
-          <div class="flex gap-2 my-4">
-            <Button
-              onClick={() => {
-                setIncludedFields(store.fields.map(() => true));
-              }}
-            >
-              All
-            </Button>
-            <Button
-              onClick={() => {
-                setIncludedFields(store.fields.map(() => false));
-              }}
-            >
-              None
-            </Button>
-          </div>
-
-          {store.fields.map((field, index) => (
-            <div  class="flex items-center mb-2">
-              <input
-                type="checkbox"
-                id={`field-${index}`}
-                checked={includedFields()[index]}
-                onChange={(e) => {
-                  setIncludedFields((prev) =>
-                    prev.map((included, idx) =>
-                      idx === index ? e.target.checked : included
-                    )
-                  );
-                }}
-              />
-              <label for={`field-${index}`} class="ml-2">
-                {field.name}
-              </label>
-            </div>
-          ))}
-        </div>
+        {/* <FieldToggle includedFields={includedFields} setIncludedFields={setIncludedFields} /> */}
       </main>
       </Show>
     </>
   );
+}
+
+
+
+const FieldToggle = (params:{includedFields:Accessor<boolean[]>, setIncludedFields: Setter<boolean[]>}) => {
+  return  <div class="bg-white rounded-lg p-4 mt-2">
+      <h2 class="text-black">Select which fields to include in the farm emissoin calculation</h2>
+
+      <div class="flex gap-2 my-4">
+        <Button
+          onClick={() => {
+            params.setIncludedFields(store.fields.map(() => true));
+          }}
+        >
+          All
+        </Button>
+        <Button
+          onClick={() => {
+            params.setIncludedFields(store.fields.map(() => false));
+          }}
+        >
+          None
+        </Button>
+      </div>
+
+      {store.fields.map((field, index) => (
+        <div  class="flex items-center mb-2">
+          <input
+            type="checkbox"
+            id={`field-${index}`}
+            checked={params.includedFields()[index]}
+            onChange={(e) => {
+              params.setIncludedFields((prev) =>
+                prev.map((included, idx) =>
+                  idx === index ? e.target.checked : included
+                )
+              );
+            }}
+          />
+          <label for={`field-${index}`} class="ml-2">
+            {field.name}
+          </label>
+        </div>
+      ))}
+    </div>
 }

@@ -21,18 +21,18 @@ export function NavBar () {
    Land use
   </Link>
   <Link href="/energy-and-fuel">
-    Energy and Fuel
+    Energy and fuel
   </Link>
   <Link href="/animals">
     Animals
   </Link>
   <Link href="/machines-and-buildings">
-    Machines and Buildings
+    Machines and buildings
   </Link>
   
   
   <Link href="/farm-emission">
-    Accumulated Emission
+    Accumulated emission
   </Link>
 </div>
 }
