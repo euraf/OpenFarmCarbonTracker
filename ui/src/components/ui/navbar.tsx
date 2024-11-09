@@ -1,23 +1,24 @@
 import { A } from "@solidjs/router";
+import { JSX } from "solid-js";
 
-function Link({ href, children }) {
+function Link(params:{ href:any, children:JSX.Element }) {
   return (
     <A
       end={true}
       class=" hover:bg-slate-700 hover:text-white hover:dark:bg-slate-700 hover:dark:text-white transition-colors duration-200 px-3 py-2 rounded-md"
       inactiveClass="bg-gray-400 text-white  dark:bg-gray-800  dark:text-gray-400"
       activeClass="bg-slate-700 text-white dark:bg-slate-700 dark:text-white"
-      href={href}
+      href={params.href}
     >
-      {children}
+      {params.children}
     </A>
   );
 }
 
 export function NavBar () {
   return <div class="flex gap-2 m-4 bg-white p-2 rounded-lg">
-  <Link href="/fields">
-    Fields
+  <Link href="/land-use">
+   Land use
   </Link>
   <Link href="/energy-and-fuel">
     Energy and Fuel
@@ -28,6 +29,7 @@ export function NavBar () {
   <Link href="/machines-and-buildings">
     Machines and Buildings
   </Link>
+  
   
   <Link href="/farm-emission">
     Accumulated Emission

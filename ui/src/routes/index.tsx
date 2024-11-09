@@ -16,12 +16,12 @@ export default function Home() {
   function handleCountrySelect() {
     if (selectedCountry()) {
       setStore("country", selectedCountry());
-      window.location.href = "/fields";
+      window.location.href = "/land-use";
     }
   }
 
   return (
-    <Show when={!store.country} fallback={<Navigate href={"/fields"} />}>
+    <Show when={!store.country} fallback={<Navigate href={"/land-use"} />}>
 
     <div class="max-w-xs mt-4 mx-auto bg-white p-5 rounded-lg shadow-md text-center">
       <select

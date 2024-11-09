@@ -217,7 +217,7 @@ function DefaultMode({
 							<div class="list-group-item list-group-item-action list-group-item-primary overlay-list-div">
 								<A
 									class="overlay-list-link  pr-4"
-									href={`/fields/${field.uuid}`}
+									href={`/land-use/${field.uuid}`}
 								>
 									{field.name}
 								</A>
@@ -226,7 +226,7 @@ function DefaultMode({
 										title="Configure field"
 										class={"rounded-sm p-1 my-2 btn-default menu-btn list-group-button rounded-sm"}
 										onClick={() => {
-											navigate(`/fields/${field.uuid}`)
+											navigate(`/land-use/${field.uuid}`)
 										}}
 									>
 										<i class="fa-solid fa-gear" />

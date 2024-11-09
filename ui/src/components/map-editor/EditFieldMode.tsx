@@ -24,7 +24,7 @@ import {
 	useDrawControl,
 } from "~/util/map_controls/useDrawControl.ts";
 import type { IControl } from "maplibre-gl";
-import { modes } from "~/routes/fields/index.tsx";
+import { modes } from "~/routes/land-use";
 import { removeLayers } from "~/util/removeLayers.ts";
 import { Field, setStore } from "~/store/store";
 import { Button } from "~/components/ui/button";
