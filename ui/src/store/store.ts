@@ -37,8 +37,8 @@ export const [store, setStore] = createStore<
       biogas?: number;
       electricity?: number;
     };
-    animals: any;
-    machinesAndBuildings: any;
+    livestock: any;
+    buildingsAndEquipment: any;
   }
 >(lsStore);
 

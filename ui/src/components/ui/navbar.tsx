@@ -23,11 +23,11 @@ export function NavBar () {
   <Link href="/energy-and-fuel">
     Energy and fuel
   </Link>
-  <Link href="/animals">
-    Animals
+  <Link href="/livestock">
+    Livestock
   </Link>
-  <Link href="/machines-and-buildings">
-    Machines and buildings
+  <Link href="/Buildings and equipment">
+    Buildings and equipment
   </Link>
   
   
