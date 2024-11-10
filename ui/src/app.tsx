@@ -43,7 +43,7 @@ export default function App() {
         <Router
           root={(props) => (
             <>
-              <div class="flex flex-col w-screen h-screen overflow-hidden">
+              <div class="flex flex-col w-screen h-screen ">
                 <AppBar />
 
                   <NavBar />
