@@ -36,6 +36,7 @@ const lsStore = JSON.parse(
 export const [store, setStore] = createStore<
   {
     fields: Field[];
+    startYear: number;
     country: CountryCode;
     energyAndFuel: {
       diesel?: number;
@@ -56,6 +57,7 @@ createEffect(() => {
 export function initStore() {
   return { 
     fields: [], 
+    startYear: new Date().getFullYear(),
     country: undefined, 
     energyAndFuel: {}, 
     buildings: [], 

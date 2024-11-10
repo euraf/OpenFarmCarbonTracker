@@ -1,6 +1,8 @@
 import { Component } from "solid-js";
 import { ModeToggle } from "./mode-toggle";
 import { initStore, setStore, store } from "~/store/store";
+import { IconSettings } from "./icons";
+import { A } from "@solidjs/router";
 
 const AppBar: Component = () => {
   return (
@@ -9,6 +11,8 @@ const AppBar: Component = () => {
       <div class="flex items-center space-x-2">
         {/* <ModeToggle /> */}
 
+
+        <A href="/settings"><IconSettings class="text-black cursor-pointer w-10 h-10 rounded p-2  bg-white hover:bg-gray-400 "/></A>
 
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -58,6 +62,8 @@ const AppBar: Component = () => {
         >
           Reset
         </button>
+
+        
 
 
         <a href="https://github.com/euraf/OpenFarmCarbonTracker">
