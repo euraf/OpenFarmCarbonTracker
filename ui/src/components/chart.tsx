@@ -1,4 +1,4 @@
-import { createMemo } from "solid-js";
+import { createMemo, onCleanup, onMount } from "solid-js";
 import { LineChart, PieChart } from "~/components/ui/charts";
 import { store } from "~/store/store";
 import { calculateBuildingAndEquipmentEmission } from "~/util/buildingAndEquipmentEmission";
@@ -7,6 +7,8 @@ import { calculateFuelEmission } from "~/util/emission";
 export const MyChart = (props: {
   data: { accumulated: number[]; contribution: number[] };
 }) => {
+  let container: HTMLDivElement;
+
   const chartData = createMemo(() => {
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
     const accumulated = props.data.accumulated.map((value, index) => 
@@ -48,62 +50,70 @@ export const MyChart = (props: {
     };
   });
 
+  onMount(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      container && container.dispatchEvent(new Event("resize"));
+    });
+
+    resizeObserver.observe(container);
+
+    onCleanup(() => {
+      resizeObserver.disconnect();
+    });
+  });
+
   return (
-    <div class="chart-container">
-      <div class="chart">
+    <div class="flex flex-col xl:flex-row " ref={el => container = el}>
+      <div class="flex-1 h-96 max-h-[400px] mb-20 flex flex-col items-center">
+
+
+        <h3 class="text-center mb-2 ">Yearly and Accumulated Emissions</h3>
         <LineChart
           data={chartData()}
           options={{
+            
             responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-              duration: 0, // disable animations
-            },
+            maintainAspectRatio: true,
+            
             scales: {
+              x: {
+                ticks: {
+                  maxRotation: 0,
+                  minRotation: 0,
+                },
+              },
               y: {
                 beginAtZero: true,
                 title: {
                   display: true,
                   text: "kg CO2e",
                 },
+                ticks: {
+                  color: "#000", // Ensure y-axis labels are visible
+                },
               },
             },
           }}
-          width={500}
-          height={500}
+          
+          width={800}
+          
+          
         />
       </div>
-      <div class="chart">
+
+
+
+      <div class="flex-1 h-96 max-h-[400px] mb-20 text-center flex flex-col items-center">
+        <h3 class="text-center mb-2">Emission distribution for all years summed</h3>
         <PieChart
           data={pieChartData()}
           options={{
             responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-              duration: 0, // disable animations
-            },
+            maintainAspectRatio: true,
           }}
-          width={500}
-          height={500}
+          width={800}
         />
       </div>
-      <style jsx>{`
-        .chart-container {
-          display: flex;
-          flex-direction: column;
-        }
-        .chart {
-          height: 500px;
-        }
-        @media (min-width: 800px) {
-          .chart-container {
-            flex-direction: row;
-          }
-          .chart {
-            flex: 1;
-          }
-        }
-      `}</style>
     </div>
   );
 };

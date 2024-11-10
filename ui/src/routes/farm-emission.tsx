@@ -41,11 +41,11 @@ export default function FarmEmission() {
     <>
         <Show when={store.country} fallback={<Navigate href={"/"} />}>
 
-      <main class="p-4 grow flex flex-col">
+      <main class="p-4 grow flex flex-col ">
         
 
         <div class="p-3 bg-white rounded-lg">
-          <h2 class="text-black">Farm Emission</h2>
+          
           <MyChart
             data={calculateFarmEmission(
               store.fields.filter((_, index) => includedFields()[index])
