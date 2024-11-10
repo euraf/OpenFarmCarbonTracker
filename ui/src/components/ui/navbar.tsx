@@ -26,7 +26,7 @@ export function NavBar () {
   <Link href="/livestock">
     Livestock
   </Link>
-  <Link href="/Buildings and equipment">
+  <Link href="/buildings-and-equipment">
     Buildings and equipment
   </Link>
   

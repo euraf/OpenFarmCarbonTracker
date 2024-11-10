@@ -24,6 +24,12 @@ export type Field = {
   repeatLastRotation: boolean;
 };
 
+export type BuildingOrEquipment = {
+  name: string;
+  year: number;
+  emission: number;
+};
+
 const lsStore = JSON.parse(
   localStorage.getItem("store") ?? JSON.stringify(initStore()),
 );
@@ -38,7 +44,8 @@ export const [store, setStore] = createStore<
       electricity?: number;
     };
     livestock: any;
-    buildingsAndEquipment: any;
+    buildings: BuildingOrEquipment[];
+    equipment: BuildingOrEquipment[];
   }
 >(lsStore);
 
@@ -47,5 +54,11 @@ createEffect(() => {
 });
 
 export function initStore() {
-  return { fields: [], country: undefined, energyAndFuel: {} };
+  return { 
+    fields: [], 
+    country: undefined, 
+    energyAndFuel: {}, 
+    buildings: [], 
+    equipment: [] 
+  };
 }
