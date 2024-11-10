@@ -5,7 +5,7 @@ export function calculateBuildingAndEquipmentEmission() {
   const accumulated: number[] = [];
   const contribution: number[] = [];
 
-  store.buildings.forEach((building) => {
+  store.buildings?.forEach((building) => {
     const yearIndex = building.year - store.startYear;
     if (yearIndex >= 0) {
       if (!contribution[yearIndex]) contribution[yearIndex] = 0;
@@ -15,7 +15,7 @@ export function calculateBuildingAndEquipmentEmission() {
     }
   });
 
-  store.equipment.forEach((equipment) => {
+  store.equipment?.forEach((equipment) => {
     const yearIndex = equipment.year - store.startYear;
     if (yearIndex >= 0) {
       if (!contribution[yearIndex]) contribution[yearIndex] = 0;
