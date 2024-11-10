@@ -61,6 +61,7 @@ export const MyChart = (props: {
             },
             scales: {
               y: {
+                beginAtZero: true,
                 title: {
                   display: true,
                   text: "kg CO2e",
