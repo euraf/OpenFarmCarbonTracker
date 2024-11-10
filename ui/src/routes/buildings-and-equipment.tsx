@@ -1,5 +1,6 @@
 import { Navigate } from "@solidjs/router";
 import { Show, For } from "solid-js";
+import { IconTrash } from "~/components/ui/icons";
 import {
   TextField,
   TextFieldInput,
@@ -7,9 +8,14 @@ import {
 } from "~/components/ui/text-field";
 import { setStore, store, BuildingOrEquipment } from "~/store/store";
 
-export default function BuildingsAndEquipment() {
+function ListSection({
+  section,
+  title,
+}: {
+  section: "buildings" | "equipment";
+  title: string;
+}) {
   function handleInputChange(
-    section: "buildings" | "equipment",
     index: number,
     field: keyof BuildingOrEquipment,
     value: string | number
@@ -17,139 +23,90 @@ export default function BuildingsAndEquipment() {
     setStore(section, index, field, value);
   }
 
-  function addRow(section: "buildings" | "equipment") {
+  function addRow() {
+    const currentYear = new Date().getFullYear();
     setStore(section, (items: BuildingOrEquipment[] = []) => [
       ...items,
-      { name: "", year: 0, emission: 0 },
+      { name: "", year: currentYear, emission: 0 },
     ]);
   }
 
-  function removeRow(section: "buildings" | "equipment", index: number) {
+  function removeRow(index: number) {
     setStore(section, (items: BuildingOrEquipment[] = []) =>
       items.filter((_, i) => i !== index)
     );
   }
 
   return (
+    <div class={`${section}-section`}>
+      <h3 class="text-lg font-semibold mb-4">{title}</h3>
+      <For each={store[section]}>
+        {(item, index) => (
+          <div class="flex gap-2   items-center">
+            <button
+              class="bg-gray-700 hover:bg-red-500 hover:text-white  text-white p-1 rounded flex mt-5 items-center justify-center w-8 h-8"
+              onClick={() => removeRow(index())}
+            >
+              <IconTrash />
+            </button>
+            <TextField class="flex-1">
+              <TextFieldLabel>Name</TextFieldLabel>
+              <TextFieldInput
+                type="text"
+                value={item.name}
+                onInput={(e) =>
+                  handleInputChange(index(), "name", e.currentTarget.value)
+                }
+              />
+            </TextField>
+            <TextField class="w-24">
+              <TextFieldLabel>Year</TextFieldLabel>
+              <TextFieldInput
+                type="number"
+                min="1900"
+                value={item.year}
+                onInput={(e) => {
+                  handleInputChange(
+                    index(),
+                    "year",
+                    parseInt(e.currentTarget.value)
+                  );
+                }}
+              />
+            </TextField>
+            <TextField class="w-50">
+              <TextFieldLabel>Emission (kg CO2e)</TextFieldLabel>
+              <TextFieldInput
+                type="number"
+                value={item.emission}
+                onInput={(e) =>
+                  handleInputChange(
+                    index(),
+                    "emission",
+                    parseFloat(e.currentTarget.value)
+                  )
+                }
+              />
+            </TextField>
+          </div>
+        )}
+      </For>
+      <button
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
+        onClick={addRow}
+      >
+        Add {title}
+      </button>
+    </div>
+  );
+}
+
+export default function BuildingsAndEquipment() {
+  return (
     <Show when={store.country?.length == 2} fallback={<Navigate href={"/"} />}>
       <div class="card bg-white shadow-md rounded-lg m-4 p-4 grid grid-cols-1 gap-4">
-        <div class="buildings-section">
-          <h3 class="text-lg font-semibold">Buildings</h3>
-          <For each={store.buildings}>
-            {(building, index) => (
-              <div class="grid grid-cols-3 gap-2 mb-2">
-                <TextField>
-                  <TextFieldLabel>Name</TextFieldLabel>
-                  <TextFieldInput
-                    type="text"
-                    value={building.name}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "buildings",
-                        index(),
-                        "name",
-                        e.currentTarget.value
-                      )
-                    }
-                  />
-                </TextField>
-                <TextField>
-                  <TextFieldLabel>Year</TextFieldLabel>
-                  <TextFieldInput
-                    type="number"
-                    value={building.year}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "buildings",
-                        index(),
-                        "year",
-                        parseInt(e.currentTarget.value)
-                      )
-                    }
-                  />
-                </TextField>
-                <TextField>
-                  <TextFieldLabel>Emission (kg CO2e)</TextFieldLabel>
-                  <TextFieldInput
-                    type="number"
-                    value={building.emission}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "buildings",
-                        index(),
-                        "emission",
-                        parseFloat(e.currentTarget.value)
-                      )
-                    }
-                  />
-                </TextField>
-                <button onClick={() => removeRow("buildings", index())}>
-                  Remove
-                </button>
-              </div>
-            )}
-          </For>
-          <button onClick={() => addRow("buildings")}>Add Building</button>
-        </div>
-
-        <div class="equipment-section">
-          <h3 class="text-lg font-semibold">Equipment</h3>
-          <For each={store.equipment}>
-            {(equipment, index) => (
-              <div class="grid grid-cols-3 gap-2 mb-2">
-                <TextField>
-                  <TextFieldLabel>Name</TextFieldLabel>
-                  <TextFieldInput
-                    type="text"
-                    value={equipment.name}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "equipment",
-                        index(),
-                        "name",
-                        e.currentTarget.value
-                      )
-                    }
-                  />
-                </TextField>
-                <TextField>
-                  <TextFieldLabel>Year</TextFieldLabel>
-                  <TextFieldInput
-                    type="number"
-                    value={equipment.year}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "equipment",
-                        index(),
-                        "year",
-                        parseInt(e.currentTarget.value)
-                      )
-                    }
-                  />
-                </TextField>
-                <TextField>
-                  <TextFieldLabel>Emission (kg CO2e)</TextFieldLabel>
-                  <TextFieldInput
-                    type="number"
-                    value={equipment.emission}
-                    onInput={(e) =>
-                      handleInputChange(
-                        "equipment",
-                        index(),
-                        "emission",
-                        parseFloat(e.currentTarget.value)
-                      )
-                    }
-                  />
-                </TextField>
-                <button onClick={() => removeRow("equipment", index())}>
-                  Remove
-                </button>
-              </div>
-            )}
-          </For>
-          <button onClick={() => addRow("equipment")}>Add Equipment</button>
-        </div>
+        <ListSection section="buildings" title="Buildings" />
+        <ListSection section="equipment" title="Equipment" />
       </div>
     </Show>
   );
