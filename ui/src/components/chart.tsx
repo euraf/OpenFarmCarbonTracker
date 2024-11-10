@@ -1,29 +1,19 @@
 import { createMemo } from "solid-js";
 import { LineChart } from "~/components/ui/charts";
 import { store } from "~/store/store";
+import { calculateBuildingAndEquipmentEmission } from "~/util/buildingAndEquipmentEmission";
 
 export const MyChart = (props: {
   data: { accumulated: number[]; contribution: number[] };
 }) => {
   const chartData = createMemo(() => {
-    const accumulated = [...props.data.accumulated];
-    const contribution = [...props.data.contribution];
-
-    store.buildings.forEach((building) => {
-      const yearIndex = building.year - store.startYear;
-      if (yearIndex >= 0 && yearIndex < contribution.length) {
-        contribution[yearIndex] += building.emission;
-        accumulated[yearIndex] += building.emission;
-      }
-    });
-
-    store.equipment.forEach((equipment) => {
-      const yearIndex = equipment.year - store.startYear;
-      if (yearIndex >= 0 && yearIndex < contribution.length) {
-        contribution[yearIndex] += equipment.emission;
-        accumulated[yearIndex] += equipment.emission;
-      }
-    });
+    const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
+    const accumulated = props.data.accumulated.map((value, index) => 
+      value + (buildingAndEquipmentEmission.accumulated[index] || 0)
+    );
+    const contribution = props.data.contribution.map((value, index) => 
+      value + (buildingAndEquipmentEmission.contribution[index] || 0)
+    );
 
     return {
       labels: accumulated.map((_, i) => `${store.startYear + i}`),
