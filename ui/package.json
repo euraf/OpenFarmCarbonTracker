@@ -8,12 +8,12 @@
   "type": "module",
   "devDependencies": {
     "@types/geojson": "^7946.0.14",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.9.1",
     "@types/uuid": "^10.0.0",
     "esbuild": "^0.24.0",
-    "postcss": "^8.4.47",
-    "typescript": "^5.7.1-rc",
-    "vite": "^5.4.10"
+    "postcss": "^8.4.49",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
   },
   "dependencies": {
     "@css-hooks/solid": "^3.0.1",
@@ -36,7 +36,7 @@
     "solid-js": "^1.9.3",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^11.0.2",
+    "uuid": "^11.0.3",
     "vinxi": "^0.4.3"
   },
   "engines": {
