@@ -104,9 +104,15 @@ function ListSection({
 export default function BuildingsAndEquipment() {
   return (
     <Show when={store.country?.length == 2} fallback={<Navigate href={"/"} />}>
-      <div class="card bg-white shadow-md rounded-lg m-4 p-4 grid grid-cols-1 gap-4">
+      <div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 grid grid-cols-1 gap-4">
+
+      <div class="border rounded-lg p-6 bg-white shadow-md">
+
         <ListSection section="buildings" title="Buildings" />
+      </div>
+      <div class="border rounded-lg p-6 bg-white shadow-md">
         <ListSection section="equipment" title="Equipment" />
+      </div>
       </div>
     </Show>
   );

@@ -32,6 +32,9 @@ function FeedSection() {
     return (
         <div class="feed-section">
             <h3 class="text-lg font-semibold mb-4">Feed</h3>
+
+            
+
             <For each={store.livestock.pigs.feed}>
                 {(item, index) => (
                     <div class="flex gap-2 items-center">
@@ -98,6 +101,8 @@ function PigProductionSection() {
         <div class="pig-production-section">
             <h3 class="text-lg font-semibold mb-4">Pig Production</h3>
 
+            <p class="text-gray-600 text-md mb-4">Please enter annual numbers for the pig production below.</p>
+
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
                 <TextFieldInput
@@ -144,9 +149,14 @@ function PigProductionSection() {
 
 export default function Pigs(params) {
     return (
-        <div>
-            <PigProductionSection />
-            <FeedSection />
+        <div class="flex flex-col gap-4">
+            <div class="border rounded-lg p-6 bg-white shadow-md">
+                <PigProductionSection />
+            </div>
+            
+            <div class="border rounded-lg p-6 bg-white shadow-md">
+                <FeedSection />
+            </div>
         </div>  
     )
 }

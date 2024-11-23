@@ -28,10 +28,8 @@ export default function Livestock(params) {
         </Link>
       </div>
 
-      <div class="card bg-white shadow-md rounded-lg m-4 p-4 grid grid-cols-2 gap-4">
-        <div class="energy-and-fuel-inputs">
+      <div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 grid grid-cols-2 gap-4">
             {params.children}
-        </div>
       </div>
     </Show>
   );

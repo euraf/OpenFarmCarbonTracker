@@ -40,6 +40,11 @@ export type FeedRecord = {
 export type Livestock = {
   pigs: {
     feed: FeedRecord[];
+    farrowingCompleted?: number;
+    nurseryCompleted?: number;
+    finishersCompleted?: number;
+    numberOfSows?: number;
+    numberOfBoars?: number;
   };
   cattle: object;
   chicken: object;
