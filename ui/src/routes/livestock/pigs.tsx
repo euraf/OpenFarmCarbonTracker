@@ -93,70 +93,162 @@ function FeedSection() {
 }
 
 function PigProductionSection() {
-    function handleInputChange(key: string, value: number) {
-        setStore("livestock", "pigs", key, value);
+    function handleInputChange(section: string, field: string, value: number) {
+        setStore("livestock", "pigs", "production", section, field, value);
     }
 
     return (
         <div class="pig-production-section">
             <h3 class="text-lg font-semibold mb-4">Pig Production</h3>
-
             <p class="text-gray-600 text-md mb-4">Please enter annual numbers for the pig production below.</p>
 
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
-                    value={store.livestock.pigs.farrowingCompleted || 0}
-                    onInput={(e) => handleInputChange("farrowingCompleted", Number.parseInt(e.currentTarget.value))}
+                    value={store.livestock.pigs.production.farrowing.completed}
+                    onInput={(e) => handleInputChange("farrowing", "completed", Number.parseInt(e.currentTarget.value))}
                 />
             </TextField>
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Nursery stage completed (3-9 weeks of age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
-                    value={store.livestock.pigs.nurseryCompleted || 0}
-                    onInput={(e) => handleInputChange("nurseryCompleted", Number.parseInt(e.currentTarget.value))}
+                    value={store.livestock.pigs.production.nursery.completed}
+                    onInput={(e) => handleInputChange("nursery", "completed", Number.parseInt(e.currentTarget.value))}
                 />
             </TextField>
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Finishers stage completed (9-28 weeks of age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
-                    value={store.livestock.pigs.finishersCompleted || 0}
-                    onInput={(e) => handleInputChange("finishersCompleted", Number.parseInt(e.currentTarget.value))}
+                    value={store.livestock.pigs.production.finishers.completed}
+                    onInput={(e) => handleInputChange("finishers", "completed", Number.parseInt(e.currentTarget.value))}
                 />
             </TextField>
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Number of Sows at the farm</TextFieldLabel>
                 <TextFieldInput
                     type="number"
-                    value={store.livestock.pigs.numberOfSows || 0}
-                    onInput={(e) => handleInputChange("numberOfSows", Number.parseInt(e.currentTarget.value))}
+                    value={store.livestock.pigs.production.sows.count}
+                    onInput={(e) => handleInputChange("sows", "count", Number.parseInt(e.currentTarget.value))}
                 />
             </TextField>
             <TextField class="w-full max-w-sm">
                 <TextFieldLabel>Number of Boars at the farm</TextFieldLabel>
                 <TextFieldInput
                     type="number"
-                    value={store.livestock.pigs.numberOfBoars || 0}
-                    onInput={(e) => handleInputChange("numberOfBoars", Number.parseInt(e.currentTarget.value))}
+                    value={store.livestock.pigs.production.boars.count}
+                    onInput={(e) => handleInputChange("boars", "count", Number.parseInt(e.currentTarget.value))}
                 />
             </TextField>
         </div>
     );
 }
 
+function EmissionSummarySection() {
+    const calculateEmissions = () => {
+        const prod = store.livestock.pigs.production;
+        
+        const emissions = {
+            farrowing: prod.farrowing.completed * prod.farrowing.emissionFactor,
+            nursery: prod.nursery.completed * prod.nursery.emissionFactor,
+            finishers: prod.finishers.completed * prod.finishers.emissionFactor,
+            sows: prod.sows.count * prod.sows.emissionFactor,
+            boars: prod.boars.count * prod.boars.emissionFactor
+        };
+
+        return {
+            ...emissions,
+            total: Object.values(emissions).reduce((sum, val) => sum + val, 0)
+        };
+    };
+
+    function handleFactorChange(section: string, value: number) {
+        setStore("livestock", "pigs", "production", section, "emissionFactor", value);
+    }
+
+    return (
+        <div class="emission-summary">
+            <h3 class="text-lg font-semibold mb-4">Emission Factors (kg CO2e per pig)</h3>
+            <div class="grid gap-4 mb-6">
+                <TextField class="w-full max-w-sm">
+                    <TextFieldLabel>Farrowing (0-3 weeks)</TextFieldLabel>
+                    <TextFieldInput
+                        type="number"
+                        step="0.1"
+                        value={store.livestock.pigs.production.farrowing.emissionFactor}
+                        onInput={(e) => handleFactorChange("farrowing", Number.parseFloat(e.currentTarget.value))}
+                    />
+                </TextField>
+                <TextField class="w-full max-w-sm">
+                    <TextFieldLabel>Nursery (3-9 weeks)</TextFieldLabel>
+                    <TextFieldInput
+                        type="number"
+                        step="0.1"
+                        value={store.livestock.pigs.production.nursery.emissionFactor}
+                        onInput={(e) => handleFactorChange("nursery", Number.parseFloat(e.currentTarget.value))}
+                    />
+                </TextField>
+                <TextField class="w-full max-w-sm">
+                    <TextFieldLabel>Finishers (9-28 weeks)</TextFieldLabel>
+                    <TextFieldInput
+                        type="number"
+                        step="0.1"
+                        value={store.livestock.pigs.production.finishers.emissionFactor}
+                        onInput={(e) => handleFactorChange("finishers", Number.parseFloat(e.currentTarget.value))}
+                    />
+                </TextField>
+                <TextField class="w-full max-w-sm">
+                    <TextFieldLabel>Sows</TextFieldLabel>
+                    <TextFieldInput
+                        type="number"
+                        step="0.1"
+                        value={store.livestock.pigs.production.sows.emissionFactor}
+                        onInput={(e) => handleFactorChange("sows", Number.parseFloat(e.currentTarget.value))}
+                    />
+                </TextField>
+                <TextField class="w-full max-w-sm">
+                    <TextFieldLabel>Boars</TextFieldLabel>
+                    <TextFieldInput
+                        type="number"
+                        step="0.1"
+                        value={store.livestock.pigs.production.boars.emissionFactor}
+                        onInput={(e) => handleFactorChange("boars", Number.parseFloat(e.currentTarget.value))}
+                    />
+                </TextField>
+            </div>
+
+            <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
+            <ul class="list-disc pl-5">
+                <li>Farrowing: {calculateEmissions().farrowing.toFixed(2)} kg CO2e</li>
+                <li>Nursery: {calculateEmissions().nursery.toFixed(2)} kg CO2e</li>
+                <li>Finishers: {calculateEmissions().finishers.toFixed(2)} kg CO2e</li>
+                <li>Sows: {calculateEmissions().sows.toFixed(2)} kg CO2e</li>
+                <li>Boars: {calculateEmissions().boars.toFixed(2)} kg CO2e</li>
+            </ul>
+
+            <p class="font-bold mt-4">
+                Total CO2 Emissions: {calculateEmissions().total.toFixed(2)} kg CO2e
+            </p>
+        </div>
+    );
+}
+
 export default function Pigs(params) {
     return (
-        <div class="flex flex-col gap-4">
-            <div class="border rounded-lg p-6 bg-white shadow-md">
-                <PigProductionSection />
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-4">
+                <div class="border rounded-lg p-6 bg-white shadow-md">
+                    <PigProductionSection />
+                </div>
+                <div class="border rounded-lg p-6 bg-white shadow-md">
+                    <FeedSection />
+                </div>
             </div>
-            
             <div class="border rounded-lg p-6 bg-white shadow-md">
-                <FeedSection />
+                <EmissionSummarySection />
             </div>
-        </div>  
-    )
+        </div>
+    );
 }
