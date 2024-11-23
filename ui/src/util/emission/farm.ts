@@ -1,7 +1,7 @@
-
 import { Field } from "~/store/store";
 import { calculateFieldEmission } from "./field";
 import { calculateFuelEmission } from "./fuel";
+import { calculatePigEmission } from "./livestock/pigs";
 
 export function calculateFarmEmission(fields: Field[]): {
   accumulated: number[];
@@ -40,6 +40,23 @@ export function calculateFarmEmission(fields: Field[]): {
         totalEmissions.contribution[index] += value;
       }
     });
+  });
+
+  // Add pig emissions
+  const pigEmissions = calculatePigEmission();
+  maxLengthAccumulated = Math.max(maxLengthAccumulated, pigEmissions.accumulated.length);
+  maxLengthContribution = Math.max(maxLengthContribution, pigEmissions.contribution.length);
+
+  pigEmissions.accumulated.forEach((value, index) => {
+    if (index < totalEmissions.accumulated.length) {
+      totalEmissions.accumulated[index] += value;
+    }
+  });
+  
+  pigEmissions.contribution.forEach((value, index) => {
+    if (index < totalEmissions.contribution.length) {
+      totalEmissions.contribution[index] += value;
+    }
   });
 
   totalEmissions.accumulated = totalEmissions.accumulated.map((value) => value + calculateFuelEmission());

@@ -2,7 +2,7 @@ import { createMemo, onCleanup, onMount } from "solid-js";
 import { LineChart, PieChart } from "~/components/ui/charts";
 import { store } from "~/store/store";
 import { calculateBuildingAndEquipmentEmission } from "~/util/buildingAndEquipmentEmission";
-import { calculateFuelEmission } from "~/util/emission";
+import { calculateFuelEmission, calculatePigEmission } from "~/util/emission";
 
 export const MyChart = (props: {
   data: { accumulated: number[]; contribution: number[] };
@@ -11,11 +11,16 @@ export const MyChart = (props: {
 
   const chartData = createMemo(() => {
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
+    const pigEmission = calculatePigEmission();
     const accumulated = props.data.accumulated.map((value, index) => 
-      value + (buildingAndEquipmentEmission.accumulated[index] || 0)
+      value + 
+      (buildingAndEquipmentEmission.accumulated[index] || 0) +
+      (pigEmission.accumulated[index] || 0)
     );
     const contribution = props.data.contribution.map((value, index) => 
-      value + (buildingAndEquipmentEmission.contribution[index] || 0)
+      value + 
+      (buildingAndEquipmentEmission.contribution[index] || 0) +
+      (pigEmission.contribution[index] || 0)
     );
 
     return {
@@ -38,13 +43,20 @@ export const MyChart = (props: {
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
     const totalBuildingAndEquipmentEmission = buildingAndEquipmentEmission.accumulated.reduce((sum, value) => sum + value, 0);
     const totalFuelEmission = calculateFuelEmission() * props.data.accumulated.length;
+    const pigEmission = calculatePigEmission();
+    const totalPigEmission = pigEmission.accumulated.reduce((sum, value) => sum + value, 0);
 
     return {
-      labels: ["Land Use", "Buildings/Equipment", "Energy/Fuel"],
+      labels: ["Land Use", "Buildings/Equipment", "Energy/Fuel", "Livestock"],
       datasets: [
         {
-          data: [totalLandUseEmission, totalBuildingAndEquipmentEmission, totalFuelEmission],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          data: [
+            totalLandUseEmission, 
+            totalBuildingAndEquipmentEmission, 
+            totalFuelEmission,
+            totalPigEmission
+          ],
+          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#AB47BC"],
         },
       ],
     };
