@@ -20,12 +20,12 @@ export default function Livestock(params) {
         <Link href="/livestock/pigs">
           Pigs
         </Link>
-        <Link href="/livestock/cattle">
+        {/* <Link href="/livestock/cattle">
           Cattle
         </Link>
         <Link href="/livestock/chicken">
           Chicken
-        </Link>
+        </Link> */}
       </div>
 
       <div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 ">
