@@ -63,8 +63,36 @@ export type Livestock = {
       };
     };
   };
-  cattle: object;
-  chicken: object;
+  cattle: {
+    feed: FeedRecord[];
+    production: {
+      dairyCows: {
+        count: number;
+        emissionFactor: number;
+      };
+      bulls: {
+        count: number;
+        emissionFactor: number;
+      };
+      meatCattle: {
+        completed: number;
+        emissionFactor: number;
+      };
+    };
+  };
+  chicken: {
+    feed: FeedRecord[];
+    production: {
+      broilers: {
+        completed: number;
+        emissionFactor: number;
+      };
+      eggLayingHens: {
+        count: number;
+        emissionFactor: number;
+      };
+    };
+  };
 };
 
 const DEFAULT_PIG_EMISSION_FACTORS = {
@@ -73,6 +101,17 @@ const DEFAULT_PIG_EMISSION_FACTORS = {
   finishers: 2.5,
   sows: 4.2,
   boars: 3.8
+};
+
+const DEFAULT_CATTLE_EMISSION_FACTORS = {
+  dairyCows: 3500,
+  bulls: 2800,
+  meatCattle: 2200
+};
+
+const DEFAULT_CHICKEN_EMISSION_FACTORS = {
+  broilers: 2.5,
+  eggLayingHens: 4.2
 };
 
 const DEFAULT_PIG_PRODUCTION = {
@@ -98,6 +137,23 @@ const DEFAULT_PIG_PRODUCTION = {
   }
 };
 
+const DEFAULT_CATTLE_STORE = {
+  feed: [],
+  production: {
+    dairyCows: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows },
+    bulls: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.bulls },
+    meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
+  }
+};
+
+const DEFAULT_CHICKEN_STORE = {
+  feed: [],
+  production: {
+    broilers: { completed: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.broilers },
+    eggLayingHens: { count: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens }
+  }
+};
+
 const DEFAULT_PIG_STORE = {
   feed: [],
   production: DEFAULT_PIG_PRODUCTION
@@ -109,7 +165,11 @@ const lsStore = JSON.parse(
 
 function validateStore(store: any) {
   if (!store.livestock) {
-    store.livestock = { pigs: DEFAULT_PIG_STORE, cattle: {}, chicken: {} };
+    store.livestock = { 
+      pigs: DEFAULT_PIG_STORE, 
+      cattle: DEFAULT_CATTLE_STORE, 
+      chicken: DEFAULT_CHICKEN_STORE 
+    };
   } else {
     // Ensure pigs object exists
     store.livestock.pigs = store.livestock.pigs || {};
@@ -139,6 +199,43 @@ function validateStore(store: any) {
     store.livestock.cattle = store.livestock.cattle || {};
     store.livestock.chicken = store.livestock.chicken || {};
   }
+
+  // Validate cattle more thoroughly
+  if (!store.livestock.cattle) store.livestock.cattle = DEFAULT_CATTLE_STORE;
+  if (!store.livestock.cattle.feed) store.livestock.cattle.feed = [];
+  if (!store.livestock.cattle.production) store.livestock.cattle.production = DEFAULT_CATTLE_STORE.production;
+  
+  // Validate cattle production categories
+  const cattleProd = store.livestock.cattle.production;
+  for (const category of ['dairyCows', 'bulls']) {
+    cattleProd[category] = {
+      count: Number(cattleProd[category]?.count || 0),
+      emissionFactor: Number(cattleProd[category]?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS[category])
+    };
+  }
+  
+  cattleProd.meatCattle = {
+    completed: Number(cattleProd.meatCattle?.completed || 0),
+    emissionFactor: Number(cattleProd.meatCattle?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle)
+  };
+
+  // Validate chicken more thoroughly
+  if (!store.livestock.chicken) store.livestock.chicken = DEFAULT_CHICKEN_STORE;
+  if (!store.livestock.chicken.feed) store.livestock.chicken.feed = [];
+  if (!store.livestock.chicken.production) store.livestock.chicken.production = DEFAULT_CHICKEN_STORE.production;
+
+  // Validate chicken production categories
+  const chickenProd = store.livestock.chicken.production;
+  chickenProd.broilers = {
+    completed: Number(chickenProd.broilers?.completed || 0),
+    emissionFactor: Number(chickenProd.broilers?.emissionFactor || DEFAULT_CHICKEN_EMISSION_FACTORS.broilers)
+  };
+  
+  chickenProd.eggLayingHens = {
+    count: Number(chickenProd.eggLayingHens?.count || 0),
+    emissionFactor: Number(chickenProd.eggLayingHens?.emissionFactor || DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens)
+  };
+
   return store;
 }
 

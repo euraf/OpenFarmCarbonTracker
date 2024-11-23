@@ -3,6 +3,8 @@ import { LineChart, PieChart } from "~/components/ui/charts";
 import { store } from "~/store/store";
 import { calculateBuildingAndEquipmentEmission } from "~/util/buildingAndEquipmentEmission";
 import { calculateFuelEmission, calculatePigEmission } from "~/util/emission";
+import { calculateCattleEmission } from "~/util/emission/livestock/cattle";
+import { calculateChickenEmission } from "~/util/emission/livestock/chicken";
 
 export const MyChart = (props: {
   data: { accumulated: number[]; contribution: number[] };
@@ -12,15 +14,23 @@ export const MyChart = (props: {
   const chartData = createMemo(() => {
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
     const pigEmission = calculatePigEmission();
+    const cattleEmission = calculateCattleEmission();
+    const chickenEmission = calculateChickenEmission();
+    
     const accumulated = props.data.accumulated.map((value, index) => 
       value + 
       (buildingAndEquipmentEmission.accumulated[index] || 0) +
-      (pigEmission.accumulated[index] || 0)
+      (pigEmission.accumulated[index] || 0) +
+      (cattleEmission.accumulated[index] || 0) +
+      (chickenEmission.accumulated[index] || 0)
     );
+    
     const contribution = props.data.contribution.map((value, index) => 
       value + 
       (buildingAndEquipmentEmission.contribution[index] || 0) +
-      (pigEmission.contribution[index] || 0)
+      (pigEmission.contribution[index] || 0) +
+      (cattleEmission.contribution[index] || 0) +
+      (chickenEmission.contribution[index] || 0)
     );
 
     return {
@@ -43,9 +53,16 @@ export const MyChart = (props: {
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
     const totalBuildingAndEquipmentEmission = buildingAndEquipmentEmission.accumulated.reduce((sum, value) => sum + value, 0);
     const totalFuelEmission = calculateFuelEmission() * props.data.accumulated.length;
+    
+    // Calculate total livestock emissions
     const pigEmission = calculatePigEmission();
-    const totalPigEmission = pigEmission.accumulated.reduce((sum, value) => sum + value, 0);
-
+    const cattleEmission = calculateCattleEmission();
+    const chickenEmission = calculateChickenEmission();
+    const totalLivestockEmission = 
+      pigEmission.accumulated.reduce((sum, value) => sum + value, 0) +
+      cattleEmission.accumulated.reduce((sum, value) => sum + value, 0) +
+      chickenEmission.accumulated.reduce((sum, value) => sum + value, 0);
+    
     return {
       labels: ["Land Use", "Buildings/Equipment", "Energy/Fuel", "Livestock"],
       datasets: [
@@ -54,7 +71,7 @@ export const MyChart = (props: {
             totalLandUseEmission, 
             totalBuildingAndEquipmentEmission, 
             totalFuelEmission,
-            totalPigEmission
+            totalLivestockEmission
           ],
           backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#AB47BC"],
         },
