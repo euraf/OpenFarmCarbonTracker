@@ -16,7 +16,7 @@ export default function Livestock(params) {
 
   return (
     <Show when={store.country?.length == 2} fallback={<Navigate href={"/"} />}>
-      <div class="flex gap-2 mx-4 mt-4 mb-0 bg-white p-2 rounded-lg">
+      <div class="flex gap-2 mx-4 mt-4 mb-0 bg-white p-2 rounded-lg w-fit">
         <Link href="/livestock/pigs">
           Pigs
         </Link>
