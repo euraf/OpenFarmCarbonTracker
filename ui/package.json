@@ -1,5 +1,5 @@
 {
-  "name": "solid-ui",
+  "name": "ofct-ui",
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
@@ -8,7 +8,7 @@
   "type": "module",
   "devDependencies": {
     "@types/geojson": "^7946.0.14",
-    "@types/node": "^22.9.1",
+    "@types/node": "^22.9.3",
     "@types/uuid": "^10.0.0",
     "esbuild": "^0.24.0",
     "postcss": "^8.4.49",

@@ -1,10 +1,10 @@
 import { A } from "@solidjs/router";
 import { JSX } from "solid-js";
 
-function Link(params:{ href:any, children:JSX.Element }) {
+export function Link(params:{ href:any, children:JSX.Element }) {
   return (
     <A
-      end={true}
+      end={false}
       class=" hover:bg-slate-700 hover:text-white hover:dark:bg-slate-700 hover:dark:text-white transition-colors duration-200 px-3 py-2 rounded-md"
       inactiveClass="bg-gray-400 text-white  dark:bg-gray-800  dark:text-gray-400"
       activeClass="bg-slate-700 text-white dark:bg-slate-700 dark:text-white"
