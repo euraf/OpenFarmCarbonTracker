@@ -217,3 +217,35 @@
 .btn-dimmed {
   background-color: grey !important;
 }
+
+
+
+/* HIDE SCROLLBARS */
+
+
+/* Hide scrollbar for all elements except for elements with class 'scrollable' */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Style scrollbars for elements with class 'scrollable' */
+.scrollable {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--accent) transparent; /* Firefox */
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 8px; /* Safari and Chrome */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background-color: var(--accent);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
