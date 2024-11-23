@@ -6,13 +6,17 @@ export default function Cattle(params) {
     }
 
     return (
-        <div>
+        <div class="flex flex-col gap-4">
+            <div class="border rounded-lg p-6 bg-white shadow-md">
+
             <h3 class="text-lg font-semibold">Cattle</h3>
             <input
                 type="text"
                 placeholder="Enter cattle data"
                 onInput={(e) => handleInputChange("data", e.currentTarget.value)}
             />
+            </div>
         </div>
+        
     );
 }
