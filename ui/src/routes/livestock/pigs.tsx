@@ -57,6 +57,7 @@ function FeedSection() {
                             <TextFieldLabel>Kg. feed</TextFieldLabel>
                             <TextFieldInput
                                 type="number"
+                                min={0}
                                 value={item.kgsFeed}
                                 onInput={(e) => handleInputChange(index(), "kgsFeed", Number.parseFloat(e.currentTarget.value))}
                             />
@@ -74,6 +75,7 @@ function FeedSection() {
                             <TextFieldLabel>Kg. CO2e per Kg. feed</TextFieldLabel>
                             <TextFieldInput
                                 type="number"
+                                min={0}
                                 value={item.emissionPerKg}
                                 onInput={(e) => handleInputChange(index(), "emissionPerKg", Number.parseFloat(e.currentTarget.value))}
                             />
@@ -106,6 +108,7 @@ function PigProductionSection() {
                 <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
+                    min={0}
                     value={store.livestock.pigs.production.farrowing.completed}
                     onInput={(e) => handleInputChange("farrowing", "completed", Number.parseInt(e.currentTarget.value))}
                 />
@@ -114,6 +117,7 @@ function PigProductionSection() {
                 <TextFieldLabel>Nursery stage completed (3-9 weeks of age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
+                    min={0}
                     value={store.livestock.pigs.production.nursery.completed}
                     onInput={(e) => handleInputChange("nursery", "completed", Number.parseInt(e.currentTarget.value))}
                 />
@@ -122,6 +126,7 @@ function PigProductionSection() {
                 <TextFieldLabel>Finishers stage completed (9-28 weeks of age)</TextFieldLabel>
                 <TextFieldInput
                     type="number"
+                    min={0}
                     value={store.livestock.pigs.production.finishers.completed}
                     onInput={(e) => handleInputChange("finishers", "completed", Number.parseInt(e.currentTarget.value))}
                 />
@@ -130,6 +135,7 @@ function PigProductionSection() {
                 <TextFieldLabel>Number of Sows at the farm</TextFieldLabel>
                 <TextFieldInput
                     type="number"
+                    min={0}
                     value={store.livestock.pigs.production.sows.count}
                     onInput={(e) => handleInputChange("sows", "count", Number.parseInt(e.currentTarget.value))}
                 />
@@ -138,6 +144,7 @@ function PigProductionSection() {
                 <TextFieldLabel>Number of Boars at the farm</TextFieldLabel>
                 <TextFieldInput
                     type="number"
+                    min={0}
                     value={store.livestock.pigs.production.boars.count}
                     onInput={(e) => handleInputChange("boars", "count", Number.parseInt(e.currentTarget.value))}
                 />
@@ -177,6 +184,7 @@ function EmissionSummarySection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        min={0}
                         value={store.livestock.pigs.production.farrowing.emissionFactor}
                         onInput={(e) => handleFactorChange("farrowing", Number.parseFloat(e.currentTarget.value))}
                     />
@@ -186,6 +194,7 @@ function EmissionSummarySection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        min={0}
                         value={store.livestock.pigs.production.nursery.emissionFactor}
                         onInput={(e) => handleFactorChange("nursery", Number.parseFloat(e.currentTarget.value))}
                     />
@@ -195,6 +204,7 @@ function EmissionSummarySection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        min={0}
                         value={store.livestock.pigs.production.finishers.emissionFactor}
                         onInput={(e) => handleFactorChange("finishers", Number.parseFloat(e.currentTarget.value))}
                     />
@@ -204,6 +214,7 @@ function EmissionSummarySection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        min={0}
                         value={store.livestock.pigs.production.sows.emissionFactor}
                         onInput={(e) => handleFactorChange("sows", Number.parseFloat(e.currentTarget.value))}
                     />
@@ -213,6 +224,7 @@ function EmissionSummarySection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        min={0}
                         value={store.livestock.pigs.production.boars.emissionFactor}
                         onInput={(e) => handleFactorChange("boars", Number.parseFloat(e.currentTarget.value))}
                     />
