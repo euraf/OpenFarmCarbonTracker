@@ -30,9 +30,36 @@ export type BuildingOrEquipment = {
   emission: number;
 };
 
+export type FeedRecord = {
+  label: string;
+  kgsFeed: number;
+  year: number;
+  emissionPerKg: number;
+};
+
+export type Livestock = {
+  pigs: {
+    feed: FeedRecord[];
+  };
+  cattle: object;
+  chicken: object;
+};
+
 const lsStore = JSON.parse(
   localStorage.getItem("store") ?? JSON.stringify(initStore()),
 );
+
+function validateStore(store: any) {
+  if (!store.livestock) {
+    store.livestock = { pigs: { feed: [] }, cattle: {}, chicken: {} };
+  } else {
+    if (!store.livestock.pigs) store.livestock.pigs = { feed: [] };
+    if (!store.livestock.cattle) store.livestock.cattle = {};
+    if (!store.livestock.chicken) store.livestock.chicken = {};
+  }
+  return store;
+}
+
 export const [store, setStore] = createStore<
   {
     fields: Field[];
@@ -44,11 +71,11 @@ export const [store, setStore] = createStore<
       biogas?: number;
       electricity?: number;
     };
-    livestock: any;
+    livestock: Livestock;
     buildings: BuildingOrEquipment[];
     equipment: BuildingOrEquipment[];
   }
->(lsStore);
+>(validateStore(lsStore));
 
 createEffect(() => {
   localStorage.setItem("store", JSON.stringify(store));
@@ -60,6 +87,7 @@ export function initStore() {
     startYear: new Date().getFullYear(),
     country: undefined, 
     energyAndFuel: {}, 
+    livestock: { pigs: { feed: [] }, cattle: {}, chicken: {} },
     buildings: [], 
     equipment: [] 
   };
