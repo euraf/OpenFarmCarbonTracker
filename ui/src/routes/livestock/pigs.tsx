@@ -54,7 +54,7 @@ function FeedSection() {
                             />
                         </TextField>
                         <TextField class="w-24">
-                            <TextFieldLabel>Kgs Feed</TextFieldLabel>
+                            <TextFieldLabel>Kg. feed</TextFieldLabel>
                             <TextFieldInput
                                 type="number"
                                 value={item.kgsFeed}
@@ -71,7 +71,7 @@ function FeedSection() {
                             />
                         </TextField>
                         <TextField class="w-50">
-                            <TextFieldLabel>Emission per Kg</TextFieldLabel>
+                            <TextFieldLabel>Kg. CO2e per Kg. feed</TextFieldLabel>
                             <TextFieldInput
                                 type="number"
                                 value={item.emissionPerKg}
