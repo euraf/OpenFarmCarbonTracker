@@ -28,7 +28,7 @@ export default function Livestock(params) {
         </Link>
       </div>
 
-      <div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 grid grid-cols-2 gap-4">
+      <div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 ">
             {params.children}
       </div>
     </Show>
