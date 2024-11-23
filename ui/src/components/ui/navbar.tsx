@@ -16,7 +16,7 @@ export function Link(params:{ href:any, children:JSX.Element }) {
 }
 
 export function NavBar () {
-  return <div class="flex gap-2 m-4 bg-white p-2 rounded-lg">
+  return <div class="flex gap-2 mx-4 mt-4 mb-2 bg-white p-2 rounded-lg">
   <Link href="/land-use">
    Land use
   </Link>

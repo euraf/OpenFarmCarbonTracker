@@ -16,20 +16,20 @@ export default function Livestock(params) {
 
   return (
     <Show when={store.country?.length == 2} fallback={<Navigate href={"/"} />}>
+      <div class="flex gap-2 mx-4 mt-4 mb-0 bg-white p-2 rounded-lg">
+        <Link href="/livestock/pigs">
+          Pigs
+        </Link>
+        <Link href="/livestock/cattle">
+          Cattle
+        </Link>
+        <Link href="/livestock/chicken">
+          Chicken
+        </Link>
+      </div>
+
       <div class="card bg-white shadow-md rounded-lg m-4 p-4 grid grid-cols-2 gap-4">
         <div class="energy-and-fuel-inputs">
-          
-            <div class="flex gap-2  bg-white py-2 rounded-lg">
-              <Link href="/livestock/pigs">
-                Pigs
-              </Link>
-              <Link href="/livestock/cattle">
-                Cattle
-              </Link>
-              <Link href="/livestock/chicken">
-                Chicken
-              </Link>
-            </div>
             {params.children}
         </div>
       </div>

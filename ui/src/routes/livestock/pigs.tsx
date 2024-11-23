@@ -31,7 +31,7 @@ function FeedSection() {
 
     return (
         <div class="feed-section">
-            <h4 class="text-md font-semibold mb-4">Feed</h4>
+            <h3 class="text-lg font-semibold mb-4">Feed</h3>
             <For each={store.livestock.pigs.feed}>
                 {(item, index) => (
                     <div class="flex gap-2 items-center">
@@ -55,7 +55,7 @@ function FeedSection() {
                             <TextFieldInput
                                 type="number"
                                 value={item.kgsFeed}
-                                onInput={(e) => handleInputChange(index(), "kgsFeed", parseFloat(e.currentTarget.value))}
+                                onInput={(e) => handleInputChange(index(), "kgsFeed", Number.parseFloat(e.currentTarget.value))}
                             />
                         </TextField>
                         <TextField class="w-24">
@@ -64,7 +64,7 @@ function FeedSection() {
                                 type="number"
                                 min="1900"
                                 value={item.year}
-                                onInput={(e) => handleInputChange(index(), "year", parseInt(e.currentTarget.value))}
+                                onInput={(e) => handleInputChange(index(), "year", Number.parseInt(e.currentTarget.value))}
                             />
                         </TextField>
                         <TextField class="w-50">
@@ -72,13 +72,14 @@ function FeedSection() {
                             <TextFieldInput
                                 type="number"
                                 value={item.emissionPerKg}
-                                onInput={(e) => handleInputChange(index(), "emissionPerKg", parseFloat(e.currentTarget.value))}
+                                onInput={(e) => handleInputChange(index(), "emissionPerKg", Number.parseFloat(e.currentTarget.value))}
                             />
                         </TextField>
                     </div>
                 )}
             </For>
             <button
+                type="button"
                 class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
                 onClick={addFeedRecord}
             >
@@ -88,10 +89,63 @@ function FeedSection() {
     );
 }
 
+function PigProductionSection() {
+    function handleInputChange(key: string, value: number) {
+        setStore("livestock", "pigs", key, value);
+    }
+
+    return (
+        <div class="pig-production-section">
+            <h3 class="text-lg font-semibold mb-4">Pig Production</h3>
+
+            <TextField class="w-full max-w-sm">
+                <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
+                <TextFieldInput
+                    type="number"
+                    value={store.livestock.pigs.farrowingCompleted || 0}
+                    onInput={(e) => handleInputChange("farrowingCompleted", Number.parseInt(e.currentTarget.value))}
+                />
+            </TextField>
+            <TextField class="w-full max-w-sm">
+                <TextFieldLabel>Nursery stage completed (3-9 weeks of age)</TextFieldLabel>
+                <TextFieldInput
+                    type="number"
+                    value={store.livestock.pigs.nurseryCompleted || 0}
+                    onInput={(e) => handleInputChange("nurseryCompleted", Number.parseInt(e.currentTarget.value))}
+                />
+            </TextField>
+            <TextField class="w-full max-w-sm">
+                <TextFieldLabel>Finishers stage completed (9-28 weeks of age)</TextFieldLabel>
+                <TextFieldInput
+                    type="number"
+                    value={store.livestock.pigs.finishersCompleted || 0}
+                    onInput={(e) => handleInputChange("finishersCompleted", Number.parseInt(e.currentTarget.value))}
+                />
+            </TextField>
+            <TextField class="w-full max-w-sm">
+                <TextFieldLabel>Number of Sows at the farm</TextFieldLabel>
+                <TextFieldInput
+                    type="number"
+                    value={store.livestock.pigs.numberOfSows || 0}
+                    onInput={(e) => handleInputChange("numberOfSows", Number.parseInt(e.currentTarget.value))}
+                />
+            </TextField>
+            <TextField class="w-full max-w-sm">
+                <TextFieldLabel>Number of Boars at the farm</TextFieldLabel>
+                <TextFieldInput
+                    type="number"
+                    value={store.livestock.pigs.numberOfBoars || 0}
+                    onInput={(e) => handleInputChange("numberOfBoars", Number.parseInt(e.currentTarget.value))}
+                />
+            </TextField>
+        </div>
+    );
+}
+
 export default function Pigs(params) {
     return (
         <div>
-            <h3 class="text-lg font-semibold">Pigs</h3>
+            <PigProductionSection />
             <FeedSection />
         </div>  
     )
