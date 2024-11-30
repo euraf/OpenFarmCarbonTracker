@@ -94,7 +94,7 @@ const MyEditor: Component = () => {
     <div
       style={{ height: "400px", display: "flex", "flex-direction": "column" }}
     >
-      <div class="ag-theme-alpine" style={{ "flex-grow": 1 }}>
+      <div class="ag-theme-alpine" style={{ "grow": 1 }}>
         <AgGridSolid
           columnDefs={columnDefs}
           rowData={rowData}

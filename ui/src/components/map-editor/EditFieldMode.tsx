@@ -672,7 +672,7 @@ export const EditFieldMode: Component<{
 								name="fieldName"
 								value={fieldName()}
 								onChange={(e) => setFieldName(e.target.value)}
-								class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+								class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 								placeholder="Enter field name"
 							/>
 						</div>

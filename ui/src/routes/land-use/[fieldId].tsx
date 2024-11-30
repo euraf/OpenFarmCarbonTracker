@@ -408,7 +408,7 @@ export default function FieldView() {
             </label>
             <select
               name="crop"
-              class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-xs focus:border-blue-500 focus:ring-3 focus:ring-blue-200 focus:ring-opacity-50"
               value={activeSegment()?.segmentData.LPIS_ID}
               onChange={(e) => {
                 setActiveSegment((prevSegment) => {

@@ -31,7 +31,7 @@ export default function SettingsComponent() {
                     id="country"
                     value={selectedCountry()}
                     onChange={(e) => setSelectedCountry(e.target.value)}
-                    class="w-full p-2 rounded border border-gray-300"
+                    class="w-full p-2 rounded-md border border-gray-300"
                 >
                     <option value="" disabled>
                         Select a country
@@ -49,7 +49,7 @@ export default function SettingsComponent() {
                     min="1900"
                     value={startYear()}
                     onInput={(e) => setStartYear(e.currentTarget.value)}
-                    class="w-full p-2 rounded border border-gray-300"
+                    class="w-full p-2 rounded-md border border-gray-300"
                 />
             </div>
             <Button onClick={handleSave} class="w-full">

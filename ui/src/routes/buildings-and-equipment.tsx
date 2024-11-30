@@ -44,7 +44,7 @@ function ListSection({
         {(item, index) => (
           <div class="flex gap-2   items-center">
             <button
-              class="bg-gray-700 hover:bg-red-500 hover:text-white  text-white p-1 rounded flex mt-5 items-center justify-center w-8 h-8"
+              class="bg-gray-700 hover:bg-red-500 hover:text-white  text-white p-1 rounded-md flex mt-5 items-center justify-center w-8 h-8"
               onClick={() => removeRow(index())}
             >
               <IconTrash />
@@ -92,7 +92,7 @@ function ListSection({
         )}
       </For>
       <button
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-2"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mt-2"
         onClick={addRow}
       >
         Add {title}

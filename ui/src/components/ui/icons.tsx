@@ -14,7 +14,7 @@ const Icon = (props: IconProps) => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={cn("size-4", props.class)}
+      class={cn("", props.class)}
       {...rest}
     />
   )
