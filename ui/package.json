@@ -24,7 +24,7 @@
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
     "@solidjs/start": "^1.0.10",
-    "@tailwindcss/postcss": "^0.0.0-development.1",
+    "@tailwindcss/vite": "^4.0.0-beta.4",
     "@tmcw/togeojson": "^5.8.1",
     "@turf/turf": "^7.1.0",
     "chart.js": "^4.4.6",
