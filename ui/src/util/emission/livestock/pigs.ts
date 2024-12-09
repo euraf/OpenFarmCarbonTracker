@@ -37,7 +37,7 @@ export function calculatePigEmissionForYear(year: number): number {
 
 export function calculatePigEmissionContribution(): number[] {
   const startYear = store.startYear;
-  const maxYear = Math.max(...store.livestock.pigs.production.configurations.map(c => c.year));
+  const maxYear = startYear+100;
   const years = maxYear - startYear + 1;
   
   return Array(years).fill(0).map((_, idx) => {
