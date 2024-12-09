@@ -1,6 +1,6 @@
 import { DEFAULT_PIG_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { For, Show } from "solid-js";
-import { IconTrash } from "~/components/ui/icons";
+import { createMemo, createSignal, For, Show } from "solid-js";
+import { IconSearch, IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { cn } from "~/lib/utils";
 
@@ -95,7 +95,7 @@ function FeedSection() {
     );
 }
 
-function PigProductionSection() {
+function PigProductionSection(props: { setInspectYear: (year: number) => void }) {
     
     function handleInputChange(configIndex: number, section: string, field: string, value: number) {
         if (section === "year") {
@@ -159,15 +159,23 @@ function PigProductionSection() {
                                     <div class={cn(
                                         "border-2 rounded-lg p-4 bg-white min-w-[320px] relative",
                                     )}>
-                                        <Show when={index() !== 0} >
                                         <button
                                             type="button"
-                                            class="absolute top-2 right-2 bg-gray-700 hover:bg-red-500 hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8"
+                                            class="absolute top-2 right-12 bg-gray-700 hover:bg-red-500 hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8"
+                                            onClick={() => props.setInspectYear(config.year)}
+                                        >
+                                                <IconSearch />
+                                        </button>
+                                        
+                                        <button
+                                            disabled={index() == 0}
+                                            type="button"
+                                            class={`absolute top-2 right-2  ${index() !== 0 ? "hover:bg-red-500 bg-gray-700" : "bg-gray-400"} hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8`}
                                             onClick={() => removeConfig(index())}
                                         >
                                                 <IconTrash />
                                         </button>
-                                                </Show>
+                                                
                                         <TextField class="w-full max-w-sm mb-4">
                                             <TextFieldLabel>From Year</TextFieldLabel>
                                             <TextFieldInput
@@ -236,13 +244,17 @@ function PigProductionSection() {
     );
 }
 
-function EmissionSummarySection() {
-    const calculateEmissions = () => {
-        const currentYear = new Date().getFullYear();
+function EmissionSummarySection(props:{year:()=>number}) {
+    const calculateEmissions = createMemo(() => {
+        const currentYear = props.year();
+        console.log(currentYear)
         const configs = store.livestock.pigs.production.configurations;
         const currentConfig = [...configs]
-            .find(c => c.year <= currentYear)?.config || configs[0].config;
+        .sort((a, b) => b.year - a.year)
+        .find(c => c.year <= currentYear)?.config || configs[0].config;
         
+        console.log(JSON.stringify(configs))
+        console.log(JSON.stringify(currentConfig))
         const emissions = {
             farrowing: currentConfig.farrowing.completed * currentConfig.farrowing.emissionFactor,
             nursery: currentConfig.nursery.completed * currentConfig.nursery.emissionFactor,
@@ -255,7 +267,7 @@ function EmissionSummarySection() {
             ...emissions,
             total: Object.values(emissions).reduce((sum, val) => sum + val, 0)
         };
-    };
+    });
 
     function handleFactorChange(section: string, value: number) {
         // Update emission factor for all configurations
@@ -328,7 +340,7 @@ function EmissionSummarySection() {
                 </TextField>
             </div>
 
-            <h3 class="text-lg font-semibold mb-4">Annual Emissions (first configuration)</h3>
+            <h3 class="text-lg font-semibold mb-4">Annual Emissions in {props.year()}</h3>
             <ul class="list-disc pl-5">
                 <li>Farrowing: {calculateEmissions().farrowing.toFixed(2)} kg CO2e</li>
                 <li>Nursery: {calculateEmissions().nursery.toFixed(2)} kg CO2e</li>
@@ -344,19 +356,22 @@ function EmissionSummarySection() {
     );
 }
 
-export default function Pigs(params) {
+export default function Pigs() {
+
+    const [inspectYear, setInspectYear] = createSignal(store.startYear);
+
     return (
         <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col gap-4">
                 <div class="border rounded-lg p-6 bg-white shadow-md">
-                    <PigProductionSection />
+                    <PigProductionSection setInspectYear={setInspectYear} />
                 </div>
                 <div class="border rounded-lg p-6 bg-white shadow-md">
                     <FeedSection />
                 </div>
             </div>
             <div class="border rounded-lg p-6 bg-white shadow-md">
-                <EmissionSummarySection />
+                <EmissionSummarySection year={inspectYear} />
             </div>
         </div>
     );
