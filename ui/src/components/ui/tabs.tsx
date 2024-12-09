@@ -19,7 +19,7 @@ const TabsList = <T extends ValidComponent = "div">(
   return (
     <TabsPrimitive.List
       class={cn(
-        "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+        "inline-flex h-10 items-center justify-center relative border-b border-gray-300",
         local.class
       )}
       {...others}
@@ -28,17 +28,27 @@ const TabsList = <T extends ValidComponent = "div">(
 }
 
 type TabsTriggerProps<T extends ValidComponent = "button"> = TabsPrimitive.TabsTriggerProps<T> & {
-  class?: string | undefined
+  class?: string | undefined,
+  active?: boolean | undefined
 }
 
 const TabsTrigger = <T extends ValidComponent = "button">(
   props: PolymorphicProps<T, TabsTriggerProps<T>>
 ) => {
-  const [local, others] = splitProps(props as TabsTriggerProps, ["class"])
+  const [local, others] = splitProps(props as TabsTriggerProps, ["class", "active"])
+
+  console.log(local, others)
   return (
     <TabsPrimitive.Trigger
       class={cn(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-selected:bg-background data-selected:text-foreground data-selected:shadow-xs",
+        "inline-flex items-center justify-center whitespace-nowrap px-4 py-2 text-sm font-medium",
+        "relative border-t border-x rounded-t-lg transition-all",
+        "data-[selected]:border-blue-500 data-[selected]:text-blue-600",
+        "data-[selected]:bg-white data-[selected]:shadow-sm",
+        "data-[selected]:border-b-0 data-[selected]:mb-[-1px]",
+        "!data-[selected]:border-gray-300 bg-gray-50 hover:bg-gray-100 border-gray-300",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+        local.active && "border-blue-500 text-blue-600 bg-white shadow-lg border-b-0 mb-[-1px] scale-105",
         local.class
       )}
       {...others}
@@ -57,7 +67,7 @@ const TabsContent = <T extends ValidComponent = "div">(
   return (
     <TabsPrimitive.Content
       class={cn(
-        "mt-2 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "border rounded-lg p-4 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         local.class
       )}
       {...others}

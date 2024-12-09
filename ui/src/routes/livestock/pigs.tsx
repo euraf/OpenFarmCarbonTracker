@@ -1,7 +1,8 @@
-import { setStore, store } from "~/store/store";
-import { For } from "solid-js";
+import { DEFAULT_PIG_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
+import { For, createSignal } from "solid-js";
 import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
+import { cn } from "~/lib/utils";
 
 type FeedRecord = {
     label: string;
@@ -95,74 +96,157 @@ function FeedSection() {
 }
 
 function PigProductionSection() {
-    function handleInputChange(section: string, field: string, value: number) {
-        setStore("livestock", "pigs", "production", section, field, value);
+    
+    function handleInputChange(configIndex: number, section: string, field: string, value: number) {
+        if (section === "year") {
+            const configs = store.livestock.pigs.production.configurations;
+            const prevYear = configIndex > 0 ? configs[configIndex - 1].year : -Infinity;
+            const nextYear = configIndex < configs.length - 1 ? configs[configIndex + 1].year : Infinity;
+            
+            // Ensure year stays between previous and next config years
+            if (value <= prevYear || value >= nextYear) {
+                return;
+            }
+
+            setStore("livestock", "pigs", "production", "configurations", configIndex, "year", value);
+        } else {
+            setStore("livestock", "pigs", "production", "configurations", configIndex, "config", section, field, value);
+        }
+    }
+
+    function addNewYearConfig() {
+        
+        
+        setStore("livestock", "pigs", "production", "configurations", 
+          configs => {
+            const maxYear = configs.length > 0 
+              ? Math.max(...configs.map(c => c.year))
+              : store.startYear;
+            return [...configs, {
+              year: maxYear + 1,
+              config: DEFAULT_PIG_PRODUCTION_CONFIG
+            }];
+          }
+        );
+    }
+
+    function removeConfig(index: number) {
+        setStore("livestock", "pigs", "production", "configurations", 
+            configs => configs.filter((_, i) => i !== index)
+        );
     }
 
     return (
         <div class="pig-production-section">
-            <h3 class="text-lg font-semibold mb-4">Pig Production</h3>
-            <p class="text-gray-600 text-md mb-4">Please enter annual numbers for the pig production below.</p>
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Pig Production</h3>
+                    <button
+                        type="button"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onClick={addNewYearConfig}
+                    >
+                        Add Year
+                    </button>
+                </div>
 
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.pigs.production.farrowing.completed}
-                    onInput={(e) => handleInputChange("farrowing", "completed", Number.parseInt(e.currentTarget.value))}
-                />
-            </TextField>
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Nursery stage completed (3-9 weeks of age)</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.pigs.production.nursery.completed}
-                    onInput={(e) => handleInputChange("nursery", "completed", Number.parseInt(e.currentTarget.value))}
-                />
-            </TextField>
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Finishers stage completed (9-28 weeks of age)</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.pigs.production.finishers.completed}
-                    onInput={(e) => handleInputChange("finishers", "completed", Number.parseInt(e.currentTarget.value))}
-                />
-            </TextField>
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Number of Sows at the farm</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.pigs.production.sows.count}
-                    onInput={(e) => handleInputChange("sows", "count", Number.parseInt(e.currentTarget.value))}
-                />
-            </TextField>
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Number of Boars at the farm</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.pigs.production.boars.count}
-                    onInput={(e) => handleInputChange("boars", "count", Number.parseInt(e.currentTarget.value))}
-                />
-            </TextField>
+                <div class="overflow-x-auto">
+                    <div class="flex gap-4 min-w-min pb-4">
+                        <For each={store.livestock.pigs.production.configurations}>
+                            {(config, index) => {
+                                
+                                return (
+                                    <div class={cn(
+                                        "border-2 rounded-lg p-4 bg-white min-w-[320px] relative",
+                                    )}>
+                                        <button
+                                            type="button"
+                                            class="absolute top-2 right-2 bg-gray-700 hover:bg-red-500 hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8"
+                                            onClick={() => removeConfig(index())}
+                                        >
+                                            <IconTrash />
+                                        </button>
+                                        <TextField class="w-full max-w-sm mb-4">
+                                            <TextFieldLabel>Year</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={(index() > 0 ? store.livestock.pigs.production.configurations[index() - 1].year : -Infinity) + 1}
+                                                max={(index() < store.livestock.pigs.production.configurations.length - 1 ? store.livestock.pigs.production.configurations[index() + 1].year : Infinity) - 1}
+                                                value={config.year}
+                                                disabled={index() === 0}
+                                                onInput={(e) => handleInputChange(index(), "year", "value", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+
+                                        <TextField class="w-full max-w-sm">
+                                            <TextFieldLabel>Farrowing stages completed (0-3 weeks age)</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={0}
+                                                value={config.config.farrowing.completed}
+                                                onInput={(e) => handleInputChange(index(), "farrowing", "completed", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+                                        <TextField class="w-full max-w-sm">
+                                            <TextFieldLabel>Nursery stage completed (3-9 weeks)</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={0}
+                                                value={config.config.nursery.completed}
+                                                onInput={(e) => handleInputChange(index(), "nursery", "completed", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+                                        <TextField class="w-full max-w-sm">
+                                            <TextFieldLabel>Finishers stage completed (9-28 weeks)</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={0}
+                                                value={config.config.finishers.completed}
+                                                onInput={(e) => handleInputChange(index(), "finishers", "completed", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+                                        <TextField class="w-full max-w-sm">
+                                            <TextFieldLabel>Number of Sows at the farm</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={0}
+                                                value={config.config.sows.count}
+                                                onInput={(e) => handleInputChange(index(), "sows", "count", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+                                        <TextField class="w-full max-w-sm">
+                                            <TextFieldLabel>Number of Boars at the farm</TextFieldLabel>
+                                            <TextFieldInput
+                                                type="number"
+                                                min={0}
+                                                value={config.config.boars.count}
+                                                onInput={(e) => handleInputChange(index(), "boars", "count", Number.parseInt(e.currentTarget.value))}
+                                            />
+                                        </TextField>
+                                    </div>
+                                );
+                            }}
+                        </For>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
 
 function EmissionSummarySection() {
     const calculateEmissions = () => {
-        const prod = store.livestock.pigs.production;
+        const currentYear = new Date().getFullYear();
+        const configs = store.livestock.pigs.production.configurations;
+        const currentConfig = [...configs]
+            .find(c => c.year <= currentYear)?.config || configs[0].config;
         
         const emissions = {
-            farrowing: prod.farrowing.completed * prod.farrowing.emissionFactor,
-            nursery: prod.nursery.completed * prod.nursery.emissionFactor,
-            finishers: prod.finishers.completed * prod.finishers.emissionFactor,
-            sows: prod.sows.count * prod.sows.emissionFactor,
-            boars: prod.boars.count * prod.boars.emissionFactor
+            farrowing: currentConfig.farrowing.completed * currentConfig.farrowing.emissionFactor,
+            nursery: currentConfig.nursery.completed * currentConfig.nursery.emissionFactor,
+            finishers: currentConfig.finishers.completed * currentConfig.finishers.emissionFactor,
+            sows: currentConfig.sows.count * currentConfig.sows.emissionFactor,
+            boars: currentConfig.boars.count * currentConfig.boars.emissionFactor
         };
 
         return {
@@ -172,8 +256,19 @@ function EmissionSummarySection() {
     };
 
     function handleFactorChange(section: string, value: number) {
-        setStore("livestock", "pigs", "production", section, "emissionFactor", value);
+        // Update emission factor for all configurations
+        setStore("livestock", "pigs", "production", "configurations", 
+            configs => configs.map(c => ({
+                ...c,
+                config: {
+                    ...c.config,
+                    [section]: { ...c.config[section], emissionFactor: value }
+                }
+            }))
+        );
     }
+
+    const currentConfig = store.livestock.pigs.production.configurations[0].config;
 
     return (
         <div class="emission-summary">
@@ -185,7 +280,7 @@ function EmissionSummarySection() {
                         type="number"
                         step="0.1"
                         min={0}
-                        value={store.livestock.pigs.production.farrowing.emissionFactor}
+                        value={currentConfig.farrowing.emissionFactor}
                         onInput={(e) => handleFactorChange("farrowing", Number.parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
@@ -195,7 +290,7 @@ function EmissionSummarySection() {
                         type="number"
                         step="0.1"
                         min={0}
-                        value={store.livestock.pigs.production.nursery.emissionFactor}
+                        value={currentConfig.nursery.emissionFactor}
                         onInput={(e) => handleFactorChange("nursery", Number.parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
@@ -205,7 +300,7 @@ function EmissionSummarySection() {
                         type="number"
                         step="0.1"
                         min={0}
-                        value={store.livestock.pigs.production.finishers.emissionFactor}
+                        value={currentConfig.finishers.emissionFactor}
                         onInput={(e) => handleFactorChange("finishers", Number.parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
@@ -215,7 +310,7 @@ function EmissionSummarySection() {
                         type="number"
                         step="0.1"
                         min={0}
-                        value={store.livestock.pigs.production.sows.emissionFactor}
+                        value={currentConfig.sows.emissionFactor}
                         onInput={(e) => handleFactorChange("sows", Number.parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
@@ -225,13 +320,13 @@ function EmissionSummarySection() {
                         type="number"
                         step="0.1"
                         min={0}
-                        value={store.livestock.pigs.production.boars.emissionFactor}
+                        value={currentConfig.boars.emissionFactor}
                         onInput={(e) => handleFactorChange("boars", Number.parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
             </div>
 
-            <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
+            <h3 class="text-lg font-semibold mb-4">Annual Emissions (first configuration)</h3>
             <ul class="list-disc pl-5">
                 <li>Farrowing: {calculateEmissions().farrowing.toFixed(2)} kg CO2e</li>
                 <li>Nursery: {calculateEmissions().nursery.toFixed(2)} kg CO2e</li>

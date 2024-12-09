@@ -37,30 +37,37 @@ export type FeedRecord = {
   emissionPerKg: number;
 };
 
+export type PigProductionConfig = {
+  farrowing: {
+    completed: number;
+    emissionFactor: number;
+  };
+  nursery: {
+    completed: number;
+    emissionFactor: number;
+  };
+  finishers: {
+    completed: number;
+    emissionFactor: number;
+  };
+  sows: {
+    count: number;
+    emissionFactor: number;
+  };
+  boars: {
+    count: number;
+    emissionFactor: number;
+  };
+};
+
 export type Livestock = {
   pigs: {
     feed: FeedRecord[];
     production: {
-      farrowing: {
-        completed: number;
-        emissionFactor: number;
-      };
-      nursery: {
-        completed: number;
-        emissionFactor: number;
-      };
-      finishers: {
-        completed: number;
-        emissionFactor: number;
-      };
-      sows: {
-        count: number;
-        emissionFactor: number;
-      };
-      boars: {
-        count: number;
-        emissionFactor: number;
-      };
+      configurations: {
+        year: number;
+        config: PigProductionConfig;
+      }[];
     };
   };
   cattle: {
@@ -114,7 +121,7 @@ const DEFAULT_CHICKEN_EMISSION_FACTORS = {
   eggLayingHens: 4.2
 };
 
-const DEFAULT_PIG_PRODUCTION = {
+export const DEFAULT_PIG_PRODUCTION_CONFIG: PigProductionConfig = {
   farrowing: {
     completed: 0,
     emissionFactor: DEFAULT_PIG_EMISSION_FACTORS.farrowing
@@ -156,7 +163,12 @@ const DEFAULT_CHICKEN_STORE = {
 
 const DEFAULT_PIG_STORE = {
   feed: [],
-  production: DEFAULT_PIG_PRODUCTION
+  production: {
+    configurations: [{
+      year: new Date().getFullYear(),
+      config: DEFAULT_PIG_PRODUCTION_CONFIG
+    }]
+  }
 };
 
 const lsStore = JSON.parse(
@@ -177,19 +189,21 @@ function validateStore(store: any) {
     // Ensure production structure exists
     store.livestock.pigs.production = store.livestock.pigs.production || {};
     
-    // Validate each production category
-    const prod = store.livestock.pigs.production;
-    for (const category of ['farrowing', 'nursery', 'finishers']) {
-      prod[category] = {
-      completed: Number(prod[category]?.completed || 0),
-      emissionFactor: Number(prod[category]?.emissionFactor || DEFAULT_PIG_EMISSION_FACTORS[category])
-      };
-    }
-    
-    for (const category of ['sows', 'boars']) {
-      prod[category] = {
-      count: Number(prod[category]?.count || 0),
-      emissionFactor: Number(prod[category]?.emissionFactor || DEFAULT_PIG_EMISSION_FACTORS[category])
+    // Migrate old pig production format to new year-based format
+    if (store.livestock?.pigs?.production && !store.livestock.pigs.production.configurations) {
+      const currentYear = store.startYear || new Date().getFullYear();
+      const oldConfig = store.livestock.pigs.production;
+      store.livestock.pigs.production = {
+        configurations: [{
+          year: currentYear,
+          config: {
+            farrowing: oldConfig.farrowing,
+            nursery: oldConfig.nursery,
+            finishers: oldConfig.finishers,
+            sows: oldConfig.sows,
+            boars: oldConfig.boars
+          }
+        }]
       };
     }
 
