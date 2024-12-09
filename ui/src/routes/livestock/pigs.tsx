@@ -1,5 +1,5 @@
 import { DEFAULT_PIG_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { For, createSignal } from "solid-js";
+import { For, Show } from "solid-js";
 import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { cn } from "~/lib/utils";
@@ -159,15 +159,17 @@ function PigProductionSection() {
                                     <div class={cn(
                                         "border-2 rounded-lg p-4 bg-white min-w-[320px] relative",
                                     )}>
+                                        <Show when={index() !== 0} >
                                         <button
                                             type="button"
                                             class="absolute top-2 right-2 bg-gray-700 hover:bg-red-500 hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8"
                                             onClick={() => removeConfig(index())}
                                         >
-                                            <IconTrash />
+                                                <IconTrash />
                                         </button>
+                                                </Show>
                                         <TextField class="w-full max-w-sm mb-4">
-                                            <TextFieldLabel>Year</TextFieldLabel>
+                                            <TextFieldLabel>From Year</TextFieldLabel>
                                             <TextFieldInput
                                                 type="number"
                                                 min={(index() > 0 ? store.livestock.pigs.production.configurations[index() - 1].year : -Infinity) + 1}
