@@ -236,7 +236,7 @@ function PigProductionSection(props: { setInspectYear: (year: number) => void })
                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                         onClick={addNewYearConfig}
                     >
-                        Adjust amounts
+                        Adjust amounts at a certain year
                     </button>
                     </div>
                 </div>
