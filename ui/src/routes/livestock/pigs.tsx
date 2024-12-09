@@ -140,14 +140,8 @@ function PigProductionSection(props: { setInspectYear: (year: number) => void })
         <div class="pig-production-section">
             <div class="mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Pig Production</h3>
-                    <button
-                        type="button"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                        onClick={addNewYearConfig}
-                    >
-                        Adjust production from a certain year
-                    </button>
+                    <h3 class="text-lg font-semibold">Amount of Pigs</h3>
+                   
                 </div>
 
                 <div class="overflow-x-auto">
@@ -237,6 +231,13 @@ function PigProductionSection(props: { setInspectYear: (year: number) => void })
                                 );
                             }}
                         </For>
+                        <button
+                        type="button"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onClick={addNewYearConfig}
+                    >
+                        Adjust amounts
+                    </button>
                     </div>
                 </div>
             </div>
