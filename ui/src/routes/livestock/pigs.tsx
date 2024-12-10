@@ -153,14 +153,14 @@ function PigProductionSection(props: { setInspectYear: (year: number) => void })
                                     <div class={cn(
                                         "border-2 rounded-lg p-4 bg-white min-w-[320px] relative",
                                     )}>
-                                        <button
+                                        {/* <button
                                             type="button"
                                             class="absolute top-2 right-12 bg-gray-700 hover:bg-red-500 hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8"
                                             onClick={() => props.setInspectYear(config.year)}
                                         >
                                                 <IconSearch />
                                         </button>
-                                        
+                                         */}
                                         <button
                                             disabled={index() == 0}
                                             type="button"
@@ -341,7 +341,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                 </TextField>
             </div>
 
-            <h3 class="text-lg font-semibold mb-4">Annual Emissions in {props.year()}</h3>
+            {/* <h3 class="text-lg font-semibold mb-4">Annual Emissions in {props.year()}</h3>
             <ul class="list-disc pl-5">
                 <li>Farrowing: {calculateEmissions().farrowing.toFixed(2)} kg CO2e</li>
                 <li>Nursery: {calculateEmissions().nursery.toFixed(2)} kg CO2e</li>
@@ -352,7 +352,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
 
             <p class="font-bold mt-4">
                 Total CO2 Emissions: {calculateEmissions().total.toFixed(2)} kg CO2e
-            </p>
+            </p> */}
         </div>
     );
 }
