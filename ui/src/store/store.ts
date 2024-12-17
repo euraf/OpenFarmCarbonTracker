@@ -60,6 +60,32 @@ export type PigProductionConfig = {
   };
 };
 
+export type CattleProductionConfig = {
+  dairyCows: {
+    count: number;
+    emissionFactor: number;
+  };
+  bulls: {
+    count: number;
+    emissionFactor: number;
+  };
+  meatCattle: {
+    completed: number;
+    emissionFactor: number;
+  };
+};
+
+export type ChickenProductionConfig = {
+  broilers: {
+    completed: number;
+    emissionFactor: number;
+  };
+  eggLayingHens: {
+    count: number;
+    emissionFactor: number;
+  };
+};
+
 export type Livestock = {
   pigs: {
     feed: FeedRecord[];
@@ -73,31 +99,19 @@ export type Livestock = {
   cattle: {
     feed: FeedRecord[];
     production: {
-      dairyCows: {
-        count: number;
-        emissionFactor: number;
-      };
-      bulls: {
-        count: number;
-        emissionFactor: number;
-      };
-      meatCattle: {
-        completed: number;
-        emissionFactor: number;
-      };
+      configurations: {
+        year: number;
+        config: CattleProductionConfig;
+      }[];
     };
   };
   chicken: {
     feed: FeedRecord[];
     production: {
-      broilers: {
-        completed: number;
-        emissionFactor: number;
-      };
-      eggLayingHens: {
-        count: number;
-        emissionFactor: number;
-      };
+      configurations: {
+        year: number;
+        config: ChickenProductionConfig;
+      }[];
     };
   };
 };
@@ -144,20 +158,34 @@ export const DEFAULT_PIG_PRODUCTION_CONFIG: PigProductionConfig = {
   }
 };
 
+export const DEFAULT_CATTLE_PRODUCTION_CONFIG: CattleProductionConfig = {
+  dairyCows: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows },
+  bulls: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.bulls },
+  meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
+};
+
+export const DEFAULT_CHICKEN_PRODUCTION_CONFIG: ChickenProductionConfig = {
+  broilers: { completed: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.broilers },
+  eggLayingHens: { count: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens }
+};
+
 const DEFAULT_CATTLE_STORE = {
   feed: [],
   production: {
-    dairyCows: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows },
-    bulls: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.bulls },
-    meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
+    configurations: [{
+      year: new Date().getFullYear(),
+      config: DEFAULT_CATTLE_PRODUCTION_CONFIG
+    }]
   }
 };
 
 const DEFAULT_CHICKEN_STORE = {
   feed: [],
   production: {
-    broilers: { completed: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.broilers },
-    eggLayingHens: { count: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens }
+    configurations: [{
+      year: new Date().getFullYear(),
+      config: DEFAULT_CHICKEN_PRODUCTION_CONFIG
+    }]
   }
 };
 
@@ -219,12 +247,28 @@ function validateStore(store: any) {
   if (!store.livestock.cattle.feed) store.livestock.cattle.feed = [];
   if (!store.livestock.cattle.production) store.livestock.cattle.production = DEFAULT_CATTLE_STORE.production;
   
+  // Migrate old cattle production format to new year-based format
+  if (store.livestock?.cattle?.production && !store.livestock.cattle.production.configurations) {
+    const currentYear = store.startYear || new Date().getFullYear();
+    const oldConfig = store.livestock.cattle.production;
+    store.livestock.cattle.production = {
+      configurations: [{
+        year: currentYear,
+        config: {
+          dairyCows: oldConfig.dairyCows,
+          bulls: oldConfig.bulls,
+          meatCattle: oldConfig.meatCattle
+        }
+      }]
+    };
+  }
+
   // Validate cattle production categories
   const cattleProd = store.livestock.cattle.production;
   for (const category of ['dairyCows', 'bulls']) {
     cattleProd[category] = {
       count: Number(cattleProd[category]?.count || 0),
-      emissionFactor: Number(cattleProd[category]?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS[category])
+      emissionFactor: Number(cattleProd[category]?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS[category as 'dairyCows' | 'bulls'])
     };
   }
   
@@ -237,6 +281,21 @@ function validateStore(store: any) {
   if (!store.livestock.chicken) store.livestock.chicken = DEFAULT_CHICKEN_STORE;
   if (!store.livestock.chicken.feed) store.livestock.chicken.feed = [];
   if (!store.livestock.chicken.production) store.livestock.chicken.production = DEFAULT_CHICKEN_STORE.production;
+
+  // Migrate old chicken production format to new year-based format
+  if (store.livestock?.chicken?.production && !store.livestock.chicken.production.configurations) {
+    const currentYear = store.startYear || new Date().getFullYear();
+    const oldConfig = store.livestock.chicken.production;
+    store.livestock.chicken.production = {
+      configurations: [{
+        year: currentYear,
+        config: {
+          broilers: oldConfig.broilers,
+          eggLayingHens: oldConfig.eggLayingHens
+        }
+      }]
+    };
+  }
 
   // Validate chicken production categories
   const chickenProd = store.livestock.chicken.production;

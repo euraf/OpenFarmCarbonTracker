@@ -1,45 +1,49 @@
+import { CattleProductionConfig, FeedRecord, store } from "~/store/store";
 
-import { FeedRecord, store } from "~/store/store";
-
-function calculateCattleFeedEmission(): number {
-  const feedEmissions = store.livestock.cattle.feed.reduce((total: number, feed: FeedRecord) => {
-    return total + (feed.kgsFeed * feed.emissionPerKg);
-  }, 0);
-  
-  return feedEmissions;
+function calculateCattleFeedEmissionForYear(year: number): number {
+  return store.livestock.cattle.feed
+    .filter(feed => feed.year === year)
+    .reduce((total: number, feed: FeedRecord) => {
+      return total + (feed.kgsFeed * feed.emissionPerKg);
+    }, 0);
 }
 
-function calculateCattleProductionEmission(): number {
-  const production = store.livestock.cattle.production;
-  
-  const dairyCowsEmission = production.dairyCows.count * production.dairyCows.emissionFactor;
-  const bullsEmission = production.bulls.count * production.bulls.emissionFactor;
-  const meatCattleEmission = production.meatCattle.completed * production.meatCattle.emissionFactor;
+function getProductionConfigForYear(year: number): CattleProductionConfig {
+  const configs = store.livestock.cattle.production.configurations;
+  const sortedConfigs = [...configs].sort((a, b) => b.year - a.year);
+  const config = sortedConfigs.find(c => c.year <= year)?.config;
+  return config || configs[0].config;
+}
 
-  return dairyCowsEmission + bullsEmission + meatCattleEmission;
+function calculateCattleProductionEmissionForYear(year: number): number {
+  const config = getProductionConfigForYear(year);
+  
+  return config.dairyCows.count * config.dairyCows.emissionFactor +
+         config.bulls.count * config.bulls.emissionFactor +
+         config.meatCattle.completed * config.meatCattle.emissionFactor;
+}
+
+export function calculateCattleEmissionForYear(year: number): number {
+  const feedEmission = calculateCattleFeedEmissionForYear(year);
+  const productionEmission = calculateCattleProductionEmissionForYear(year);
+  return feedEmission + productionEmission;
 }
 
 export function calculateCattleEmission(): {
   accumulated: number[];
   contribution: number[];
 } {
-  const feedEmission = calculateCattleFeedEmission();
-  const productionEmission = calculateCattleProductionEmission();
-  const totalEmission = feedEmission + productionEmission;
+  const contribution = Array(2030 - store.startYear + 1)
+    .fill(0)
+    .map((_, idx) => {
+      const year = store.startYear + idx;
+      return calculateCattleEmissionForYear(year);
+    });
 
-  // Use same year calculation as pigs
-  const years = Math.max(
-    store.fields.reduce((max, field) => 
-      Math.max(max, field.rotations?.reduce((sum, rot) => 
-        sum + Math.max(
-          rot.cropSegments.reduce((s, seg) => s + (seg.years || 0), 0),
-          rot.treeSegments.reduce((s, seg) => s + (seg.years || 0), 0)
-        ), 0) || 0
-      ), 1)
+  const accumulated = contribution.reduce(
+    (acc: number[], curr: number) => [...acc, (acc[acc.length - 1] || 0) + curr],
+    []
   );
 
-  return {
-    accumulated: Array(years).fill(totalEmission).map((val, idx) => val * (idx + 1)),
-    contribution: Array(years).fill(totalEmission)
-  };
+  return { accumulated, contribution };
 }
