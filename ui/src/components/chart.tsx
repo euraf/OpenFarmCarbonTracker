@@ -1,5 +1,5 @@
 import { createMemo, onCleanup, onMount } from "solid-js";
-import { LineChart, PieChart } from "~/components/ui/charts";
+import { LineChart, BarChart } from "~/components/ui/charts";
 import { store } from "~/store/store";
 import { calculateBuildingAndEquipmentEmission } from "~/util/buildingAndEquipmentEmission";
 import { calculateFuelEmission, calculatePigEmission } from "~/util/emission";
@@ -48,7 +48,7 @@ export const MyChart = (props: {
     };
   });
 
-  const pieChartData = createMemo(() => {
+  const distributionChartData = createMemo(() => {
     const totalLandUseEmission = props.data.accumulated.reduce((sum, value) => sum + value, 0);
     const buildingAndEquipmentEmission = calculateBuildingAndEquipmentEmission();
     const totalBuildingAndEquipmentEmission = buildingAndEquipmentEmission.accumulated.reduce((sum, value) => sum + value, 0);
@@ -134,11 +134,25 @@ export const MyChart = (props: {
 
       <div class="flex-1 h-96 max-h-[400px] mb-20 text-center flex flex-col items-center">
         <h3 class="text-center mb-2">Emission distribution for all years summed</h3>
-        <PieChart
-          data={pieChartData()}
+        <BarChart
+          data={distributionChartData()}
           options={{
+            plugins:{
+              legend: {
+                display: false,
+              },
+            },
             responsive: true,
             maintainAspectRatio: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "kg CO2e",
+                },
+              },
+            },
           }}
           width={800}
         />
