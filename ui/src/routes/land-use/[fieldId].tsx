@@ -3,7 +3,7 @@ import { setStore, store } from "../../store/store";
 import type { Field, SimpleTier1LPISSegment } from "../../store/store";
 
 import { LPIS_DK } from "~/data/crops/LPIS_DK_2023";
-import { MyChart } from "~/components/chart";
+import { FieldEmissionChart } from "~/components/chart";
 import { createEffect, createSignal, Show } from "solid-js";
 import { calculateFieldEmission } from "~/util/emission";
 import { Button } from "~/components/ui/button";
@@ -502,7 +502,7 @@ export default function FieldView() {
         {currentField()
           ? (
             <>
-              <MyChart data={calculateFieldEmission(currentField()!)} />
+              <FieldEmissionChart data={calculateFieldEmission(currentField()!)} />
             </>
           )
           : null}

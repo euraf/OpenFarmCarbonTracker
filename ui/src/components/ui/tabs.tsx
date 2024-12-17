@@ -37,7 +37,6 @@ const TabsTrigger = <T extends ValidComponent = "button">(
 ) => {
   const [local, others] = splitProps(props as TabsTriggerProps, ["class", "active"])
 
-  console.log(local, others)
   return (
     <TabsPrimitive.Trigger
       class={cn(

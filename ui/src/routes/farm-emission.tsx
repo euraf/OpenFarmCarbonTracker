@@ -1,5 +1,4 @@
-import { MyChart } from "~/components/chart";
-import { calculateFarmEmission } from "~/util/emission";
+import { FarmEmissionCharts } from "~/components/chart";
 import { Accessor, createMemo, createSignal, Setter, Show } from "solid-js";
 import { Button } from "~/components/ui/button";
 import { Navigate } from "@solidjs/router";
@@ -37,6 +36,11 @@ export default function FarmEmission() {
     store.fields.map(() => true)
   );
 
+
+  const [endYear, setEndYear] = createSignal(store.startYear+10);
+  // const [startYear, setStartYear] = createSignal(store.startYear);
+
+
   return (
     <>
         <Show when={store.country} fallback={<Navigate href={"/"} />}>
@@ -46,10 +50,33 @@ export default function FarmEmission() {
 
         <div class="p-3 bg-white rounded-lg">
           
-          <MyChart
-            data={calculateFarmEmission(
-              store.fields.filter((_, index) => includedFields()[index])
-            )}
+          <div class="flex gap-4 items-center mb-4">
+            <input
+              type="number"
+              class="p-2 border rounded"
+              min={store.startYear}
+              value={store.startYear}
+              disabled
+            />
+            <span>to</span>
+            <input
+              type="number"
+              class="p-2 border rounded"
+              min={store.startYear}
+              
+              value={endYear()}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (value >= store.startYear) {
+                  setEndYear(value);
+                }
+              }}
+            />
+          </div>
+          
+          <FarmEmissionCharts
+            startYear={()=>store.startYear}
+            endYear={endYear}
           />
         </div>
 

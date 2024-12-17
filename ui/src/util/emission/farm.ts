@@ -1,66 +1,60 @@
-import { Field } from "~/store/store";
+import { Field, store } from "~/store/store";
 import { calculateFieldEmission } from "./field";
 import { calculateFuelEmission } from "./fuel";
 import { calculatePigEmission } from "./livestock/pigs";
 
-export function calculateFarmEmission(fields: Field[]): {
+export function calculateLandUsedEmission(startYear: number, endYear: number): {
   accumulated: number[];
   contribution: number[];
 } {
-  let emissions = fields.map((field) => {
-    return calculateFieldEmission(field);
-  });
 
-  if (emissions.length === 0) {
-    return {
-      accumulated: [],
-      contribution: [],
-    };
-  }
+  let returnVal: {
+    accumulated: number[];
+    contribution: number[];
+  } = { accumulated: [], contribution: [] }
 
-  let maxLengthAccumulated = Math.max(
-    ...emissions.map((e) => e.accumulated.length)
-  );
-  let maxLengthContribution = Math.max(
-    ...emissions.map((e) => e.contribution.length)
-  );
-  let totalEmissions = {
-    accumulated: Array(maxLengthAccumulated).fill(0),
-    contribution: Array(maxLengthContribution).fill(0),
-  };
+  store.fields.map(
+    (field) => {
+      const fieldEmission = calculateFieldEmission(field);
+      
+      // Extend arrays to match the longest length
+      const maxLength = Math.max(
+        returnVal.accumulated.length,
+        fieldEmission.accumulated.length
+      );
 
-  emissions.forEach((emission) => {
-    emission.accumulated.forEach((value, index) => {
-      if (index < totalEmissions.accumulated.length) {
-        totalEmissions.accumulated[index] += value;
-      }
+      const newAccumulated = new Array(maxLength).fill(0).map((_, i) => 
+        (returnVal.accumulated[i] || 0) + (fieldEmission.accumulated[i] || 0)
+      );
+
+      const newContribution = new Array(maxLength).fill(0).map((_, i) => 
+        (returnVal.contribution[i] || 0) + (fieldEmission.contribution[i] || 0)
+      );
+
+      returnVal = {
+        accumulated: newAccumulated,
+        contribution: newContribution
+      };
+
     });
-    emission.contribution.forEach((value, index) => {
-      if (index < totalEmissions.contribution.length) {
-        totalEmissions.contribution[index] += value;
-      }
-    });
-  });
 
-  // Add pig emissions
-  const pigEmissions = calculatePigEmission();
-  maxLengthAccumulated = Math.max(maxLengthAccumulated, pigEmissions.accumulated.length);
-  maxLengthContribution = Math.max(maxLengthContribution, pigEmissions.contribution.length);
 
-  pigEmissions.accumulated.forEach((value, index) => {
-    if (index < totalEmissions.accumulated.length) {
-      totalEmissions.accumulated[index] += value;
-    }
-  });
   
-  pigEmissions.contribution.forEach((value, index) => {
-    if (index < totalEmissions.contribution.length) {
-      totalEmissions.contribution[index] += value;
+    const years = endYear - startYear + 1;
+    
+    // Trim or extend arrays to match the required length
+    returnVal.accumulated = returnVal.accumulated.slice(0, years);
+    returnVal.contribution = returnVal.contribution.slice(0, years);
+
+    // Extend if needed
+    while (returnVal.accumulated.length < years) {
+      returnVal.accumulated.push(0);
     }
-  });
+    while (returnVal.contribution.length < years) {
+      returnVal.contribution.push(0);
+    }
 
-  totalEmissions.accumulated = totalEmissions.accumulated.map((value) => value + calculateFuelEmission());
-  totalEmissions.contribution = totalEmissions.contribution.map((value) => value + calculateFuelEmission());
-
-  return totalEmissions;
+    return returnVal;
+  
+  
 }

@@ -29,21 +29,11 @@ export function calculateCattleEmissionForYear(year: number): number {
   return feedEmission + productionEmission;
 }
 
-export function calculateCattleEmission(): {
-  accumulated: number[];
-  contribution: number[];
-} {
-  const contribution = Array(2030 - store.startYear + 1)
-    .fill(0)
-    .map((_, idx) => {
-      const year = store.startYear + idx;
-      return calculateCattleEmissionForYear(year);
-    });
-
-  const accumulated = contribution.reduce(
-    (acc: number[], curr: number) => [...acc, (acc[acc.length - 1] || 0) + curr],
-    []
-  );
-
-  return { accumulated, contribution };
+export function calculateCattleEmission(startYear: number, endYear: number): number[] {
+  const years = endYear - startYear + 1;
+  
+  return Array(years).fill(0).map((_, idx) => {
+    const year = startYear + idx;
+    return calculateCattleEmissionForYear(year);
+  });
 }
