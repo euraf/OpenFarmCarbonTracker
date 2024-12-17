@@ -60,6 +60,21 @@ export type PigProductionConfig = {
   };
 };
 
+export type CattleProductionConfig = {
+  dairyCows: {
+    count: number;
+    emissionFactor: number;
+  };
+  bulls: {
+    count: number;
+    emissionFactor: number;
+  };
+  meatCattle: {
+    completed: number;
+    emissionFactor: number;
+  };
+};
+
 export type Livestock = {
   pigs: {
     feed: FeedRecord[];
@@ -73,18 +88,10 @@ export type Livestock = {
   cattle: {
     feed: FeedRecord[];
     production: {
-      dairyCows: {
-        count: number;
-        emissionFactor: number;
-      };
-      bulls: {
-        count: number;
-        emissionFactor: number;
-      };
-      meatCattle: {
-        completed: number;
-        emissionFactor: number;
-      };
+      configurations: {
+        year: number;
+        config: CattleProductionConfig;
+      }[];
     };
   };
   chicken: {
@@ -144,12 +151,19 @@ export const DEFAULT_PIG_PRODUCTION_CONFIG: PigProductionConfig = {
   }
 };
 
+export const DEFAULT_CATTLE_PRODUCTION_CONFIG: CattleProductionConfig = {
+  dairyCows: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows },
+  bulls: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.bulls },
+  meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
+};
+
 const DEFAULT_CATTLE_STORE = {
   feed: [],
   production: {
-    dairyCows: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows },
-    bulls: { count: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.bulls },
-    meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
+    configurations: [{
+      year: new Date().getFullYear(),
+      config: DEFAULT_CATTLE_PRODUCTION_CONFIG
+    }]
   }
 };
 
@@ -219,6 +233,22 @@ function validateStore(store: any) {
   if (!store.livestock.cattle.feed) store.livestock.cattle.feed = [];
   if (!store.livestock.cattle.production) store.livestock.cattle.production = DEFAULT_CATTLE_STORE.production;
   
+  // Migrate old cattle production format to new year-based format
+  if (store.livestock?.cattle?.production && !store.livestock.cattle.production.configurations) {
+    const currentYear = store.startYear || new Date().getFullYear();
+    const oldConfig = store.livestock.cattle.production;
+    store.livestock.cattle.production = {
+      configurations: [{
+        year: currentYear,
+        config: {
+          dairyCows: oldConfig.dairyCows,
+          bulls: oldConfig.bulls,
+          meatCattle: oldConfig.meatCattle
+        }
+      }]
+    };
+  }
+
   // Validate cattle production categories
   const cattleProd = store.livestock.cattle.production;
   for (const category of ['dairyCows', 'bulls']) {

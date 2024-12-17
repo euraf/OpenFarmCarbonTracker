@@ -1,4 +1,4 @@
-import { setStore, store } from "~/store/store";
+import { DEFAULT_CATTLE_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
 import { For } from "solid-js";
 import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
@@ -85,43 +85,111 @@ function FeedSection() {
 }
 
 function CattleProductionSection() {
-    function handleInputChange(section: string, field: string, value: number) {
-        setStore("livestock", "cattle", "production", section, field, value);
+    function handleInputChange(configIndex: number, section: string, field: string, value: number) {
+        if (section === "year") {
+            const configs = store.livestock.cattle.production.configurations;
+            const prevYear = configIndex > 0 ? configs[configIndex - 1].year : -Infinity;
+            const nextYear = configIndex < configs.length - 1 ? configs[configIndex + 1].year : Infinity;
+            
+            if (value <= prevYear || value >= nextYear) {
+                return;
+            }
+
+            setStore("livestock", "cattle", "production", "configurations", configIndex, "year", value);
+        } else {
+            setStore("livestock", "cattle", "production", "configurations", configIndex, "config", section, field, value);
+        }
+    }
+
+    function addNewYearConfig() {
+        setStore("livestock", "cattle", "production", "configurations", 
+            configs => {
+                const maxYear = configs.length > 0 
+                    ? Math.max(...configs.map(c => c.year))
+                    : store.startYear;
+                return [...configs, {
+                    year: maxYear + 1,
+                    config: DEFAULT_CATTLE_PRODUCTION_CONFIG
+                }];
+            }
+        );
+    }
+
+    function removeConfig(index: number) {
+        setStore("livestock", "cattle", "production", "configurations", 
+            configs => configs.filter((_, i) => i !== index)
+        );
     }
 
     return (
         <div class="cattle-production-section">
             <h3 class="text-lg font-semibold mb-4">Cattle Production</h3>
-            
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Number of Dairy Cows</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.cattle.production.dairyCows.count}
-                    onInput={(e) => handleInputChange("dairyCows", "count", parseInt(e.currentTarget.value))}
-                />
-            </TextField>
+            <div class="overflow-x-auto">
+                <div class="flex gap-4 min-w-min pb-4">
+                    <For each={store.livestock.cattle.production.configurations}>
+                        {(config, index) => (
+                            <div class="border-2 rounded-lg p-4 bg-white min-w-[320px] relative">
+                                <button
+                                    disabled={index() === 0}
+                                    type="button"
+                                    class={`absolute top-2 right-2 ${index() !== 0 ? "hover:bg-red-500 bg-gray-700" : "bg-gray-400"} hover:text-white text-white p-1 rounded-md flex items-center justify-center w-8 h-8`}
+                                    onClick={() => removeConfig(index())}
+                                >
+                                    <IconTrash />
+                                </button>
 
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Number of Bulls</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.cattle.production.bulls.count}
-                    onInput={(e) => handleInputChange("bulls", "count", parseInt(e.currentTarget.value))}
-                />
-            </TextField>
+                                <TextField class="w-full max-w-sm mb-4">
+                                    <TextFieldLabel>From Year</TextFieldLabel>
+                                    <TextFieldInput
+                                        type="number"
+                                        min={store.startYear}
+                                        value={config.year}
+                                        disabled={index() === 0}
+                                        onInput={(e) => handleInputChange(index(), "year", "value", Number.parseInt(e.currentTarget.value))}
+                                    />
+                                </TextField>
 
-            <TextField class="w-full max-w-sm">
-                <TextFieldLabel>Meat Cattle completed</TextFieldLabel>
-                <TextFieldInput
-                    type="number"
-                    min={0}
-                    value={store.livestock.cattle.production.meatCattle.completed}
-                    onInput={(e) => handleInputChange("meatCattle", "completed", parseInt(e.currentTarget.value))}
-                />
-            </TextField>
+                                <TextField class="w-full max-w-sm">
+                                    <TextFieldLabel>Number of Dairy Cows</TextFieldLabel>
+                                    <TextFieldInput
+                                        type="number"
+                                        min={0}
+                                        value={config.config.dairyCows.count}
+                                        onInput={(e) => handleInputChange(index(), "dairyCows", "count", parseInt(e.currentTarget.value))}
+                                    />
+                                </TextField>
+
+                                <TextField class="w-full max-w-sm">
+                                    <TextFieldLabel>Number of Bulls</TextFieldLabel>
+                                    <TextFieldInput
+                                        type="number"
+                                        min={0}
+                                        value={config.config.bulls.count}
+                                        onInput={(e) => handleInputChange(index(), "bulls", "count", parseInt(e.currentTarget.value))}
+                                    />
+                                </TextField>
+
+                                <TextField class="w-full max-w-sm">
+                                    <TextFieldLabel>Meat Cattle completed</TextFieldLabel>
+                                    <TextFieldInput
+                                        type="number"
+                                        min={0}
+                                        value={config.config.meatCattle.completed}
+                                        onInput={(e) => handleInputChange(index(), "meatCattle", "completed", parseInt(e.currentTarget.value))}
+                                    />
+                                </TextField>
+                            </div>
+                        )}
+                    </For>
+                    <button
+                        type="button"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onClick={addNewYearConfig}
+                    >
+                        Adjust amounts at a certain year
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
