@@ -249,17 +249,6 @@ function EmissionFactorSection() {
                     />
                 </TextField>
             </div>
-
-            <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
-            <ul class="list-disc pl-5">
-                <li>Dairy Cows: {calculateEmissions().dairyCows.toFixed(2)} kg CO2e</li>
-                <li>Bulls: {calculateEmissions().bulls.toFixed(2)} kg CO2e</li>
-                <li>Meat Cattle: {calculateEmissions().meatCattle.toFixed(2)} kg CO2e</li>
-            </ul>
-
-            <p class="font-bold mt-4">
-                Total CO2 Emissions: {calculateEmissions().total.toFixed(2)} kg CO2e
-            </p>
         </div>
     );
 }
