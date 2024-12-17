@@ -254,7 +254,7 @@ function validateStore(store: any) {
   for (const category of ['dairyCows', 'bulls']) {
     cattleProd[category] = {
       count: Number(cattleProd[category]?.count || 0),
-      emissionFactor: Number(cattleProd[category]?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS[category])
+      emissionFactor: Number(cattleProd[category]?.emissionFactor || DEFAULT_CATTLE_EMISSION_FACTORS[category as 'dairyCows' | 'bulls'])
     };
   }
   
