@@ -75,6 +75,17 @@ export type CattleProductionConfig = {
   };
 };
 
+export type ChickenProductionConfig = {
+  broilers: {
+    completed: number;
+    emissionFactor: number;
+  };
+  eggLayingHens: {
+    count: number;
+    emissionFactor: number;
+  };
+};
+
 export type Livestock = {
   pigs: {
     feed: FeedRecord[];
@@ -97,14 +108,10 @@ export type Livestock = {
   chicken: {
     feed: FeedRecord[];
     production: {
-      broilers: {
-        completed: number;
-        emissionFactor: number;
-      };
-      eggLayingHens: {
-        count: number;
-        emissionFactor: number;
-      };
+      configurations: {
+        year: number;
+        config: ChickenProductionConfig;
+      }[];
     };
   };
 };
@@ -157,6 +164,11 @@ export const DEFAULT_CATTLE_PRODUCTION_CONFIG: CattleProductionConfig = {
   meatCattle: { completed: 0, emissionFactor: DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle }
 };
 
+export const DEFAULT_CHICKEN_PRODUCTION_CONFIG: ChickenProductionConfig = {
+  broilers: { completed: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.broilers },
+  eggLayingHens: { count: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens }
+};
+
 const DEFAULT_CATTLE_STORE = {
   feed: [],
   production: {
@@ -170,8 +182,10 @@ const DEFAULT_CATTLE_STORE = {
 const DEFAULT_CHICKEN_STORE = {
   feed: [],
   production: {
-    broilers: { completed: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.broilers },
-    eggLayingHens: { count: 0, emissionFactor: DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens }
+    configurations: [{
+      year: new Date().getFullYear(),
+      config: DEFAULT_CHICKEN_PRODUCTION_CONFIG
+    }]
   }
 };
 
@@ -267,6 +281,21 @@ function validateStore(store: any) {
   if (!store.livestock.chicken) store.livestock.chicken = DEFAULT_CHICKEN_STORE;
   if (!store.livestock.chicken.feed) store.livestock.chicken.feed = [];
   if (!store.livestock.chicken.production) store.livestock.chicken.production = DEFAULT_CHICKEN_STORE.production;
+
+  // Migrate old chicken production format to new year-based format
+  if (store.livestock?.chicken?.production && !store.livestock.chicken.production.configurations) {
+    const currentYear = store.startYear || new Date().getFullYear();
+    const oldConfig = store.livestock.chicken.production;
+    store.livestock.chicken.production = {
+      configurations: [{
+        year: currentYear,
+        config: {
+          broilers: oldConfig.broilers,
+          eggLayingHens: oldConfig.eggLayingHens
+        }
+      }]
+    };
+  }
 
   // Validate chicken production categories
   const chickenProd = store.livestock.chicken.production;
