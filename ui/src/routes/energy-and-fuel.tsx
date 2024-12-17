@@ -111,7 +111,7 @@ export default function EnergyAndFuel() {
 							</li>
 						</ul>
 
-						<h3 class="text-lg font-semibold">Energy and Fuel Usage Summary</h3>
+						<h4 class="text-lg font-semibold">Energy and Fuel Usage Summary</h4>
 						<ul class="list-disc pl-5">
 							<li>Diesel: {defaultEnergies().diesel.toFixed(2)} liters</li>
 							<li>Coal: {defaultEnergies().coal.toFixed(2)} kg</li>
@@ -122,7 +122,7 @@ export default function EnergyAndFuel() {
 								Electricity: {defaultEnergies().electricity.toFixed(2)} kWh
 							</li>
 						</ul>
-						<h4 class="text-md font-semibold mt-2">CO2 Emissions</h4>
+						<h4 class="text-md font-semibold mt-2">Yealry CO2 Emissions</h4>
 						<ul class="list-disc pl-5">
 							<li>
 								Diesel CO2:{" "}
@@ -156,11 +156,11 @@ export default function EnergyAndFuel() {
 								kg
 							</li>
 						</ul>
-						<p class="font-bold mt-2">
+						{/* <p class="font-bold mt-2">
 							Total CO2 Emissions:{" "}
 							{Number(calculateFuelEmission().toFixed(2)).toLocaleString()} kg
 							CO<sub>2</sub>e
-						</p>
+						</p> */}
 					</div>
 				</div>
 			</div>

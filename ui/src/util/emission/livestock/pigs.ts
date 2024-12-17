@@ -28,17 +28,8 @@ function calculatePigProductionEmissionForYear(year: number): number {
 }
 
 
-export function calculatePigEmissionForYear(year: number): number {
-  const feedEmission = calculatePigFeedEmissionForYear(year);
-  const productionEmission = calculatePigProductionEmissionForYear(year);
-  return feedEmission + productionEmission;
-}
-
-
-export function calculatePigEmissionContribution(): number[] {
-  const startYear = store.startYear;
-  const maxYear = startYear+100;
-  const years = maxYear - startYear + 1;
+export function calculatePigEmission(startYear:number, endYear:number): number[] {
+  const years = endYear - startYear + 1;
   
   return Array(years).fill(0).map((_, idx) => {
     const year = startYear + idx;
@@ -46,36 +37,8 @@ export function calculatePigEmissionContribution(): number[] {
   });
 }
 
-export function calculatePigEmission(): {
-  accumulated: number[];
-  contribution: number[];
-} {
-  const contribution = calculatePigEmissionContribution();
-  const accumulated = contribution.reduce((acc: number[], curr: number) => 
-    [...acc, (acc[acc.length - 1] || 0) + curr],
-    []
-  );
-
-  return { accumulated, contribution };
+export function calculatePigEmissionForYear(year: number): number {
+  const feedEmission = calculatePigFeedEmissionForYear(year);
+  const productionEmission = calculatePigProductionEmissionForYear(year);
+  return feedEmission + productionEmission;
 }
-// export function calculatePigEmission(): {
-//   accumulated: number[];
-//   contribution: number[];
-// } {
-//   const startYear = store.startYear;
-//   const years = store.endYear - startYear + 1;
-  
-//   const contributionByYear = Array(years).fill(0).map((_, idx) => {
-//     const year = startYear + idx;
-//     const feedEmission = calculatePigFeedEmissionForYear(year);
-//     const productionEmission = calculatePigProductionEmissionForYear(year);
-//     return feedEmission + productionEmission;
-//   });
-
-//   return {
-//     accumulated: contributionByYear.reduce((acc, curr, idx) => 
-//       [...acc, (acc[idx - 1] || 0) + curr], 
-//     []),
-//     contribution: contributionByYear
-//   };
-// }

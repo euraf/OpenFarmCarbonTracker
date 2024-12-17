@@ -29,7 +29,6 @@ export function useDrawControl(map: maplibregl.Map) {
 				//@ts-ignore
 				const selectedFeatures = Draw.getSelectedIds();
 
-				console.log("HERE", selectedFeatures?.length, selectedFeatures)
 				if (selectedFeatures?.length > 0) {
 					//@ts-ignore
 					Draw.trash();
@@ -67,13 +66,10 @@ function updateAreaEvent(e: any) {
 }
 
 export function updateArea(shape: any) {
-	console.log("UpdateArea");
 	const shape_for_db = JSON.stringify(shape);
-	console.log("ML shape", shape);
-
+	
 	const shapeArea = geojsonArea.geometry(shape.geometry);
-	console.log("ML area", shapeArea);
-
+	
 	// // document.getElementById("coordinates").innerHTML = "A layer geometry has successfully been created and you may click the button below to create the new layer";
 	// @ts-ignore
 	document.getElementById("geometry").value = shape_for_db;

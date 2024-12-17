@@ -248,14 +248,11 @@ function PigProductionSection(props: { setInspectYear: (year: number) => void })
 function EmissionSummarySection(props:{year:()=>number}) {
     const calculateEmissions = createMemo(() => {
         const currentYear = props.year();
-        console.log(currentYear)
         const configs = store.livestock.pigs.production.configurations;
         const currentConfig = [...configs]
         .sort((a, b) => b.year - a.year)
         .find(c => c.year <= currentYear)?.config || configs[0].config;
         
-        console.log(JSON.stringify(configs))
-        console.log(JSON.stringify(currentConfig))
         const emissions = {
             farrowing: currentConfig.farrowing.completed * currentConfig.farrowing.emissionFactor,
             nursery: currentConfig.nursery.completed * currentConfig.nursery.emissionFactor,

@@ -38,7 +38,6 @@ export const EditFieldMode: Component<{
 }> = ({ getMap, setMode, store, field }) => {
 	let draw: MapboxDraw;
 
-	console.log(field, store.fields);
 
 	const [fieldName, setFieldName] = createSignal<string>(
 		field?.name ? field.name : "",
@@ -55,7 +54,6 @@ export const EditFieldMode: Component<{
 	>(null);
 
 	function addDrawControl() {
-		console.log("ADD");
 		draw = useDrawControl(getMap());
 	}
 
@@ -79,8 +77,7 @@ export const EditFieldMode: Component<{
 
 	const addFieldFormAction = action(async (formData: FormData) => {
 		setSubmitDisabled(true);
-		console.log("HER2E??");
-
+		
 		if (
 			!formData.get("geometry")?.toString() ||
 			!formData.get("area")?.toString() || !fieldName()
@@ -230,13 +227,10 @@ export const EditFieldMode: Component<{
 
 	function loadDrawCoordinates() {
 		if (draw && field?.geometry) {
-			//console.log("fieldName:", fieldName());
 			const geometry = field.geometry;
-			//console.log("Geometry: ", geometry);
-
+			
 			const featureIds: string[] = draw.add(geometry);
 
-			//console.log(featureIds);
 			if (featureIds.length === 0) return;
 
 			if (geometry.type === "Polygon") {
@@ -254,21 +248,17 @@ export const EditFieldMode: Component<{
 
 	function drawKMLorLPIS() {
 		if (draw && polygon()?.geometry) {
-			console.log("Draw", draw);
 			if (draw.getAll().features.length > 0) {
 				draw.deleteAll();
 			}
 
 			const geometry = polygon()!.geometry;
 
-			//console.log("Geometry: ", geometry);
-
+			
 			const featureIds: string[] = draw.add(geometry);
 
-			//console.log(featureIds);
 			if (featureIds.length === 0) return;
 
-			//console.log("Add KML");
 			if (geometry.type === "Polygon") {
 				getMap().flyTo({
 					center: geometry.coordinates[0][0] as [number, number],
@@ -350,8 +340,6 @@ export const EditFieldMode: Component<{
 	const [showLPISFields, setShowLPISFields] = createSignal(false);
 	createEffect(
 		on([showLPISFields], () => {
-			//console.log(showLPISFields());
-
 			if (showLPISFields()) {
 				addLPISFields(getMap());
 			} else {

@@ -19,18 +19,11 @@ export async function GET() {
       // convert Buffer object to Float
       contribution.push(parseFloat(data));
       
-      console.log(contribution);
       resolve(true);
     });
   });
 
   
-  // await sensor.stdout.on('data', function(data) {
-    
-  //   // convert Buffer object to Float
-  //   temperatures.push(parseFloat(data));
-  //   console.log(temperatures);
-  // });
 
 console.log(contribution)
   return new Response(JSON.stringify(contribution), apiResponseOptions);
