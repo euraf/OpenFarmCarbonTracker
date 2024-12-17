@@ -18,6 +18,7 @@
   "dependencies": {
     "@css-hooks/solid": "^3.0.1",
     "@kobalte/core": "^0.13.7",
+    "@mapbox/geojson-area": "^0.2.2",
     "@mapbox/mapbox-gl-draw": "^1.4.3",
     "@maplibre/maplibre-gl-geocoder": "^1.7.0",
     "@solid-primitives/refs": "^1.0.8",
@@ -40,6 +41,11 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.3",
     "vinxi": "0.5.1"
+  },
+  "overrides": {
+    "@vinxi/server-components": "0.5.0",
+    "@vinxi/plugin-directives": "0.5.0",
+    "@vinxi/server-functions": "0.5.0"
   },
   "engines": {
     "node": ">=18"
