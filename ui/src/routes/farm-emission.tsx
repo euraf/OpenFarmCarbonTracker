@@ -50,10 +50,11 @@ export default function FarmEmission() {
 
         <div class="p-3 bg-white rounded-lg">
           
-          <div class="flex gap-4 items-center mb-4">
+          <div class="flex gap-4 items-center mb-4 flex">
+            <span>View year</span>
             <input
               type="number"
-              class="p-2 border rounded"
+              class="p-2 border rounded w-30"
               min={store.startYear}
               value={store.startYear}
               disabled
@@ -61,7 +62,7 @@ export default function FarmEmission() {
             <span>to</span>
             <input
               type="number"
-              class="p-2 border rounded"
+              class="p-2 border rounded w-30"
               min={store.startYear}
               
               value={endYear()}
@@ -73,6 +74,7 @@ export default function FarmEmission() {
               }}
             />
           </div>
+          <hr class="mb-10" />
           
           <FarmEmissionCharts
             startYear={()=>store.startYear}
