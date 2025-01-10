@@ -105,6 +105,7 @@ export default function EnergyAndFuel() {
 									type="number"
 									id="diesel-factor"
 									step={0.01}
+									class={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel ? `border-blue-500 border-4`: ''}
 									value={defaultEnergies().conversionFactors[store.country].diesel}
 									onInput={(e) => handleConversionFactorChange("diesel", parseFloat(e.currentTarget.value))}
 								/>
@@ -115,6 +116,7 @@ export default function EnergyAndFuel() {
 									type="number"
 									id="coal-factor"
 									step={0.01}
+									class={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal ? `border-blue-500 border-4`: ''}
 									value={defaultEnergies().conversionFactors[store.country].coal}
 									onInput={(e) => handleConversionFactorChange("coal", parseFloat(e.currentTarget.value))}
 								/>
@@ -125,6 +127,7 @@ export default function EnergyAndFuel() {
 									type="number"
 									id="biogas-factor"
 									step={0.01}
+									class={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas ? `border-blue-500 border-4`: ''}
 									value={defaultEnergies().conversionFactors[store.country].biogas}
 									onInput={(e) => handleConversionFactorChange("biogas", parseFloat(e.currentTarget.value))}
 								/>
@@ -135,6 +138,7 @@ export default function EnergyAndFuel() {
 									type="number"
 									id="electricity-factor"
 									step={0.01}
+									class={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity ? `border-blue-500 border-4`: ''}
 									value={defaultEnergies().conversionFactors[store.country].electricity}
 									onInput={(e) => handleConversionFactorChange("electricity", parseFloat(e.currentTarget.value))}
 								/>

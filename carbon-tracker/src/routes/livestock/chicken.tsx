@@ -2,6 +2,7 @@ import { DEFAULT_CHICKEN_PRODUCTION_CONFIG, setStore, store } from "~/store/stor
 import { For } from "solid-js";
 import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
+import { DEFAULT_CHICKEN_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 
 function FeedSection() {
     function handleInputChange(index: number, field: string, value: any) {
@@ -186,22 +187,8 @@ function ChickenProductionSection() {
 
 function EmissionFactorSection() {
     function handleFactorChange(section: string, value: number) {
-        setStore("livestock", "chicken", "production", section, "emissionFactor", value);
+        setStore("livestock", "chicken", "production", "configurations", 0, "config", section, "emissionFactor", value);
     }
-
-    const calculateEmissions = () => {
-        const prod = store.livestock.chicken.production;
-        
-        const emissions = {
-            broilers: prod.broilers.completed * prod.broilers.emissionFactor,
-            eggLayingHens: prod.eggLayingHens.count * prod.eggLayingHens.emissionFactor
-        };
-
-        return {
-            ...emissions,
-            total: Object.values(emissions).reduce((sum, val) => sum + val, 0)
-        };
-    };
 
     return (
         <div class="emission-factors">
@@ -213,8 +200,9 @@ function EmissionFactorSection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers ? `border-blue-500 border-4`: ''}
                         min={0}
-                        value={store.livestock.chicken.production.broilers.emissionFactor}
+                        value={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
                         onInput={(e) => handleFactorChange("broilers", parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
@@ -224,22 +212,14 @@ function EmissionFactorSection() {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens ? `border-blue-500 border-4`: ''}
                         min={0}
-                        value={store.livestock.chicken.production.eggLayingHens.emissionFactor}
+                        value={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
                         onInput={(e) => handleFactorChange("eggLayingHens", parseFloat(e.currentTarget.value))}
                     />
                 </TextField>
             </div>
 
-            {/* <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
-            <ul class="list-disc pl-5">
-                <li>Broilers: {calculateEmissions().broilers.toFixed(2)} kg CO2e</li>
-                <li>Egg Laying Hens: {calculateEmissions().eggLayingHens.toFixed(2)} kg CO2e</li>
-            </ul>
-
-            <p class="font-bold mt-4">
-                Total CO2 Emissions: {calculateEmissions().total.toFixed(2)} kg CO2e
-            </p> */}
         </div>
     );
 }

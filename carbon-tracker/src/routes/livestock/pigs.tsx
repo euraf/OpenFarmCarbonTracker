@@ -3,6 +3,7 @@ import { createMemo, createSignal, For, Show } from "solid-js";
 import { IconSearch, IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { cn } from "~/lib/utils";
+import { DEFAULT_PIG_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 
 type FeedRecord = {
     label: string;
@@ -292,6 +293,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.pigs.production.configurations[0].config.farrowing.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.farrowing ? `border-blue-500 border-4`: ''}
                         min={0}
                         value={currentConfig.farrowing.emissionFactor}
                         onInput={(e) => handleFactorChange("farrowing", Number.parseFloat(e.currentTarget.value))}
@@ -302,6 +304,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.pigs.production.configurations[0].config.nursery.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.nursery ? `border-blue-500 border-4`: ''}
                         min={0}
                         value={currentConfig.nursery.emissionFactor}
                         onInput={(e) => handleFactorChange("nursery", Number.parseFloat(e.currentTarget.value))}
@@ -312,6 +315,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.pigs.production.configurations[0].config.finishers.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.finishers ? `border-blue-500 border-4`: ''}
                         min={0}
                         value={currentConfig.finishers.emissionFactor}
                         onInput={(e) => handleFactorChange("finishers", Number.parseFloat(e.currentTarget.value))}
@@ -322,6 +326,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.pigs.production.configurations[0].config.sows.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.sows ? `border-blue-500 border-4`: ''}
                         min={0}
                         value={currentConfig.sows.emissionFactor}
                         onInput={(e) => handleFactorChange("sows", Number.parseFloat(e.currentTarget.value))}
@@ -332,6 +337,7 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <TextFieldInput
                         type="number"
                         step="0.1"
+                        class={store.livestock.pigs.production.configurations[0].config.boars.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.boars ? `border-blue-500 border-4`: ''}
                         min={0}
                         value={currentConfig.boars.emissionFactor}
                         onInput={(e) => handleFactorChange("boars", Number.parseFloat(e.currentTarget.value))}
