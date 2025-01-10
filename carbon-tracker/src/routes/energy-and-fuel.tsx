@@ -97,6 +97,7 @@ export default function EnergyAndFuel() {
 						<h4 class="text-md font-semibold mt-2">
 							Conversion Units for {getStoreCountryName()}
 						</h4>
+						<a class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/energy-and-fuel/conversion-factors.ts">Update sources</a>
 						<div class="grid gap-4">
 							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
 								<TextFieldLabel for="diesel-factor">Diesel (kg CO2 per liter)</TextFieldLabel>

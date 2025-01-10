@@ -199,24 +199,11 @@ function EmissionFactorSection() {
         setStore("livestock", "cattle", "production", section, "emissionFactor", value);
     }
 
-    const calculateEmissions = () => {
-        const prod = store.livestock.cattle.production;
-        
-        const emissions = {
-            dairyCows: prod.dairyCows.count * prod.dairyCows.emissionFactor,
-            bulls: prod.bulls.count * prod.bulls.emissionFactor,
-            meatCattle: prod.meatCattle.completed * prod.meatCattle.emissionFactor
-        };
-
-        return {
-            ...emissions,
-            total: Object.values(emissions).reduce((sum, val) => sum + val, 0)
-        };
-    };
-
     return (
         <div class="emission-factors">
             <h3 class="text-lg font-semibold mb-4">Emission Factors (kg CO2e per animal)</h3>
+            <a class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/livestock/emission-factors.ts#L9-L13">Update sources</a>
+
             <div class="grid gap-4 mb-6">
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Dairy Cows</TextFieldLabel>
@@ -249,6 +236,7 @@ function EmissionFactorSection() {
                     />
                 </TextField>
             </div>
+            
 
             {/* <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
             <ul class="list-disc pl-5">
