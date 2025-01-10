@@ -1,6 +1,6 @@
 import { DEFAULT_CHICKEN_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { For } from "solid-js";
-import { IconTrash } from "~/components/ui/icons";
+import { For, Show } from "solid-js";
+import { IconTrash, IconUpdates } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { DEFAULT_CHICKEN_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 
@@ -197,26 +197,36 @@ function EmissionFactorSection() {
             <div class="grid gap-4 mb-6">
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Broiler emission factor</TextFieldLabel>
-                    <TextFieldInput
-                        type="number"
-                        step="0.1"
-                        class={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers ? `border-blue-500 border-4`: ''}
-                        min={0}
-                        value={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
-                        onInput={(e) => handleFactorChange("broilers", parseFloat(e.currentTarget.value))}
-                    />
+                    <div class="flex items-center">
+                        <TextFieldInput
+                            type="number"
+                            step="0.1"
+                            class={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers ? `border-blue-500 border-4`: ''}
+                            min={0}
+                            value={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
+                            onInput={(e) => handleFactorChange("broilers", parseFloat(e.currentTarget.value))}
+                        />
+                        <Show when={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers}>
+                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("broilers", DEFAULT_CHICKEN_EMISSION_FACTORS.broilers)} />
+                        </Show>
+                    </div>
                 </TextField>
 
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Egg Laying Hen emission factor</TextFieldLabel>
-                    <TextFieldInput
-                        type="number"
-                        step="0.1"
-                        class={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens ? `border-blue-500 border-4`: ''}
-                        min={0}
-                        value={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
-                        onInput={(e) => handleFactorChange("eggLayingHens", parseFloat(e.currentTarget.value))}
-                    />
+                    <div class="flex items-center">
+                        <TextFieldInput
+                            type="number"
+                            step="0.1"
+                            class={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens ? `border-blue-500 border-4`: ''}
+                            min={0}
+                            value={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
+                            onInput={(e) => handleFactorChange("eggLayingHens", parseFloat(e.currentTarget.value))}
+                        />
+                        <Show when={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens}>
+                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("eggLayingHens", DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens)} />
+                        </Show>
+                    </div>
                 </TextField>
             </div>
 

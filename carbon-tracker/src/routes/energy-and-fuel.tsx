@@ -1,5 +1,6 @@
 import { Navigate } from "@solidjs/router";
 import { Show } from "solid-js";
+import { IconUpdates } from "~/components/ui/icons";
 import {
 	TextField,
 	TextFieldInput,
@@ -101,47 +102,75 @@ export default function EnergyAndFuel() {
 						<div class="grid gap-4">
 							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
 								<TextFieldLabel for="diesel-factor">Diesel (kg CO2 per liter)</TextFieldLabel>
-								<TextFieldInput
-									type="number"
-									id="diesel-factor"
-									step={0.01}
-									class={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel ? `border-blue-500 border-4`: ''}
-									value={defaultEnergies().conversionFactors[store.country].diesel}
-									onInput={(e) => handleConversionFactorChange("diesel", parseFloat(e.currentTarget.value))}
-								/>
+								<div class="flex items-center">
+									<TextFieldInput
+										type="number"
+										id="diesel-factor"
+										step={0.01}
+										class={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel ? `border-blue-500 border-4`: ''}
+										value={defaultEnergies().conversionFactors[store.country].diesel}
+										onInput={(e) => handleConversionFactorChange("diesel", parseFloat(e.currentTarget.value))}
+									/>
+									<Show when={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel}>
+										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
+											handleConversionFactorChange("diesel", conversionFactors[store.country].diesel)
+										}} />
+									</Show>
+								</div>
 							</TextField>
 							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
 								<TextFieldLabel for="coal-factor">Coal (kg CO2 per kg)</TextFieldLabel>
-								<TextFieldInput
-									type="number"
-									id="coal-factor"
-									step={0.01}
-									class={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal ? `border-blue-500 border-4`: ''}
-									value={defaultEnergies().conversionFactors[store.country].coal}
-									onInput={(e) => handleConversionFactorChange("coal", parseFloat(e.currentTarget.value))}
-								/>
+								<div class="flex items-center">
+									<TextFieldInput
+										type="number"
+										id="coal-factor"
+										step={0.01}
+										class={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal ? `border-blue-500 border-4`: ''}
+										value={defaultEnergies().conversionFactors[store.country].coal}
+										onInput={(e) => handleConversionFactorChange("coal", parseFloat(e.currentTarget.value))}
+									/>
+									<Show when={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal}>
+										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
+											handleConversionFactorChange("coal", conversionFactors[store.country].coal)
+										}} />
+									</Show>
+								</div>
 							</TextField>
 							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
 								<TextFieldLabel for="biogas-factor">Biogas (kg CO2 per m<sup>3</sup>)</TextFieldLabel>
-								<TextFieldInput
-									type="number"
-									id="biogas-factor"
-									step={0.01}
-									class={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas ? `border-blue-500 border-4`: ''}
-									value={defaultEnergies().conversionFactors[store.country].biogas}
-									onInput={(e) => handleConversionFactorChange("biogas", parseFloat(e.currentTarget.value))}
-								/>
+								<div class="flex items-center">
+									<TextFieldInput
+										type="number"
+										id="biogas-factor"
+										step={0.01}
+										class={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas ? `border-blue-500 border-4`: ''}
+										value={defaultEnergies().conversionFactors[store.country].biogas}
+										onInput={(e) => handleConversionFactorChange("biogas", parseFloat(e.currentTarget.value))}
+									/>
+									<Show when={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas}>
+										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
+											handleConversionFactorChange("biogas", conversionFactors[store.country].biogas)
+										}} />
+									</Show>
+								</div>
 							</TextField>
 							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
 								<TextFieldLabel for="electricity-factor">Electricity (kg CO2 per kWh)</TextFieldLabel>
-								<TextFieldInput
-									type="number"
-									id="electricity-factor"
-									step={0.01}
-									class={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity ? `border-blue-500 border-4`: ''}
-									value={defaultEnergies().conversionFactors[store.country].electricity}
-									onInput={(e) => handleConversionFactorChange("electricity", parseFloat(e.currentTarget.value))}
-								/>
+								<div class="flex items-center">
+									<TextFieldInput
+										type="number"
+										id="electricity-factor"
+										step={0.01}
+										class={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity ? `border-blue-500 border-4`: ''}
+										value={defaultEnergies().conversionFactors[store.country].electricity}
+										onInput={(e) => handleConversionFactorChange("electricity", parseFloat(e.currentTarget.value))}
+									/>
+									<Show when={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity}>
+										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
+											handleConversionFactorChange("electricity", conversionFactors[store.country].electricity)
+										}} />
+									</Show>
+								</div>
 							</TextField>
 						</div>
 

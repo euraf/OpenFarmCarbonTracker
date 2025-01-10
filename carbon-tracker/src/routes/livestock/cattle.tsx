@@ -1,6 +1,6 @@
 import { DEFAULT_CATTLE_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { For } from "solid-js";
-import { IconTrash } from "~/components/ui/icons";
+import { For, Show } from "solid-js";
+import { IconTrash, IconUpdates } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { DEFAULT_CATTLE_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 
@@ -208,50 +208,53 @@ function EmissionFactorSection() {
             <div class="grid gap-4 mb-6">
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Dairy Cows</TextFieldLabel>
-                    <TextFieldInput
-                        type="number"
-                        class={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows ? `border-blue-500 border-4`: ''}
-                        step="0.1"
-                        min={0}
-                        value={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor}
-                        onInput={(e) => handleFactorChange("dairyCows", parseFloat(e.currentTarget.value))}
-                    />
+                    <div class="flex items-center">
+                        <TextFieldInput
+                            type="number"
+                            class={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows ? `border-blue-500 border-4`: ''}
+                            step="0.1"
+                            min={0}
+                            value={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor}
+                            onInput={(e) => handleFactorChange("dairyCows", parseFloat(e.currentTarget.value))}
+                        />
+                        <Show when={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows}>
+                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("dairyCows", DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows)} />
+                        </Show>
+                    </div>
                 </TextField>
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Bulls</TextFieldLabel>
-                    <TextFieldInput
-                        type="number"
-                        class={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.bulls ? `border-blue-500 border-4`: ''}
-                        step="0.1"
-                        min={0}
-                        value={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor}
-                        onInput={(e) => handleFactorChange("bulls", parseFloat(e.currentTarget.value))}
-                    />
+                    <div class="flex items-center">
+                        <TextFieldInput
+                            type="number"
+                            class={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.bulls ? `border-blue-500 border-4`: ''}
+                            step="0.1"
+                            min={0}
+                            value={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor}
+                            onInput={(e) => handleFactorChange("bulls", parseFloat(e.currentTarget.value))}
+                        />
+                        <Show when={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.bulls}>
+                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("bulls", DEFAULT_CATTLE_EMISSION_FACTORS.bulls)} />
+                        </Show>
+                    </div>
                 </TextField>
                 <TextField class="w-full max-w-sm">
                     <TextFieldLabel>Meat Cattle</TextFieldLabel>
-                    <TextFieldInput
-                        type="number"
-                        class={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle ? `border-blue-500 border-4`: ''}
-                        step="0.1"
-                        min={0}
-                        value={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor}
-                        onInput={(e) => handleFactorChange("meatCattle", parseFloat(e.currentTarget.value))}
-                    />
+                    <div class="flex items-center">
+                        <TextFieldInput
+                            type="number"
+                            class={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle ? `border-blue-500 border-4`: ''}
+                            step="0.1"
+                            min={0}
+                            value={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor}
+                            onInput={(e) => handleFactorChange("meatCattle", parseFloat(e.currentTarget.value))}
+                        />
+                        <Show when={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle}>
+                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("meatCattle", DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle)} />
+                        </Show>
+                    </div>
                 </TextField>
             </div>
-            
-
-            {/* <h3 class="text-lg font-semibold mb-4">Annual Emissions</h3>
-            <ul class="list-disc pl-5">
-                <li>Dairy Cows: {calculateEmissions().dairyCows.toFixed(2)} kg CO2e</li>
-                <li>Bulls: {calculateEmissions().bulls.toFixed(2)} kg CO2e</li>
-                <li>Meat Cattle: {calculateEmissions().meatCattle.toFixed(2)} kg CO2e</li>
-            </ul>
-
-            <p class="font-bold mt-4">
-                Total CO2 Emissions: {calculateEmissions().total.toFixed(2)} kg CO2e
-            </p> */}
         </div>
     );
 }
