@@ -1,5 +1,7 @@
 import { createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
+import { conversionFactors } from "~/data/energy-and-fuel/conversion-factors";
+import { DEFAULT_CATTLE_EMISSION_FACTORS, DEFAULT_CHICKEN_EMISSION_FACTORS, DEFAULT_PIG_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 import { CountryCode } from "~/util/countries";
 
 export type SimpleTier1LPISSegment = {
@@ -116,24 +118,7 @@ export type Livestock = {
   };
 };
 
-const DEFAULT_PIG_EMISSION_FACTORS = {
-  farrowing: 0.8,
-  nursery: 1.2,
-  finishers: 2.5,
-  sows: 4.2,
-  boars: 3.8
-};
 
-const DEFAULT_CATTLE_EMISSION_FACTORS = {
-  dairyCows: 3500,
-  bulls: 2800,
-  meatCattle: 2200
-};
-
-const DEFAULT_CHICKEN_EMISSION_FACTORS = {
-  broilers: 2.5,
-  eggLayingHens: 4.2
-};
 
 export const DEFAULT_PIG_PRODUCTION_CONFIG: PigProductionConfig = {
   farrowing: {
@@ -312,16 +297,19 @@ function validateStore(store: any) {
   return store;
 }
 
+
+
 export const [store, setStore] = createStore<
   {
     fields: Field[];
     startYear: number;
     country: CountryCode;
     energyAndFuel: {
-      diesel?: number;
-      coal?: number;
-      biogas?: number;
-      electricity?: number;
+      conversionFactors: typeof conversionFactors;
+      diesel: number;
+      coal: number;
+      biogas: number;
+      electricity: number;
     };
     livestock: Livestock;
     buildings: BuildingOrEquipment[];
@@ -338,11 +326,17 @@ export function initStore() {
     fields: [], 
     startYear: new Date().getFullYear(),
     country: undefined, 
-    energyAndFuel: {}, 
+    energyAndFuel: {
+      conversionFactors: conversionFactors,
+      diesel: 0,
+      coal: 0,
+      biogas: 0,
+      electricity: 0
+    }, 
     livestock: { 
       pigs: DEFAULT_PIG_STORE, 
-      cattle: {}, 
-      chicken: {} 
+      cattle: DEFAULT_CATTLE_STORE, 
+      chicken: DEFAULT_CHICKEN_STORE 
     },
     buildings: [], 
     equipment: [] 

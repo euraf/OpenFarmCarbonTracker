@@ -15,6 +15,10 @@ export default function EnergyAndFuel() {
 		setStore("energyAndFuel", type, value);
 	}
 
+	function handleConversionFactorChange(type: string, value: number) {
+		setStore("energyAndFuel", "conversionFactors", store.country, type, value);
+	}
+
 	return (
 		<Show when={store.country?.length == 2} fallback={<Navigate href={"/"} />}>
 			<div class="card bg-slate-100 shadow-md rounded-lg m-4 p-4 grid grid-cols-2 gap-4">
@@ -93,23 +97,48 @@ export default function EnergyAndFuel() {
 						<h4 class="text-md font-semibold mt-2">
 							Conversion Units for {getStoreCountryName()}
 						</h4>
-						<ul class="list-disc pl-5">
-							<li>
-								Diesel: {conversionFactors[store.country].diesel} kg CO2 per
-								liter
-							</li>
-							<li>
-								Coal: {conversionFactors[store.country].coal} kg CO2 per kg
-							</li>
-							<li>
-								Biogas: {conversionFactors[store.country].biogas} kg CO2 per m
-								<sup>3</sup>
-							</li>
-							<li>
-								Electricity: {conversionFactors[store.country].electricity} kg
-								CO2 per kWh
-							</li>
-						</ul>
+						<div class="grid gap-4">
+							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
+								<TextFieldLabel for="diesel-factor">Diesel (kg CO2 per liter)</TextFieldLabel>
+								<TextFieldInput
+									type="number"
+									id="diesel-factor"
+									step={0.01}
+									value={defaultEnergies().conversionFactors[store.country].diesel}
+									onInput={(e) => handleConversionFactorChange("diesel", parseFloat(e.currentTarget.value))}
+								/>
+							</TextField>
+							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
+								<TextFieldLabel for="coal-factor">Coal (kg CO2 per kg)</TextFieldLabel>
+								<TextFieldInput
+									type="number"
+									id="coal-factor"
+									step={0.01}
+									value={defaultEnergies().conversionFactors[store.country].coal}
+									onInput={(e) => handleConversionFactorChange("coal", parseFloat(e.currentTarget.value))}
+								/>
+							</TextField>
+							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
+								<TextFieldLabel for="biogas-factor">Biogas (kg CO2 per m<sup>3</sup>)</TextFieldLabel>
+								<TextFieldInput
+									type="number"
+									id="biogas-factor"
+									step={0.01}
+									value={defaultEnergies().conversionFactors[store.country].biogas}
+									onInput={(e) => handleConversionFactorChange("biogas", parseFloat(e.currentTarget.value))}
+								/>
+							</TextField>
+							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
+								<TextFieldLabel for="electricity-factor">Electricity (kg CO2 per kWh)</TextFieldLabel>
+								<TextFieldInput
+									type="number"
+									id="electricity-factor"
+									step={0.01}
+									value={defaultEnergies().conversionFactors[store.country].electricity}
+									onInput={(e) => handleConversionFactorChange("electricity", parseFloat(e.currentTarget.value))}
+								/>
+							</TextField>
+						</div>
 
 						<h4 class="text-lg font-semibold">Energy and Fuel Usage Summary</h4>
 						<ul class="list-disc pl-5">
@@ -128,14 +157,14 @@ export default function EnergyAndFuel() {
 								Diesel CO2:{" "}
 								{(
 									defaultEnergies().diesel *
-									conversionFactors[store.country].diesel
+									defaultEnergies().conversionFactors[store.country].diesel
 								).toFixed(2)}{" "}
 								kg
 							</li>
 							<li>
 								Coal CO2:{" "}
 								{(
-									defaultEnergies().coal * conversionFactors[store.country].coal
+									defaultEnergies().coal * defaultEnergies().conversionFactors[store.country].coal
 								).toFixed(2)}{" "}
 								kg
 							</li>
@@ -143,7 +172,7 @@ export default function EnergyAndFuel() {
 								Biogas CO2:{" "}
 								{(
 									defaultEnergies().biogas *
-									conversionFactors[store.country].biogas
+									defaultEnergies().conversionFactors[store.country].biogas
 								).toFixed(2)}{" "}
 								kg
 							</li>
@@ -151,7 +180,7 @@ export default function EnergyAndFuel() {
 								Electricity CO2:{" "}
 								{(
 									defaultEnergies().electricity *
-									conversionFactors[store.country].electricity
+									defaultEnergies().conversionFactors[store.country].electricity
 								).toFixed(2)}{" "}
 								kg
 							</li>
