@@ -295,7 +295,6 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.pigs.production.configurations[0].config.farrowing.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.farrowing ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={currentConfig().farrowing.emissionFactor}
@@ -311,7 +310,6 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.pigs.production.configurations[0].config.nursery.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.nursery ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={currentConfig().nursery.emissionFactor}
@@ -327,7 +325,6 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.pigs.production.configurations[0].config.finishers.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.finishers ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={currentConfig().finishers.emissionFactor}
@@ -343,7 +340,6 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.pigs.production.configurations[0].config.sows.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.sows ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={currentConfig().sows.emissionFactor}
@@ -359,7 +355,6 @@ function EmissionSummarySection(props:{year:()=>number}) {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.pigs.production.configurations[0].config.boars.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.boars ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={currentConfig().boars.emissionFactor}

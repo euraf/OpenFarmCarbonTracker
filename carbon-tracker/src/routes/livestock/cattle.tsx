@@ -212,7 +212,6 @@ function EmissionFactorSection() {
                         <TextFieldInput
                             type="number"
                             class={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.dairyCows ? `border-blue-500 border-4`: ''}
-                            step="0.1"
                             min={0}
                             value={store.livestock.cattle.production.configurations[0].config.dairyCows.emissionFactor}
                             onInput={(e) => handleFactorChange("dairyCows", parseFloat(e.currentTarget.value))}
@@ -228,7 +227,6 @@ function EmissionFactorSection() {
                         <TextFieldInput
                             type="number"
                             class={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.bulls ? `border-blue-500 border-4`: ''}
-                            step="0.1"
                             min={0}
                             value={store.livestock.cattle.production.configurations[0].config.bulls.emissionFactor}
                             onInput={(e) => handleFactorChange("bulls", parseFloat(e.currentTarget.value))}
@@ -244,7 +242,6 @@ function EmissionFactorSection() {
                         <TextFieldInput
                             type="number"
                             class={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor !== DEFAULT_CATTLE_EMISSION_FACTORS.meatCattle ? `border-blue-500 border-4`: ''}
-                            step="0.1"
                             min={0}
                             value={store.livestock.cattle.production.configurations[0].config.meatCattle.emissionFactor}
                             onInput={(e) => handleFactorChange("meatCattle", parseFloat(e.currentTarget.value))}

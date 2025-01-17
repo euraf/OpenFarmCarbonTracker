@@ -200,7 +200,6 @@ function EmissionFactorSection() {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
@@ -217,7 +216,6 @@ function EmissionFactorSection() {
                     <div class="flex items-center">
                         <TextFieldInput
                             type="number"
-                            step="0.1"
                             class={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens ? `border-blue-500 border-4`: ''}
                             min={0}
                             value={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
