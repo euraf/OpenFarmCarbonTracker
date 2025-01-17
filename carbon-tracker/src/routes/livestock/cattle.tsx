@@ -203,7 +203,7 @@ function EmissionFactorSection() {
     return (
         <div class="emission-factors">
             <h3 class="text-lg font-semibold mb-4">Emission Factors (kg CO2e per animal)</h3>
-            <a class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/livestock/emission-factors.ts#L9-L13">Update sources</a>
+            <a target="_blank" class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/livestock/emission-factors.ts#L9-L13">Update sources</a>
 
             <div class="grid gap-4 mb-6">
                 <TextField class="w-full max-w-sm">
