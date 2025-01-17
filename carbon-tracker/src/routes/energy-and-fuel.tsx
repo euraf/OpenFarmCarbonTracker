@@ -17,6 +17,10 @@ export default function EnergyAndFuel() {
 	}
 
 	function handleConversionFactorChange(type: string, value: number) {
+		if (!store.energyAndFuel?.conversionFactors) {
+			setStore("energyAndFuel", "conversionFactors", conversionFactors);
+		}
+
 		setStore("energyAndFuel", "conversionFactors", store.country, type, value);
 	}
 
