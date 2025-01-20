@@ -1,15 +1,11 @@
 import { Navigate } from "@solidjs/router";
 import { Show } from "solid-js";
-import { IconUpdates } from "~/components/ui/icons";
-import {
-	TextField,
-	TextFieldInput,
-	TextFieldLabel,
-} from "~/components/ui/text-field";
+import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { conversionFactors } from "~/data/energy-and-fuel/conversion-factors";
 import { setStore, store } from "~/store/store";
 import { getStoreCountryName } from "~/util/countries";
 import { calculateFuelEmission, defaultEnergies } from "~/util/emission";
+import { ConversionUnitField } from "~/components/energy/conversion-unit-textfield";
 
 export default function EnergyAndFuel() {
 	function handleInputChange(type: string, value: number) {
@@ -104,74 +100,34 @@ export default function EnergyAndFuel() {
 						</h4>
 						<a target="_blank" class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/energy-and-fuel/conversion-factors.ts">Update sources</a>
 						<div class="grid gap-4">
-							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
-								<TextFieldLabel for="diesel-factor">Diesel (kg CO2 per liter)</TextFieldLabel>
-								<div class="flex items-center">
-									<TextFieldInput
-										type="number"
-										id="diesel-factor"
-										class={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel ? `border-blue-500 border-4`: ''}
-										value={defaultEnergies().conversionFactors[store.country].diesel}
-										onInput={(e) => handleConversionFactorChange("diesel", parseFloat(e.currentTarget.value))}
-									/>
-									<Show when={defaultEnergies().conversionFactors[store.country].diesel !== conversionFactors[store.country].diesel}>
-										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
-											handleConversionFactorChange("diesel", conversionFactors[store.country].diesel)
-										}} />
-									</Show>
-								</div>
-							</TextField>
-							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
-								<TextFieldLabel for="coal-factor">Coal (kg CO2 per kg)</TextFieldLabel>
-								<div class="flex items-center">
-									<TextFieldInput
-										type="number"
-										id="coal-factor"
-										class={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal ? `border-blue-500 border-4`: ''}
-										value={defaultEnergies().conversionFactors[store.country].coal}
-										onInput={(e) => handleConversionFactorChange("coal", parseFloat(e.currentTarget.value))}
-									/>
-									<Show when={defaultEnergies().conversionFactors[store.country].coal !== conversionFactors[store.country].coal}>
-										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
-											handleConversionFactorChange("coal", conversionFactors[store.country].coal)
-										}} />
-									</Show>
-								</div>
-							</TextField>
-							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
-								<TextFieldLabel for="biogas-factor">Biogas (kg CO2 per m<sup>3</sup>)</TextFieldLabel>
-								<div class="flex items-center">
-									<TextFieldInput
-										type="number"
-										id="biogas-factor"
-										class={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas ? `border-blue-500 border-4`: ''}
-										value={defaultEnergies().conversionFactors[store.country].biogas}
-										onInput={(e) => handleConversionFactorChange("biogas", parseFloat(e.currentTarget.value))}
-									/>
-									<Show when={defaultEnergies().conversionFactors[store.country].biogas !== conversionFactors[store.country].biogas}>
-										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
-											handleConversionFactorChange("biogas", conversionFactors[store.country].biogas)
-										}} />
-									</Show>
-								</div>
-							</TextField>
-							<TextField class="inline-grid w-full max-w-[200px] items-center gap-1.5">
-								<TextFieldLabel for="electricity-factor">Electricity (kg CO2 per kWh)</TextFieldLabel>
-								<div class="flex items-center">
-									<TextFieldInput
-										type="number"
-										id="electricity-factor"
-										class={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity ? `border-blue-500 border-4`: ''}
-										value={defaultEnergies().conversionFactors[store.country].electricity}
-										onInput={(e) => handleConversionFactorChange("electricity", parseFloat(e.currentTarget.value))}
-									/>
-									<Show when={defaultEnergies().conversionFactors[store.country].electricity !== conversionFactors[store.country].electricity}>
-										<IconUpdates color="black" class="ml-2" height={30} onclick={() => {
-											handleConversionFactorChange("electricity", conversionFactors[store.country].electricity)
-										}} />
-									</Show>
-								</div>
-							</TextField>
+							<ConversionUnitField
+								label="Diesel"
+								value={() => defaultEnergies().conversionFactors[store.country].diesel}
+								defaultValue={conversionFactors[store.country].diesel}
+								onChange={(value) => handleConversionFactorChange("diesel", value)}
+								unit="kg CO2 per liter"
+							/>
+							<ConversionUnitField
+								label="Coal"
+								value={() => defaultEnergies().conversionFactors[store.country].coal}
+								defaultValue={conversionFactors[store.country].coal}
+								onChange={(value) => handleConversionFactorChange("coal", value)}
+								unit="kg CO2 per kg"
+							/>
+							<ConversionUnitField
+								label="Biogas"
+								value={() => defaultEnergies().conversionFactors[store.country].biogas}
+								defaultValue={conversionFactors[store.country].biogas}
+								onChange={(value) => handleConversionFactorChange("biogas", value)}
+								unit="kg CO2 per m³"
+							/>
+							<ConversionUnitField
+								label="Electricity"
+								value={() => defaultEnergies().conversionFactors[store.country].electricity}
+								defaultValue={conversionFactors[store.country].electricity}
+								onChange={(value) => handleConversionFactorChange("electricity", value)}
+								unit="kg CO2 per kWh"
+							/>
 						</div>
 
 						<h4 class="text-lg font-semibold">Energy and Fuel Usage Summary</h4>
