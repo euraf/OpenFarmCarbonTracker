@@ -1,6 +1,6 @@
 import { DEFAULT_PIG_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { createMemo, createSignal, For, Show } from "solid-js";
-import { IconSearch, IconTrash, IconUpdates } from "~/components/ui/icons";
+import { createMemo, createSignal, For } from "solid-js";
+import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { cn } from "~/lib/utils";
 import { DEFAULT_PIG_EMISSION_FACTORS } from "~/data/livestock/emission-factors";

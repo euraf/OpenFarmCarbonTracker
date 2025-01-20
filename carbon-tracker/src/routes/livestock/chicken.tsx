@@ -1,6 +1,6 @@
 import { DEFAULT_CHICKEN_PRODUCTION_CONFIG, setStore, store } from "~/store/store";
-import { For, Show } from "solid-js";
-import { IconTrash, IconUpdates } from "~/components/ui/icons";
+import { For } from "solid-js";
+import { IconTrash } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { DEFAULT_CHICKEN_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
 import { EmissionFactorField } from "~/components/livestock/emission-factor-textfield";
