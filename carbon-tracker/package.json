@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@css-hooks/solid": "^3.0.1",
+    "@floating-ui/dom": "^1.6.13",
     "@kobalte/core": "^0.13.7",
     "@mapbox/geojson-area": "^0.2.2",
     "@mapbox/mapbox-gl-draw": "^1.4.3",
@@ -34,6 +35,7 @@
     "clsx": "^2.1.1",
     "maplibre-gl": "5.0.0-pre.4",
     "solid-chartjs": "^1.3.11",
+    "solid-floating-ui": "^0.3.1",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.3",
     "tailwind-merge": "^2.5.4",

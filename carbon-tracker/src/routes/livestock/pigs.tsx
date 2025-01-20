@@ -4,6 +4,7 @@ import { IconSearch, IconTrash, IconUpdates } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { cn } from "~/lib/utils";
 import { DEFAULT_PIG_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
+import { EmissionFactorField } from "~/components/livestock/emission-factor-textfield";
 
 type FeedRecord = {
     label: string;
@@ -290,81 +291,36 @@ function EmissionSummarySection(props:{year:()=>number}) {
             <h3 class="text-lg font-semibold mb-4">Emission Factors (kg CO2e per pig)</h3>
             <a target="_blank" class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/livestock/emission-factors.ts#L1-L7">Update sources</a>
             <div class="grid gap-4 mb-6">
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Farrowing (0-3 weeks)</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.pigs.production.configurations[0].config.farrowing.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.farrowing ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={currentConfig().farrowing.emissionFactor}
-                            onInput={(e) => handleFactorChange("farrowing", Number.parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.pigs.production.configurations[0].config.farrowing.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.farrowing}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("farrowing", DEFAULT_PIG_EMISSION_FACTORS.farrowing)} />
-                        </Show>
-                    </div>
-                </TextField>
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Nursery (3-9 weeks)</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.pigs.production.configurations[0].config.nursery.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.nursery ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={currentConfig().nursery.emissionFactor}
-                            onInput={(e) => handleFactorChange("nursery", Number.parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.pigs.production.configurations[0].config.nursery.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.nursery}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("nursery", DEFAULT_PIG_EMISSION_FACTORS.nursery)} />
-                        </Show>
-                    </div>
-                </TextField>
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Finishers (9-28 weeks)</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.pigs.production.configurations[0].config.finishers.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.finishers ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={currentConfig().finishers.emissionFactor}
-                            onInput={(e) => handleFactorChange("finishers", Number.parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.pigs.production.configurations[0].config.finishers.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.finishers}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("finishers", DEFAULT_PIG_EMISSION_FACTORS.finishers)} />
-                        </Show>
-                    </div>
-                </TextField>
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Sows</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.pigs.production.configurations[0].config.sows.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.sows ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={currentConfig().sows.emissionFactor}
-                            onInput={(e) => handleFactorChange("sows", Number.parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.pigs.production.configurations[0].config.sows.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.sows}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("sows", DEFAULT_PIG_EMISSION_FACTORS.sows)} />
-                        </Show>
-                    </div>
-                </TextField>
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Boars</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.pigs.production.configurations[0].config.boars.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.boars ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={currentConfig().boars.emissionFactor}
-                            onInput={(e) => handleFactorChange("boars", Number.parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.pigs.production.configurations[0].config.boars.emissionFactor !== DEFAULT_PIG_EMISSION_FACTORS.boars}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("boars", DEFAULT_PIG_EMISSION_FACTORS.boars)} />
-                        </Show>
-                    </div>
-                </TextField>
+                <EmissionFactorField
+                    label="Farrowing (0-3 weeks)"
+                    value={() => currentConfig().farrowing.emissionFactor}
+                    defaultValue={DEFAULT_PIG_EMISSION_FACTORS.farrowing}
+                    onChange={(value) => handleFactorChange("farrowing", value)}
+                />
+                <EmissionFactorField
+                    label="Nursery (3-9 weeks)"
+                    value={() => currentConfig().nursery.emissionFactor}
+                    defaultValue={DEFAULT_PIG_EMISSION_FACTORS.nursery}
+                    onChange={(value) => handleFactorChange("nursery", value)}
+                />
+                <EmissionFactorField
+                    label="Finishers (9-28 weeks)"
+                    value={() => currentConfig().finishers.emissionFactor}
+                    defaultValue={DEFAULT_PIG_EMISSION_FACTORS.finishers}
+                    onChange={(value) => handleFactorChange("finishers", value)}
+                />
+                <EmissionFactorField
+                    label="Sows"
+                    value={() => currentConfig().sows.emissionFactor}
+                    defaultValue={DEFAULT_PIG_EMISSION_FACTORS.sows}
+                    onChange={(value) => handleFactorChange("sows", value)}
+                />
+                <EmissionFactorField
+                    label="Boars"
+                    value={() => currentConfig().boars.emissionFactor}
+                    defaultValue={DEFAULT_PIG_EMISSION_FACTORS.boars}
+                    onChange={(value) => handleFactorChange("boars", value)}
+                />
             </div>
         </div>
     );

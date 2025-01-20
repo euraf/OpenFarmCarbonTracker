@@ -3,6 +3,7 @@ import { For, Show } from "solid-js";
 import { IconTrash, IconUpdates } from "~/components/ui/icons";
 import { TextField, TextFieldInput, TextFieldLabel } from "~/components/ui/text-field";
 import { DEFAULT_CHICKEN_EMISSION_FACTORS } from "~/data/livestock/emission-factors";
+import { EmissionFactorField } from "~/components/livestock/emission-factor-textfield";
 
 function FeedSection() {
     function handleInputChange(index: number, field: string, value: any) {
@@ -195,39 +196,19 @@ function EmissionFactorSection() {
             <h3 class="text-lg font-semibold mb-4">Emission Factors (kg CO2e per animal)</h3>
             <a target="_blank" class="text-blue-500 block mb-2" href="https://github.com/euraf/OpenFarmCarbonTracker/blob/78d17ca0991d09de98cde370b96272c52f0b1cd5/carbon-tracker/src/data/livestock/emission-factors.ts#L15-L18">Update sources</a>
             <div class="grid gap-4 mb-6">
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Broiler emission factor</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
-                            onInput={(e) => handleFactorChange("broilers", parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.broilers}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("broilers", DEFAULT_CHICKEN_EMISSION_FACTORS.broilers)} />
-                        </Show>
-                    </div>
-                </TextField>
-
-                <TextField class="w-full max-w-sm">
-                    <TextFieldLabel>Egg Laying Hen emission factor</TextFieldLabel>
-                    <div class="flex items-center">
-                        <TextFieldInput
-                            type="number"
-                            class={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens ? `border-blue-500 border-4`: ''}
-                            min={0}
-                            value={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
-                            onInput={(e) => handleFactorChange("eggLayingHens", parseFloat(e.currentTarget.value))}
-                        />
-                        <Show when={store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor !== DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens}>
-                            <IconUpdates color="black" class="ml-2" height={30} onclick={() => handleFactorChange("eggLayingHens", DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens)} />
-                        </Show>
-                    </div>
-                </TextField>
+                <EmissionFactorField
+                    label="Broiler emission factor"
+                    value={() => store.livestock.chicken.production.configurations[0].config.broilers.emissionFactor}
+                    defaultValue={DEFAULT_CHICKEN_EMISSION_FACTORS.broilers}
+                    onChange={(value) => handleFactorChange("broilers", value)}
+                />
+                <EmissionFactorField
+                    label="Egg Laying Hen emission factor"
+                    value={() => store.livestock.chicken.production.configurations[0].config.eggLayingHens.emissionFactor}
+                    defaultValue={DEFAULT_CHICKEN_EMISSION_FACTORS.eggLayingHens}
+                    onChange={(value) => handleFactorChange("eggLayingHens", value)}
+                />
             </div>
-
         </div>
     );
 }
